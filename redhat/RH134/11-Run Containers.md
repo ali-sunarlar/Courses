@@ -1180,120 +1180,615 @@ registry.lab.example.com/rhel8/mariadb-105
 
 ```
 
+You then verify that the correct SELinux context is set on the /home/user/dbfiles directory
+with the ls command -Z option.
 
+```sh
+[user@host ~]$ ls -Z /home/user/
+system_u:object_r:container_file_t:s0:c81,c1009 dbfiles
+...output omitted...
+```
 
 
+## Assign a Port Mapping to Containers
 
 
+To provide network access to containers, clients must connect to ports on the container host that
+pass the network traffic through to ports in the container. When you map a network port on the
+container host to a port in the container, network traffic that is sent to the host network port is
+received by the container.
 
+For example, you can map the 13306 port on the container host to the 3306 port on the container
+for communication with the MariaDB container. Therefore, traffic that is sent to the container host
+port 13306 would be received by MariaDB that is running in the container.
 
+You use the podman run command -p option to set a port mapping from the 13306 port from
+the container host to the 3306 port on the db01 container.
 
 
+```sh
+[user@host ~]$ podman run -d --name db01 \
+-e MYSQL_USER=student \
+-e MYSQL_PASSWORD=student \
+-e MYSQL_DATABASE=dev_data \
+-e MYSQL_ROOT_PASSWORD=redhat \
+-v /home/user/db_data:/var/lib/mysql:Z \
+-p 13306:3306 \
+registry.lab.example.com/rhel8/mariadb-105
+```
 
 
+Use the podman port command -a option to show all container port mappings in use. You can
+also use the podman port db01 command to show the mapped ports for the db01 container.
 
+```sh
+[user@host ~]$ podman port -a
+1c22fd905120 3306/tcp -> 0.0.0.0:13306
+[user@host ~]$ podman port db01
+3306/tcp -> 0.0.0.0:13306
 
+```
 
+You use the firewall-cmd command to allow port 13306 traffic into the container host machine
+so that it can be redirected to the container
 
+```sh
+[root@host ~]# firewall-cmd --add-port=13306/tcp --permanent
+[root@host ~]# firewall-cmd --reload
+```
 
+Important
 
+A rootless container cannot open a privileged port (ports below 1024) on the
+container. That is, the podman run -p 80:8080 command does not normally
+work for a running rootless container. To map a port on the container host below
+1024 to a container port, you must run Podman as root or make other adjustments
+to the system.
 
+You can map a port above 1024 on the container host to a privileged port on the
+container, even if you are running a rootless container. The 8080:80 mapping works
+if the container provides service listening on port 80.
 
 
+## DNS Configuration in a Container
 
 
+Podman v4.0 supports two network back ends for containers, Netavark and CNI. Starting with
+RHEL 9, systems use Netavark by default. To verify which network back end is used, run the
+following podman info command.
 
+```sh
+[user@host ~]$ podman info --format {{.Host.NetworkBackend}}
+netavark
+```
 
+Note
 
+The container-tools meta-package includes the netavark and aardvarkdns packages. If Podman was installed as a stand-alone package, or if the
+container-tools meta-package was installed later, then the result of the
+previous command might be cni. To change the network back end, set the
+following configuration in the /usr/share/containers/containers.conf file:
 
+```sh
+[network]
+...output omitted...
+network_backend = "netavark"
+```
 
+Existing containers on the host that use the default Podman network cannot resolve each other's
+hostnames, because DNS is not enabled on the default network.
 
+Use the podman network create command to create a DNS-enabled network. You use the
+podman network create command to create the network called db_net, and specify the
+subnet as 10.87.0.0/16 and the gateway as 10.87.0.1.
+
+
+```sh
+[user@host ~]$ podman network create --gateway 10.87.0.1 \
+--subnet 10.87.0.0/16 db_net
+db_net
+
+```
+
+If you do not specify the --gateway or --subnet options, then they are created with the default
+values.
 
+The podman network inspect command displays information about a specific network. You
+use the podman network inspect command to verify that the gateway and subnet were
+correctly set and that the new db_net network is DNS-enabled.
 
 
+```sh
+[user@host ~]$ podman network inspect db_net
+[
+ {
+ "name": "db_net",
+...output omitted...
+ "subnets": [
+ {
+ "subnet": "10.87.0.0/16",
+ "gateway": "10.87.0.1"
+ }
+ ],
+...output omitted...
+ "dns_enabled": true,
+...output omitted...
 
+```
 
+You can add the DNS-enabled db_net network to a new container with the podman run
+command --network option. You use the podman run command --network option to create
+the db01 and client01 containers that are connected to the db_net network.
 
 
+```sh
+[user@host ~]$ podman run -d --name db01 \
+-e MYSQL_USER=student \
+-e MYSQL_PASSWORD=student \
+-e MYSQL_DATABASE=dev_data \
+-e MYSQL_ROOT_PASSWORD=redhat \
+-v /home/user/db_data:/var/lib/mysql:Z \
+-p 13306:3306 \
+--network db_net \
+registry.lab.example.com/rhel8/mariadb-105
+[user@host ~]$ podman run -d --name client01 \
+--network db_net \
+registry.lab.example.com/ubi8/ubi:latest \
+sleep infinity
+```
 
 
+Because containers are designed to have only the minimum required packages, the containers
+might not have the required utilities to test communication such as the ping and ip commands.
+You can install these utilities in the container by using the podman exec command.
 
 
+```sh
+[user@host ~]$ podman exec -it db01 dnf install -y iputils iproute
+...output omitted...
+[user@host ~]$ podman exec -it client01 dnf install -y iputils iproute
+...output omitted...
 
+```
 
 
 
+The containers can now ping each other by container name. You test the DNS resolution with the
+podman exec command. The names resolve to IPs within the subnet that was manually set for
+the db_net network.
 
 
+```sh
+[user@host ~]$ podman exec -it db01 ping -c3 client01
+PING client01.dns.podman (10.87.0.4) 56(84) bytes of data.
+64 bytes from 10.87.0.4 (10.87.0.4): icmp_seq=1 ttl=64 time=0.049 ms
+...output omitted...
+--- client01.dns.podman ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2007ms
+rtt min/avg/max/mdev = 0.049/0.060/0.072/0.013 ms
+[user@host ~]$ podman exec -it client01 ping -c3 db01
+PING db01.dns.podman (10.87.0.3) 56(84) bytes of data.
+64 bytes from 10.87.0.3 (10.87.0.3): icmp_seq=1 ttl=64 time=0.021 ms
+...output omitted...
+--- db01.dns.podman ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2047ms
+rtt min/avg/max/mdev = 0.021/0.040/0.050/0.013 ms
+```
 
 
+You verify that the IP addresses in each container match the DNS resolution with the podman
+exec command.
 
+```sh
+[user@host ~]$ podman exec -it db01 ip a | grep 10.8
+ inet 10.87.0.3/16 brd 10.87.255.255 scope global eth0
+ inet 10.87.0.4/16 brd 10.87.255.255 scope global eth0
+[user@host ~]$ podman exec -it client01 ip a | grep 10.8
+ inet 10.87.0.3/16 brd 10.87.255.255 scope global eth0
+ inet 10.87.0.4/16 brd 10.87.255.255 scope global eth0
+```
+
+
+
+Multiple Networks to a Single Container
+
+
+Multiple networks can be connected to a container at the same time to help to separate different
+types of traffic.
 
+You use the podman network create command to create the backend network.
 
+```sh
+[user@host ~]$ podman network create backend
+```
 
+You then use the podman network ls command to view all the Podman networks.
 
+```sh
+[user@host ~]$ podman network ls
+NETWORK ID NAME DRIVER
+a7fea510a6d1 backend bridge
+fe680efc5276 db01 bridge
+2f259bab93aa podman bridge
+```
 
 
 
+The subnet and gateway were not specified with the podman network create command
+--gateway and --subnet options.
 
+You use the podman network inspect command to obtain the IP information of the backend
+network.
 
 
+```sh
+[user@host ~]$ podman network inspect backend
+[
+ {
+ "name": "backend",
+...output omitted...
+ "subnets": [
+ {
+ "subnet": "10.89.1.0/24",
+ "gateway": "10.89.1.1"
+...output omitted...
 
+```
 
+You can use the podman network connect command to connect additional networks to a
+container when it is running. You use the podman network connect command to connect the
+backend network to the db01 and client01 containers.
 
 
+```sh
+[user@host ~]$ podman network connect backend db01
+[user@host ~]$ podman network connect backend client01
+```
 
 
+Important
 
+If a network is not specified with the podman run command, then the container
+connects to the default network. The default network uses the slirp4netns
+network mode, and the networks that you create with the podman network
+create command use the bridge network mode. If you try to connect a bridge
+network to a container by using the slirp4netns network mode, then the
+command fails:
 
+```sh
+Error: "slirp4netns" is not supported: invalid network mode
+```
 
 
+You use the podman inspect command to verify that both networks are connected to each
+container and to display the IP information.
 
 
+```sh
+[user@host ~]$ podman inspect db01
+...output omitted...
+ "backend": {
+ "EndpointID": "",
+ "Gateway": "10.89.1.1",
+ "IPAddress": "10.89.1.4",
+...output omitted...
+ },
+ "db_net": {
+ "EndpointID": "",
+ "Gateway": "10.87.0.1",
+ "IPAddress": "10.87.0.3",
+...output omitted...
+[user@host ~]$ podman inspect client01
+...output omitted...
+ "backend": {
+ "EndpointID": "",
+ "Gateway": "10.89.1.1",
+ "IPAddress": "10.89.1.5",
+...output omitted...
+ },
+ "db_net": {
+ "EndpointID": "",
+ "Gateway": "10.87.0.1",
+ "IPAddress": "10.87.0.4",
+...output omitted...
 
+```
 
 
 
+The client01 container can now communicate with the db01 container on both networks.
+You use the podman exec command to ping both networks on the db01 container from the
+client01 container.
 
 
+```sh
+[user@host ~]$ podman exec -it client01 ping -c3 10.89.1.4 | grep 'packet loss'
+3 packets transmitted, 3 received, 0% packet loss, time 2052ms
+[user@host ~]$ podman exec -it client01 ping -c3 10.87.0.3 | grep 'packet loss'
+3 packets transmitted, 3 received, 0% packet loss, time 2054ms
+```
 
 
 
+# Manage Containers as System Services
 
 
+## Manage Small Container Environments with systemd Units
 
 
+You can run a container to complete a system task or to obtain the output of a series of
+commands. You also might want to run containers that run a service indefinitely, such as web
+servers or databases. In a traditional environment, a privileged user typically configures these
+services to run at system boot, and manages them with the systemctl command.
 
+As a regular user, you can create a systemd unit to configure your rootless containers. You can
+use this configuration to manage your container as a regular system service with the systemctl
+command.
 
+Managing containers based on systemd units is mainly useful for basic and small deployments
+that do not need to scale. For more sophisticated scaling and orchestration of many containerbased applications and services, you can use an enterprise orchestration platform that is based on
+Kubernetes, such as Red Hat OpenShift Container Platform.
 
+To discuss the topics in this lecture, imagine the following scenario.
 
+As a system administrator, you are tasked to configure the webserver1 container that is based on
+the http24 container image to start at system boot. You must also mount the /app-artifacts
+directory for the web server content and map the 8080 port from the local machine to the
+container. Configure the container to start and stop with systemctl commands.
 
 
 
+Requirements for systemd User Services
 
 
+As a regular user, you can enable a service with the systemctl command. The service starts
+when you open a session (graphical interface, text console, or SSH) and it stops when you close
+the last session. This behavior differs from a system service, which starts when the system boots
+and stops when the system shuts down.
 
+By default, when you create a user account with the useradd command, the system uses the
+next available ID from the regular user ID range. The system also reserves a range of IDs for
+the user's containers in the /etc/subuid file. If you create a user account with the useradd
+command --system option, then the system does not reserve a range for the user containers. As
+a consequence, you cannot start rootless containers with system accounts.
 
 
+You decide to create a dedicated user account to manage containers. You use the useradd
+command to create the appdev-adm user, and use redhat as the password.
 
+```sh
+[user@host ~]$ sudo useradd appdev-adm
+myapp.service
+[user@host ~]$ sudo passwd appdev-adm
+Changing password for user appdev-adm.
+New password: redhat
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: redhat
+passwd: all authentication tokens updated successfully.
 
+```
 
+You then use the su command to switch to the appdev-adm user, and you start using the podman
+command.
 
+```sh
+[user@host ~]$ su appdev-adm
+Password: redhat
+[appdev-adm@host ~]$ podman info
+ERRO[0000] XDG_RUNTIME_DIR directory "/run/user/1000" is not owned by the current
+ user
+[appdev-adm@host ~]$
 
+```
 
+Podman is a stateless utility and requires a full login session. Podman must be used within an SSH
+session and cannot be used in a sudo or an su shell. So you exit the su shell and log in to the
+machine via SSH.
 
 
+```sh
+[appdev-adm@host ~]$ exit
+[user@host ~]$ exit
+[user@example ~]$ ssh appdev-adm@host
+[appdev-adm@host ~]$
+```
 
+You then configure the container registry and authenticate with your credentials. You run the http
+container with the following command.
 
+```sh
+[appdev-adm@host ~]$ podman run -d --name webserver1 -p 8080:8080 -v \
+~/app-artifacts:/var/www:Z registry.access.redhat.com/ubi8/httpd-24
+af84e1ec33ea2f0d9787c56fbe7a62a4b9ce8ac03911be9e97f95575b306c297
+[appdev-adm@host ~]$ podman ps -a
+CONTAINER ID IMAGE COMMAND 
+ CREATED STATUS PORTS NAMES
+af84e1ec33ea registry.access.redhat.com/ubi8/httpd-24:latest /usr/bin/runhttp... 16 seconds ago Exited (1) 15 seconds ago 0.0.0.0:8080->8080/tcp 
+ webserver1
+```
 
+You notice that the webserver1 container did not start, so you run the podman container
+logs command to view the logs of the container.
 
+```sh
+[appdev-adm@host ~]$ podman container logs webserver1
+=> sourcing 10-set-mpm.sh ...
+=> sourcing 20-copy-config.sh ...
+=> sourcing 40-ssl-certs.sh ...
+---> Generating SSL key pair for httpd...
+AH00526: Syntax error on line 122 of /etc/httpd/conf/httpd.conf:
+DocumentRoot '/var/www/html' is not a directory, or is not readable
+[appdev-adm@servera ~]$
+```
 
+The logs of the webserver1 container show that the /var/www/html file is not readable. This
+error occurs because the container mount directory cannot find the html subdirectory. You delete
+the existing container, update the command, and run it as follows:
 
+```sh
+[appdev-adm@host ~]$ podman run -d --name webserver1 -p 8080:8080 -v \
+~/app-artifacts:/var/www/html:Z registry.access.redhat.com/ubi8/httpd-24
+cde4a3d8c9563fd50cc39de8a4873dcf15a7e881ba4548d5646760eae7a35d81
+[appdev-adm@host ~]$ podman ps
+CONTAINER ID IMAGE COMMAND 
+ CREATED STATUS PORTS NAMES
+cde4a3d8c956 registry.access.redhat.com/ubi8/httpd-24:latest /usr/bin/runhttp... 4 seconds ago Up 5 seconds ago 0.0.0.0:8080->8080/tcp webserver1
 
+```
 
 
+## Create systemd User Files for Containers
 
 
+You can manually define systemd services in the ~/.config/systemd/user/ directory. The
+file syntax for user services is the same as for the system services files. For more details, review
+the systemd.unit(5) and systemd.service(5) man pages.
+
+Use the podman generate systemd command to generate systemd service files for an
+existing container. The podman generate systemd command uses a container as a model to
+create the configuration file.
+
+The podman generate systemd command --new option instructs the podman utility to
+configure the systemd service to create the container when the service starts, and to delete the
+container when the service stops.
+
+Important
+
+Without the --new option, the podman utility configures the service unit file to start
+and stop the existing container without deleting it.
+
+
+You use the podman generate systemd command with the --name option to display the
+systemd service file that is modeled for the webserver1 container.
+
+```sh
+[appdev-adm@host ~]$ podman generate systemd --name webserver1
+...output omitted...
+#On start, the systemd daemon executes the podman start command to start the existing container
+ExecStart=/usr/bin/podman start webserver1 
+#On stop, the systemd daemon executes the podman stop command to stop the container. Notice that the systemd daemon does not delete the container on this action.
+ExecStop=/usr/bin/podman stop -t 10 webserver1 
+ExecStopPost=/usr/bin/podman stop -t 10 webserver1
+...output omitted...
+
+``` 
+
+You then use the previous command with the addition of the --new option to compare the
+systemd configuration.
+
+```sh
+[appdev-adm@host ~]$ podman generate systemd --name webserver1 --new
+...output omitted...
+ExecStartPre=/bin/rm -f %t/%n.ctr-id
+ExecStart=/usr/bin/podman run --cidfile=%t/%n.ctr-id --cgroups=no-conmon --rm --
+sdnotify=conmon --replace -d --name webserver1 -p 8080:8080 -v /home/appdev-adm/
+# On start, the systemd daemon executes the podman run command to create and then start a new container. This action uses the podman run command --rm option, which removes the container on stop.
+app-artifacts:/var/www/html:Z registry.access.redhat.com/ubi8/httpd-24 
+#On stop, systemd executes the podman stop command to stop the container.
+ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id 
+#After systemd has stopped the container, systemd removes it using the podman rm -f command.
+ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id 
+...output omitted...
+
+```
+
+
+You verify the output of the podman generate systemd command and run the previous
+command with the --files option to create the systemd user file in the current directory.
+Because the webserver1 container uses persistent storage, you choose to use the podman
+generate systemd command with the --new option. You then create the ~/.config/
+systemd/user/ directory and move the file to this location.
+
+
+```sh
+[appdev-adm@host ~]$ podman generate systemd --name webserver1 --new --files
+/home/appdev-adm/container-webserver1.service
+[appdev-adm@host ~]$ mkdir -p ~/.config/systemd/user/
+[appdev-adm@host ~]$ mv container-webserver1.service ~/.config/systemd/user/
+```
+
+
+## Manage systemd User Files for Containers
+
+
+Now that you created the systemd user file, you can use the systemctl command --user
+option to manage the webserver1 container.
+
+First, you reload the systemd daemon to make the systemctl command aware of the new user
+file. You use the systemctl --user start command to start the webserver1 container. Use
+the name of the generated systemd user file for the container.
+
+
+```sh
+[appdev-adm@host ~]$ systemctl --user start container-webserver1.service
+[appdev-adm@host ~]$ systemctl --user status container-webserver1.service
+● container-webserver1.service - Podman container-webserver1.service
+ Loaded: loaded (/home/appdev-adm/.config/systemd/user/containerwebserver1.service; disabled; vendor preset: disabled)
+ Active: active (running) since Thu 2022-04-28 21:22:26 EDT; 18s ago
+ Docs: man:podman-generate-systemd(1)
+ Process: 31560 ExecStartPre=/bin/rm -f /run/user/1003/containerwebserver1.service.ctr-id (code=exited, status=0/SUCCESS)
+ Main PID: 31600 (conmon)
+...output omitted...
+[appdev-adm@host ~]$ podman ps
+CONTAINER ID IMAGE COMMAND 
+ CREATED STATUS PORTS NAMES
+18eb00f42324 registry.access.redhat.com/ubi8/httpd-24:latest /usr/bin/runhttp... 28 seconds ago Up 29 seconds ago 0.0.0.0:8080->8080/tcp webserver1
+Created symlink /home/appdev-adm/.config/systemd/user/default.target.wants/
+container-webserver1.service → /home/appdev-adm/.config/systemd/user/containerwebserver1.service.
+
+```
+
+The following table summarizes the different directories and commands that are used between
+systemd system and user services.
+
+![alt text](image-8.png)
+
+
+Configure Containers to Start at System Boot
+
+Now that the systemd configuration for the container is complete, you exit the SSH session.
+Some time after, you are notified that the container stops after you exited the session.
+
+You can change this default behavior and force your enabled services to start with the server and
+stop during the shutdown by running the loginctl enable-linger command.
+
+You use the loginctl command to configure the systemd user service to persist after the last
+user session of the configured service closes. You then verify the successful configuration with the
+loginctl show-user command.
+
+```sh
+[user@host ~]$ loginctl show-user appdev-adm
+...output omitted...
+Linger=no
+[user@host ~]$ loginctl enable-linger
+[user@host ~]$ loginctl show-user appdev-adm
+...output omitted...
+Linger=yes
+```
+
+To revert the operation, use the loginctl disable-linger command
+
+
+
+## Manage Containers as Root with systemd
+
+
+You can also configure containers to run as root and manage them with systemd service files.
+One advantage of this approach is that you can configure the service files to work exactly like
+common systemd unit files, rather than as a particular user.
+
+The procedure to set the service file as root is similar to the previously outlined procedure for
+rootless containers, with the following exceptions:
+
+
+• Do not create a dedicated user for container management.
+
+• The service file must be in the /etc/systemd/system directory instead of in the
+~/.config/systemd/user directory.
+
+• You manage the containers with the systemctl command without the --user option.
+
+• Do not run the loginctl enable-linger command as the root user.
 
 
 
