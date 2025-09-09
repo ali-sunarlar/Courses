@@ -465,3 +465,47 @@ nvme0n1
 ### Create Swap Space
 
 
+## Disk Extend
+
+extend gözükmezse
+
+echo "- - -" > /sys/class/scsi_host/host0/scan
+
+(lsblk çıktısındaki disk belirtilir sdc, sdd, sde)
+
+echo 1 > /sys/block/sdc/device/rescan
+
+for HOST in /sys/class/scsi_host/host*/scan; do echo "- - -" >  ${HOST}; done
+
+ 
+
+ 
+
+ 
+
+disk extend(sanal ortamda harici yeni bir disk verildiğinde)
+
+ 
+
+pvcreate /dev/sdd
+
+vgextend rootvg /dev/sdd
+
+lvextend -l +100%FREE /dev/mapper/rootvg-LV_root
+
+xfs_growfs /dev/mapper/rootvg-LV_root
+
+ 
+
+ 
+
+disk extend (sanal ortamda var olan disk artırıldığında )
+
+
+(lsblk çıktısındaki disk girilir /dev/sdc /dev/sdb)
+pvresize /dev/sdc
+
+(lvdisplay çıktısındaki)
+lvextend -l +100%FREE /dev/hanadatavg/LV_hanadata
+
+xfs_growfs /dev/hanadatavg/LV_hanadata
