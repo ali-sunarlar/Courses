@@ -479,6 +479,10 @@ for HOST in /sys/class/scsi_host/host*/scan; do echo "- - -" >  ${HOST}; done
 
  
 
+ echo 1 > /sys/block/sdc/device/rescan
+ Pvresize /dev/sdc
+ lvextend -l +100%FREE /dev/hanadata/LV_hanadata
+
  
 
  
