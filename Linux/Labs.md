@@ -131,64 +131,238 @@ Eğer denetimde bu dosyalardan birinin izni örneğin 777 veya 666 çıkarsa, o 
 
 
 
+# 3. Gün: Ağ Yönetimi ve Sorun Giderme (Networking & Troubleshooting)
+
+Kullanıcı yönetimini de başarıyla tamamladık. Şimdi bir Linux yöneticisinin mesaisinin en az %30'unu kaplayan alana geliyoruz: Network sorunları.
+3. Gün Senaryosu: "Uygulama Sunucusu Veri Tabanına Bağlanamıyor!"
+
+Yazılım ekibi (umut ve arkadaşları) yeni bir mikroservis yayına aldı. Ancak uygulama loglarında sürekli şu hatayı alıyorlar: Connection timed out: database.internal:5432.
+
+Uygulamanın çalıştığı Ubuntu Linux sunucusuna SSH ile bağlandın. Sorunun network katmanında mı, DNS'te mi yoksa karşı sunucuda mı olduğunu bulman gerekiyor.
+
+
+Senden İstenen Adımlar:
+
+## 1. İlk olarak, uygulama sunucusunun database.internal alan adının IP adresini doğru çözüp çözemediğini (DNS sorununu) hangi komutlarla kontrol edersin? (En az 2 alternatif komut).
+
+## 2. DNS'in doğru IP'yi çözdüğünü varsayalım (Örn: 10.0.0.50). Ancak sorun devam ediyor. Karşı sunucunun 5432 portunun erişilebilir olup olmadığını, yani arada bir firewall (güvenlik duvarı) engeli veya port kapanması olup olmadığını ping komutu dışında hangi komutlarla test edersin?
+
+## 3. Eğer sorun uzak sunucuda değil de, bizim kendi uygulama sunucumuzun üzerindeki yerel bir firewall'dan (ufw veya iptables) kaynaklanıyorsa, sunucudaki aktif firewall kurallarını listelemek ve durumunu görmek için hangi komutları kullanırsın?
+
+
+## 1. Adım: DNS Sorun Giderme (Puan: 10/10)
+
+Burada tam puan aldın, çünkü sadece komut söylemekle kalmadın, Linux'un isim çözümlleme (name resolution) mekanizmasının arka planına baktın.
+
+Sıralama Mantığı: Linux bir domaini çözmek istediğinde önce ```/etc/nsswitch.conf``` dosyasına bakar. Burada genellikle files dns yazar. Yani sistem önce ```/etc/hosts``` (files) dosyasına, orada bulamazsa ```/etc/resolv.conf``` (dns) içindeki DNS sunucularına sorar. Bu sırayı kontrol etmen mükemmel.
+
+Komut Alternatifleri: nslookup harika. Modern sistemlerde bunun yanına dig database.internal veya host database.internal komutlarını da ekleyebiliriz. dig komutu DNS sunucusundan dönen tüm detayları (TTL, Query Time vb.) verdiği için troubleshooting esnasında çok sevilir.
+
+## 2. Adım: Port ve Erişilebilirlik Kontrolü (Puan: 8/10) - Küçük Bir Detay
+
+telnet ve curl kullanımı networkçülerin vazgeçilmezidir. telnet database.internal 5432 komutu bağlantı durumunu net olarak gösterir.
+
+Ancak ss komutunda bir hedef şaşırması var:
+
+Senaryomuzda biz Uygulama Sunucusundayız ve uzak veri tabanı sunucusuna bağlanmaya çalışıyoruz.
+
+Yazdığın ```ss -tulpn | grep 5432``` komutu, üzerinde bulunduğun sunucunun 5432 portunu dinleyip dinlemediğini (LISTEN) kontrol eder. Uygulama sunucusunda PostgreSQL kurulu olmadığı için bu komut boş dönecektir ve bu normaldir. Uzak sunucudaki portu yerelde ss ile göremeyiz.
+
+Peki telnet dışında uzak portu taramak için ne kullanabilirdin?
+
+En popüler ve güçlü araç nc (netcat) veya nmap olurdu:
+
+```bash
+nc -zv database.internal 5432
+# veya
+nmap -p 5432 database.internal
+```
+
+## 3. Adım: Yerel Firewall Kontrolü (Puan: 9/10)
+
+"Yerel firewall açık mı değil mi kontrol ederim" dedin, çok doğru. Peki bunu hangi komutlarla yapardın? Kurumsal dünyada Ubuntu üzerinde varsayılan olarak UFW (Uncomplicated Firewall) veya arka planda iptables/nftables bulunur.
+
+Kullanman gereken komutlar şunlar olmalıydı:
+
+```bash
+# UFW durumunu ve kurallarını görmek için:
+sudo ufw status verbose
+
+# Eğer ufw aktif değil ama iptables kuralları varsa:
+sudo iptables -L -n -v
+```
+
+# 4. Gün Senaryosu: "Özel Script Logları Diski Şişiriyor"
+
+Şirketteki DevOps ekibi, sunucuda arka planda sürekli çalışan ve log üreten özel bir Python uygulaması (script) çalıştırdı. Bu uygulama bir Systemd Servisi olarak yapılandırılmış.
+
+Ancak uygulama loglarını standart journald yerine doğrudan /var/log/my_app.log dosyasına yazıyor. Uygulama çok canlı olduğu için bu log dosyası günde 5 GB büyüyor ve birkaç güne diski yine bitirecek!
+Senden İstenen Adımlar:
+
+## 1. Bu Python uygulamasının Systemd servis adının myapp.service olduğunu varsayalım. Bu servisin şu an çalışıp çalışmadığını, sistem başlangıcına (boot) eklenip eklenmediğini (enable/disable) nasıl kontrol edersin?
+
+## 2. Bu /var/log/my_app.log dosyasının diski doldurmasını engellemek için Linux'un yerleşik logrotate mekanizmasını kullanmak istiyorsun. Logların günlük (daily) olarak döndürülmesini (rotate), eski logların sıkıştırılmasını (compress) ve sistemde en fazla 7 günlük log tutulmasını istiyorsun. /etc/logrotate.d/myapp adında bir dosya oluşturup içine yazman gereken konfigürasyonu bana taslak olarak gösterebilir misin?
+
+## 3. logrotate konfigürasyonunu yazdıktan sonra, bir hata olup olmadığını görmek ve sistemi test etmek için bu kuralı elle (manually) ve zorla (force) nasıl çalıştırırsın?
+
+
+## 1. Adım: Servis Durumu ve Boot Kontrolü (Puan: 10/10)
+
+systemctl status myapp.service komutu tam olarak doğru. Çıktıda bahsettiğin loaded (...; enabled; ...) ibaresi servisinin boot sırasında otomatik başlayacağını gösterir.
+
+Eğer disabled görseydin, bunu aktifleştirmek için şu komutu kullanacaktın:
+
+```bash
+sudo systemctl enable myapp.service
+```
+
+## 2. Adım: Logrotate Konfigürasyonu (Yeni Bilgi 🚀)
+
+Linux'ta logların diski şişirmesini önlemek için logrotate servisi kullanılır. ```/etc/logrotate.d/``` dizini altına uygulaman için bir dosya açarsın ve kuralları yazarsın.
+
+Senaryomuzdaki istekler şunlardı: Günlük dönsün, sıkıştırılsın ve en fazla 7 gün tutulsun.
+
+```/etc/logrotate.d/myapp``` dosyasının içeriği tam olarak şöyle olmalıdır:
+
+```bash
+/var/log/my_app.log {
+    daily
+    rotate 7
+    compress
+    missingok
+    notifempty
+    copytruncate
+}
+```
+
+Bu parametreler ne anlama geliyor?
+
+daily: Log döndürme işlemi her gün yapılsın.
+
+rotate 7: Sistemde en fazla 7 eski log dosyası tutulsun (8. gün, en eski olan silinir).
+
+compress: Eski loglar yer kaplamasın diye .gz formatında sıkıştırılsın.
+
+missingok: Eğer log dosyası o gün henüz oluşmadıysa hata verme, sessizce geç.
+
+notifempty: Eğer log dosyası boşsa (0 byte) boşuna döndürme işlemi yapma.
+
+copytruncate: (En kritik SysAdmin numarası!) Python uygulaması log dosyasını sürekli açık tuttuğu için, dosyayı direkt silersek uygulama log yazmayı bırakabilir. Bu parametre, mevcut logun bir kopyasını alır ve orijinal dosyanın içini boşaltır (truncate). Uygulama kesintisiz yazmaya devam eder.
+
+
+## 3. Adım: Logrotate Kuralını Elle ve Zorla Test Etmek (Yeni Bilgi 🚀)
+
+Yazdığın bu kuralın çalışıp çalışmadığını gece yarısını beklemeden hemen test etmek istersin. Bunun için logrotate komutuna bazı parametreler veririz:
+
+
+```bash
+sudo logrotate -f /etc/logrotate.d/myapp
+```
+
+-f (or --force): Logrotate'e "Normalde zamanı gelmedi ama sen kuralları hiçe say ve bu logu şimdi, zorla döndür" talimatı verir.
+
+Bu komuttan sonra /var/log/ dizinine gidip ls -l yaparsan, my_app.log.1.gz adında sıkıştırılmış ilk eski logunu görebilirsin.
 
 
 
+# 5. Gün: Süreç Yönetimi ve Performans Analizi (Process Management & Troubleshooting)
+
+Harika bir araç daha öğrendik. Şimdi sunucunun donanım kaynaklarını (CPU/RAM) sömüren durumları tespit etme günümüz.
+5. Gün Senaryosu: "Sunucu Kilitleniyor, CPU %100!"
+
+Müşteriler web sitesine girmeye çalıştığında "502 Gateway Error" alıyor. Sunucuya zar zor SSH attın, terminal aşırı yavaş tepki veriyor. Belli ki içeride sistemi boğan bir şeyler var.
+Senden İstenen Adımlar:
+
+## 1. Sunucudaki anlık CPU, Bellek (RAM) kullanımını ve en çok kaynak tüketen süreçleri (process) canlı olarak izlemek için hangi terminal aracını/araçlarını (top dışında daha modern bir alternatif de olabilir) kullanırsın?
+
+## 2. İncelemende, zombi_islem adında bir Python script'inin arka arkaya onlarca süreç açtığını ve CPU'yu %100 tükettiğini gördün. Bu sürecin PID (Process ID) numarasının 4523 olduğunu varsayalım. Bu süreci sistemden en agresif ve kesin şekilde (sinyal göndererek) nasıl sonlandırırsın (öldürürsün)?
+
+## 3. Bazen bir süreç (process) arka planda takılı kalır ama o an hangi dosyaları okuduğunu veya hangi network portunu kullandığını bilmek isteriz. Çalışan bir PID'nin (örneğin yine 4523) sistemde açtığı tüm dosyaları ve network soketlerini listelemek için hangi Linux komutunu kullanırsın?
 
 
 
+## 1. Adım: Canlı Sistem İzleme (Ezber Bozan Modern Araçlar)
+
+Sistem kilitlendiğinde veya yavaşladığında top komutu varsayılan olarak her Linux'ta bulunur ama okunması zordur. Kurumsal dünyada tüm SysAdmin'lerin ilk yüklediği modern araç htop'tur.
+
+Terminale htop yazdığında karşına renkli, CPU çekirdeklerini tek tek gösteren, RAM kullanımını bar şeklinde veren ve süreçleri kolayca sıralayabileceğin interaktif bir ekran gelir.
+
+Eğer sunucuda htop yoksa, anlık disk trafiğini görmek için iotop, network trafiğini görmek için ise iftop komutlarını kullanırız.
+
+
+## 2. Adım: Süreçleri Sonlandırmak ve Zombi İşlemler (Yeni Bilgi 🚀)
+
+Bir süreci en agresif şekilde öldürmek için ona SIGKILL (9) sinyali göndeririz. Bu sinyal sürece "işini bitirmeni beklemiyorum, hemen kapan" der.
+
+```bash
+# 4523 PID'li süreci kesin olarak öldürmek için:
+sudo kill -9 4523
+```
+
+Zombi İşlem (Zombie Process) Nedir ve Nasıl Tespit Edilir?
+Linux'ta bir alt süreç (child process) görevini bitirdiğinde, işletim sistemine "ben bittim" der. Ancak onu başlatan ana süreç (parent process) bu cevabı alıp onaylamazsa, o alt süreç sistemde "Zombi" olarak kalır. RAM veya CPU tüketmezler ama sistemin süreç tablosunda yer kaplarlar.
+
+Tespit Etmek: Terminale top veya htop yazdığında sağ üst köşede ```Tasks: ... total, ... running, ... sleeping, 2 zombie``` gibi bir ibare görürsün.
+
+Eğer sistemdeki zombi işlemlerin PID numaralarını listelemek istersen şu komutu kullanırsın:
+
+```bash
+ps aux | awk '{ print $8 " " $2 }' | grep -i Z
+```
+
+(Burada durum kodu Z olan süreçler zombidir. Zombi işlemler ```kill -9``` ile doğrudan ölmezler, çünkü zaten ölüdürler! Onları temizlemek için onları doğuran ana süreci (Parent PID) bulup yeniden başlatmak gerekir).
 
 
 
+3. Adım: Bir Sürecin Açtığı Dosyaları Bulmak (Yeni Bilgi 🚀)
+
+Linux dünyasında her şey bir dosyadır (klasörler, network soketleri, donanımlar...). Bir sürecin arka planda ne karıştırdığını görmek için ```lsof``` (List Open Files) komutunu kullanırız. SysAdmin'lerin en çok kullandığı komutlardan biridir.
+
+```bash
+# 4523 PID'li sürecin açık tuttuğu tüm dosyaları ve network bağlantılarını listeler:
+sudo lsof -p 4523
+```
 
 
+# 6. Gün: Zamanlanmış Görevler ve Otomasyon (Cronjobs & Bash Scripting)
+
+Şimdiye kadar disk kurtardın, kullanıcı yetkilendirdin, network çözdün, log döndürdün ve süreçleri yönettin. Şimdi bunları otomatize etme zamanı.
+6. Gün Senaryosu: "Otomatik Yedekleme ve Temizlik"
+
+Şirket, her gece yarısı saat 03:00'te /var/www/html dizininin yedeğinin (tar.gz formatında) alınmasını ve /backup dizinine yüklenmesini istiyor. Ayrıca diskte yer kaplamasın diye /backup dizinindeki 30 günden eski yedeklerin otomatik silinmesini istiyorlar.
+Senden İstenen Adımlar:
+
+## 1. /backup dizini altındaki 30 günden eski ve ismi .tar.gz ile biten dosyaları bulup tek komutla silecek o meşhur find komutunu nasıl yazarsın?
+
+## Bu işlemi otomatikleştirmek için Linux'un zamanlanmış görev servisi olan Cron'u kullanacağız. crontab -e komutu ile editörü açtığını varsayalım. Her gece saat 03:00'te çalışacak bir görevi (cron satırını) nasıl tanımlarsın? (Zamanlama yıldızlarını * * * * * mantığına göre dizmeni bekliyorum).
+
+İpucu: Cron zamanlaması Dakika Saat Ayın_Günü Ay Haftanın_Günü şeklindedir.
 
 
+## 1. Adım: Eski Dosyaları Bulup Silmek (Puan: 10/10)
+
+```find /backup -type f -name "*.tar.gz" -mtime +30 -exec rm -f {} \;```
+
+Bu komut adeta bir İsviçre çakısıdır ve tam puanı hak ediyor.
+
+```-type f```: Sadece dosyaları hedef alarak dizinleri yanlışlıkla silmeni engeller.
+
+```-name "*.tar.gz"```: Sadece yedek dosyalarını seçer, yapılandırma veya diğer önemli dosyaları korur.
+
+```-mtime +30```: Değiştirilme zamanı (modification time) 30 günden eski olanları filtreler.
+
+```-exec rm -f {} \;```: Bulunan her bir dosyayı ({}) sırayla güvenli ve zorlayıcı şekilde (rm -f) siler. \; ise komutun bittiğini find mekanizmasına bildirir.
 
 
+## 2. Adım: Cron Zamanlaması ve Akıllı Alternatif (Puan: 10/10)
 
+```0 3 * * * find /backup -type f -name "*.tar.gz" -mtime +30 -delete```
 
+Kesinlikle kullanabilirsin ve hatta bu çözüm 1. adımdaki yöntemden daha performanslıdır!
 
+Zamanlama (``` 0 3 * * * ```): Tam olarak her gece saat 03:00'ü ifade eder.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```-delete``` Parametresi (Senior Detayı): İlk adımda yazdığın ```-exec rm -f {} \;``` yöntemi, bulunan her dosya için arka planda yeni bir rm süreci (process) başlatır. Eğer silinecek binlerce dosya varsa bu durum sistemi yorabilir. Ancak senin cron içine yazdığın -delete parametresi, yerleşik (built-in) bir find yeteneğidir. Yeni bir süreç başlatmadan dosyaları doğrudan siler. Çok daha hızlı ve sistem dostudur.
 
 
 
