@@ -285,7 +285,7 @@ Senden İstenen Adımlar:
 
 Sistem kilitlendiğinde veya yavaşladığında top komutu varsayılan olarak her Linux'ta bulunur ama okunması zordur. Kurumsal dünyada tüm SysAdmin'lerin ilk yüklediği modern araç htop'tur.
 
-Terminale htop yazdığında karşına renkli, CPU çekirdeklerini tek tek gösteren, RAM kullanımını bar şeklinde veren ve süreçleri kolayca sıralayabileceğin interaktif bir ekran gelir.
+Terminale ```htop``` yazdığında karşına renkli, CPU çekirdeklerini tek tek gösteren, RAM kullanımını bar şeklinde veren ve süreçleri kolayca sıralayabileceğin interaktif bir ekran gelir.
 
 Eğer sunucuda htop yoksa, anlık disk trafiğini görmek için iotop, network trafiğini görmek için ise iftop komutlarını kullanırız.
 
@@ -474,3 +474,47 @@ Senden İstenen Adımlar:
 ## 2. Bölümleme bitti ve artık elinde /dev/sdc1 var. Bu birimi EXT4 formatında biçimlendirmek (formatlamak) için hangi komutu kullanırsın?
 
 ## 3. Her şey bitti. Bu yeni diski /etc/fstab dosyasına güvenle eklemek için disklerin o benzersiz kimlik numarasını (UUID) öğrenmemiz gerekir. Bir diskin veya bölümün UUID değerini ekrana basan o pratik komut hangisidir?
+
+
+
+## 1. Adım: Bölümleme (Partitioning) (Puan: 9/10)
+
+fdisk kesinlikle doğru araç. Terminalde şu komutla diskin içine girersin:
+```Bash
+sudo fdisk /dev/sdc
+```
+
+İçeride interaktif bir menü karşılar seni. Sırasıyla ``n`` (new partition), ``p`` (primary), 1 (bölüm numarası) tuşlarına basıp varsayılan değerleri onaylayarak diski tek parça halinde bölersin. En son ``w`` (write) diyerek değişiklikleri diske yazıp çıkarsın. Artık elinde ```/dev/sdc1``` vardır.
+
+(Daha büyük, örneğin 2 TB'tan büyük modern diskler için ```fdisk``` yerine ```parted``` veya ```gdisk``` araçları kullanılarak GPT bölüm tablosu oluşturulması kurumsal standarttır).
+
+## 2. Adım: Biçimlendirme (Formatting) (Puan: 10/10)
+
+mkfs (Make File System) tam olarak aradığımız komut ailesi. sdc1 bölümünü EXT4 yapmak için komut tam olarak şöyledir:
+```Bash
+sudo mkfs.ext4 /dev/sdc1
+# veya alternatif olarak:
+sudo mkfs -t ext4 /dev/sdc1
+```
+
+Bu komut saniyeler içinde dosya sistemini inşa eder ve diski yazılabilir hale getirir.
+
+
+## 3. Adım: UUID Öğrenme Sihirbazı: blkid (Yeni Bilgi 🚀)
+
+Linux'ta diskler bazen reboot sonrasında harf değiştirebilir (Örn: ```/dev/sdc``` olan disk bir sonraki açılışta ```/dev/sdd``` olabilir). Bu durum ```/etc/fstab``` dosyasında çökmelere yol açar. Bu yüzden diskleri harfiyle değil, fabrikasyon benzersiz kimliği olan UUID (Universally Unique Identifier) ile fstab'a ekleriz.
+
+Sistemdeki tüm disklerin ve bölümlerin UUID numaralarını jilet gibi ekrana basan o meşhur komut blkid (Block ID) komutudur:
+```Bash
+sudo blkid /dev/sdc1
+```
+Bu komutun çıktısı tam olarak şuna benzer:
+```/dev/sdc1: UUID="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d" BLOCK_SIZE="4069" TYPE="ext4"```
+
+Buradaki tırnak içindeki uzun kodu kopyalayıp ```/etc/fstab``` içerisine şu şekilde yazarız ve sunucu artık disk harfleri değişse bile asla boot sırasında takılmaz:
+```sh
+UUID=a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d  /backup  ext4  defaults  0  2
+```
+
+
+
