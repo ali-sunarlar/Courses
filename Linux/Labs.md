@@ -4,11 +4,11 @@ Bir şirkette Linux Administrator olarak çalışıyorsun. Gece yarısı izleme 
 
 Sunucuya SSH ile bağlandın ve durum şu:
 
-    Sunucuda LVM (Logical Volume Manager) yapısı kullanılıyor.
+Sunucuda LVM (Logical Volume Manager) yapısı kullanılıyor.
 
-    /dev/mapper/vg_prod-lv_data adındaki mantıksal birim (Logical Volume) /var/lib/postgresql dizinine bağlı ve tamamen dolu.
+/dev/mapper/vg_prod-lv_data adındaki mantıksal birim (Logical Volume) /var/lib/postgresql dizinine bağlı ve tamamen dolu.
 
-    Altyapı ekibi sunucuya sanallaştırma ortamından (VMware/Proxmox vb.) fiziksel olarak 20 GB ek boş disk tanımladı (/dev/sdb olarak sisteme eklendi).
+Altyapı ekibi sunucuya sanallaştırma ortamından (VMware/Proxmox vb.) fiziksel olarak 20 GB ek boş disk tanımladı (/dev/sdb olarak sisteme eklendi).
 
 Senden İstenen Adımlar:
 
@@ -20,7 +20,7 @@ Sistemi veri kaybı olmadan ve en kısa sürede ayağa kaldırman gerekiyor. Ban
 
 ## 3. Disk alanını genişlettikten sonra, dosya sisteminin (örneğin ext4 veya xfs olduğunu varsayarak) bu yeni alanı tanıması için ne yapmalısın?
 
-    Son olarak, çöken veri tabanı servisini kontrol edip tekrar başlatmak için hangi komutları kullanırsın?
+Son olarak, çöken veri tabanı servisini kontrol edip tekrar başlatmak için hangi komutları kullanırsın?
 
 
 ## 1. Adım: Diski Reboot Etmeden Tanıtmak (Puan: 9/10)
@@ -40,11 +40,11 @@ lsblk veya fdisk -l
 
 Burada kritik bir mantık hatası var. Yazdığın komut: pvresize /dev/sdb.
 
-    Hata neden önemli? pvresize, halihazırda LVM içinde olan (Physical Volume yapılmış) bir diskin boyutu büyüdüğünde kullanılır. Ancak /dev/sdb sisteme yeni eklenen, tamamen yabancı bir disk.
+Hata neden önemli? pvresize, halihazırda LVM içinde olan (Physical Volume yapılmış) bir diskin boyutu büyüdüğünde kullanılır. Ancak /dev/sdb sisteme yeni eklenen, tamamen yabancı bir disk.
 
 Doğru sıranın şu şekilde olması gerekirdi:
 
-    Yeni diski LVM formatına hazırla (Physical Volume oluştur):
+Yeni diski LVM formatına hazırla (Physical Volume oluştur):
 
 ```bash
 pvcreate /dev/sdb
