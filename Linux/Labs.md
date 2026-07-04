@@ -94,3 +94,181 @@ Senden İstenen Adımlar:
 
 ## 3. Güvenlik denetiminde (audit), sistemdeki bazı kritik dosyaların izinleri inceleniyor. /etc/passwd ve /etc/shadow dosyalarının izinleri (permission) ve sahiplikleri (owner/group) normal şartlarda ne olmalıdır? Güvenli olup olmadıklarını hangi komutla kontrol edersin?
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 21. Gün: Bellek Canavarlarını Yakalamak
+
+Karşımızda yine çok popüler bir Senior SysAdmin krizi var. Veri tabanının durup dururken kapanması kurumsal dünyada kırmızı alarmdır.
+Senden İstenen Adımlar:
+
+## 1. Linux'ta fiziksel RAM ve Swap alanı tamamen tükendiğinde, işletim sisteminin kilitlenmesini önlemek için en çok RAM tüketen büyük süreçleri acımasızca seçip öldüren bu yerleşik Kernel mekanizmasının adı nedir?
+
+## 2. Bu mekanizmanın PostgreSQL'i gerçekten öldürüp öldürmediğini kanıtlamak için, doğrudan çekirdeğin (Kernel) loglarını barındıran dmesg komutunu hangi kelimeyle filtreleyerek ararsın? (Loglarda neyi avlamamız gerekir?)
+
+## 3. Bu tarz bir krizin gelecekte tekrar yaşanmasını önlemek adına, Linux Kernel'ının "RAM sıkıştığında ne kadar kolay/agresif bir şekilde Swap alanına geçiş yapacağını" belirleyen o meşhur swappiness değeri varsayılan olarak kaç gelir ve kurumsal veri tabanı sunucularında (PostgreSQL/Oracle/MSSQL) performans için kaça düşürülmesi önerilir?
+
+
+
+Gelin bu kurumsal dünyada çok can yakan OOM Killer konusunu ve veri tabanı sunucularının can damarı olan Swappiness ayarını derinlemesine inceleyelim.
+
+## 1. Adım: Acımasız İnfazcı: OOM Killer (Out of Memory Killer)
+
+Söylediğin killall komutu, biz yöneticilerin terminalden elle çalıştırdığı, "X ismindeki tüm süreçleri kapat" dediğimiz bir araçtır.
+
+Soruda bahsettiğim, RAM bittiğinde sistem kilitlenmesin diye Kernel'ın otomatik devreye aldığı mekanizmanın adı OOM Killer (Out of Memory Killer)'dır.
+
+Nasıl Çalışır? Sistemde RAM ve Swap tamamen bitince Kernel panikler. Eğer hiçbir şeyi kapatmazsa tüm işletim sistemi donacaktır. OOM Killer hemen devreye girer, süreçlerin RAM tüketimlerine ve çalışma sürelerine bakarak bir "kötülük puanı" (OOM Score) hesaplar. Sunucuda en çok RAM'i genellikle veri tabanı (PostgreSQL) tükettiği için, OOM Killer gider ve en büyük süreç olan PostgreSQL'i sistem yaşasın diye acımasızca vurur.
+
+## 2. Adım: Suçüstü Yakalamak (Puan: 8/10)
+
+dmesg | grep postgresql komutu sana PostgreSQL ile ilgili Kernel loglarını getirir, çok mantıklı. Ancak bazen loglarda sadece servisin öldüğü yazar, onu kimin öldürdüğü net çıkmaz.
+
+OOM Killer'ın tetiği çektiğini kesin olarak kanıtlamak ve adli bilişim (forensics) raporu hazırlamak için doğrudan mekanizmanın kendi adını aratırız:
+
+```bash
+sudo dmesg | grep -i -E 'oom|killed process'
+# veya daha genel loglardan bakmak için:
+sudo grep -i 'killed process' /var/log/syslog
+``` 
+
+Bu komutun çıktısında tam olarak şu satırı yakalarsın:
+Out of memory: Killed process 4523 (postgres) total-vm:16384kB, anon-rss:8192kB, file-rss:0kB, shmem-rss:0kB
+Bu satırı gördüğün an yazılımcılara veya yönetime sunum yapabilirsin: "Sorun yazılımsal değil, sunucunun RAM'i yetersiz geldiği için işletim sistemi servisi korumak amacıyla kapatmış."
+
+
+## 3. Adım: Swappiness Ayarı (Yeni Bilgi 🚀)
+
+Swappiness, Linux Kernel'ının fiziksel RAM'deki verileri diskteki Swap alanına taşımak için ne kadar istekli olduğunu belirleyen 0 ile 100 arasında bir değerdir.
+
+Varsayılan Değer: Birçok Linux dağıtımında (Ubuntu, CentOS) varsayılan olarak 60 gelir. Bu, "RAM %40 civarına geldiğinde yavaş yavaş Swap kullanmaya başla" demektir.
+
+Kurumsal Veri Tabanı Standardı: PostgreSQL, Oracle veya MS SQL gibi yüksek performanslı veri tabanı sunucularında disk operasyonları çok yoğundur. Eğer Kernel erkenden Swap kullanmaya kalkarsa veri tabanı ciddi şekilde yavaşlar. Bu yüzden kurumsal dünyada veri tabanı sunucularında swappiness değeri 10 veya 1 seviyesine düşürülür!
+
+Bu ayarı nasıl kontrol eder ve kalıcı değiştiririz?
+
+```bash
+# Anlık swappiness değerini görmek için:
+cat /proc/sys/vm/swappiness
+
+# Geçici olarak 10'a düşürmek için:
+sudo sysctl vm.swappiness=10
+
+# Sunucu reboot olduğunda da kalıcı olması için:
+# /etc/sysctl.conf dosyasının en altına şu satır eklenir:
+vm.swappiness = 10
+```
+
+
+
+# 22. Gün: Disk Bölümleme ve Dosya Sistemi Oluşturma (Fdisk, Gparted ve Mkfs)
+
+LVM konusunu ilk gün konuşmuştuk. Şimdi LVM olmadan, sisteme yeni eklenen yalın bir diski sıfırdan bölümlere ayırıp (partitioning) formatlamayı öğreneceğiz.
+22. Gün Senaryosu: "Sıfır Kilometre Disk Yapılandırması"
+
+Şirketteki yedekleme sunucusuna fiziksel olarak 1 TB boyutunda yeni bir SSD disk takıldı. Sistem bu diski /dev/sdc olarak gördü. Bu disk şu an tamamen ham (raw) durumda; içinde ne bir bölüm var ne de bir dosya sistemi.
+
+Senden istenen bu diski tek bir parça halinde bölümlendirip, kurumsal Linux standardı olan EXT4 dosya sistemiyle formatlaman ve kullanıma hazır hale getirmen.
+
+Senden İstenen Adımlar:
+
+## 1. Bu tamamen ham durumdaki /dev/sdc diskinin içerisine girip yeni bir bölüm (partition) oluşturmak için kullandığımız o geleneksel terminal aracı nedir?
+
+## 2. Bölümleme bitti ve artık elinde /dev/sdc1 var. Bu birimi EXT4 formatında biçimlendirmek (formatlamak) için hangi komutu kullanırsın?
+
+## 3. Her şey bitti. Bu yeni diski /etc/fstab dosyasına güvenle eklemek için disklerin o benzersiz kimlik numarasını (UUID) öğrenmemiz gerekir. Bir diskin veya bölümün UUID değerini ekrana basan o pratik komut hangisidir?
