@@ -96,9 +96,37 @@ Senden İstenen Adımlar:
 
 
 
+## 1. Adım: Kullanıcı Oluşturma (Puan: 10/10)
+
+```useradd -m -s /bin/bash``` umut komutu kesinlikle doğru. -m ile home dizinini oluşturdun, -s ile de varsayılan shell'i belirledin.
+
+## 2. Adım: Sudo Yetkilendirmesi (Puan: 9/10)
+
+Yazdığın satır mantık olarak tamamen doğru:
+```umut ALL=(ALL) NOPASSWD: /bin/systemctl restart postgresql, /bin/systemctl status postgresql```
+
+Buradaki Küçük Güvenlik Riski (Senior Detayı):
+systemctl status postgresql komutu çalıştırıldığında, eğer çıktı ekrana sığmayacak kadar uzunsa sistem otomatik olarak bunu less veya more gibi bir sayfalayıcı (pager) ile açar. less komutu sudo yetkisiyle çalıştığında, kullanıcı ! tuşuna basarak root kabuğuna (shell bypass) düşebilir!
+
+Bunu engellemek için kurumsal dünyada sudoers satırına SYSTEMD_PAGER kısıtlaması eklenir veya sadece restart yetkisi verilir. Ayrıca bu kuralı doğrudan /etc/sudoers içine yazmak yerine, /etc/sudoers.d/umut adında ayrı bir dosya oluşturup içine yazmak en temiz yönetim şeklidir (Best Practice).
 
 
+## 3. Adım: Dosya İzinleri ve Güvenlik Denetimi (Puan: 8/10)
 
+ls -l ile kontrol etmek en temel ve doğru yöntem. Peki kurumsal bir denetimde (audit) karşına çıkması gereken ideal senaryo nedir?
+
+/etc/passwd: Sistemdeki tüm kullanıcıların temel bilgilerini içerir. Herkesin okuyabilmesi gerekir ama sadece root yazabilmelidir.
+
+İdeal İzin: 644 (-rw-r--r--)
+Sahibi/Grubu: root:root
+
+/etc/shadow: Kullanıcı şifrelerinin hash'lenmiş hallerini barındırır. Çok kritiktir. Sıradan kullanıcılar kesinlikle okuyamamalıdır.
+
+İdeal İzin: 640 (-rw-r-----) veya bazı dağıtımlarda 600 (-rw-------)
+
+Sahibi/Grubu: root:shadow (veya root:root)
+
+Eğer denetimde bu dosyalardan birinin izni örneğin 777 veya 666 çıkarsa, o sunucu doğrudan kırmızı alarm verir.
 
 
 
