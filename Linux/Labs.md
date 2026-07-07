@@ -1,4 +1,4 @@
-# 1. Gün Senaryosu: "Disk Doldu ve Servis Çöktü!"
+## 1. Gün Senaryosu: "Disk Doldu ve Servis Çöktü!"
 
 Bir şirkette Linux Administrator olarak çalışıyorsun. Gece yarısı izleme (monitoring) sisteminden kritik bir alarm aldın: Üretim (Production) ortamındaki bir Ubuntu veri tabanı sunucusunda disk alanı %100 dolmuş ve PostgreSQL servisi durmuş.
 
@@ -14,29 +14,29 @@ Senden İstenen Adımlar:
 
 Sistemi veri kaybı olmadan ve en kısa sürede ayağa kaldırman gerekiyor. Bana şu adımları hangi komutlarla ve hangi sıra ile yapacağını açıkla:
 
-#### 1. Yeni eklenen /dev/sdb diskinin sistem tarafından işletim sistemi yeniden başlatılmadan (reboot edilmeden) tanınıp tanınmadığını nasıl kontrol edersin?
+##### 1. Yeni eklenen /dev/sdb diskinin sistem tarafından işletim sistemi yeniden başlatılmadan (reboot edilmeden) tanınıp tanınmadığını nasıl kontrol edersin?
 
-#### 2. Bu yeni /dev/sdb diskini mevcut LVM yapısına dahil ederek /dev/vg_prod/lv_data birimini 20 GB nasıl genişletirsin? (Sırasıyla PV, VG ve LV adımlarını yazmalısın).
+##### 2. Bu yeni /dev/sdb diskini mevcut LVM yapısına dahil ederek /dev/vg_prod/lv_data birimini 20 GB nasıl genişletirsin? (Sırasıyla PV, VG ve LV adımlarını yazmalısın).
 
-#### 3. Disk alanını genişlettikten sonra, dosya sisteminin (örneğin ext4 veya xfs olduğunu varsayarak) bu yeni alanı tanıması için ne yapmalısın?
+##### 3. Disk alanını genişlettikten sonra, dosya sisteminin (örneğin ext4 veya xfs olduğunu varsayarak) bu yeni alanı tanıması için ne yapmalısın?
 
 Son olarak, çöken veri tabanı servisini kontrol edip tekrar başlatmak için hangi komutları kullanırsın?
 
 
-#### 1. Adım: Diski Reboot Etmeden Tanıtmak (Puan: 9/10)
+##### 1. Adım: Diski Reboot Etmeden Tanıtmak (Puan: 9/10)
 
 echo 1 > /sys/block/sdb/device/rescan komutu harika bir yöntem. Ancak senaryoda diskin sisteme yeni eklendiğini (/dev/sdb adıyla yeni bir aygıt olarak) belirtmiştik. Eğer disk sistemde daha önce hiç yoksa, işletim sisteminin SCSI veri yolunu (bus) tarayarak bu yeni aygıtı keşfetmesini sağlamak daha garanti bir yoldur:
 
 ```bash
-# Tüm SCSI host'ları tarayarak yeni diskleri bulmak için:
+## Tüm SCSI host'ları tarayarak yeni diskleri bulmak için:
 echo "- - -" > /sys/class/scsi_host/host0/scan
-# (Sistemdeki host0, host1 gibi tüm hostlar için veya kısa bir script ile hepsi için yapılır)
+## (Sistemdeki host0, host1 gibi tüm hostlar için veya kısa bir script ile hepsi için yapılır)
 
-# Ardından diskin gelip gelmediğini doğrulamak için:
+## Ardından diskin gelip gelmediğini doğrulamak için:
 lsblk veya fdisk -l
 ```
 
-#### 2. Adım: LVM Genişletme (Puan: 5/10) - Buraya Dikkat!
+##### 2. Adım: LVM Genişletme (Puan: 5/10) - Buraya Dikkat!
 
 Burada kritik bir mantık hatası var. Yazdığın komut: pvresize /dev/sdb.
 
@@ -63,7 +63,7 @@ lvextend -l +100%FREE /dev/mapper/vg_prod-lv_data
 ``` 
 
 
-#### 3. Adım: Dosya Sistemini Büyütmek (Puan: 10/10)
+##### 3. Adım: Dosya Sistemini Büyütmek (Puan: 10/10)
 
 Burası kusursuz. xfs_growfs ve resize2fs ayrımlarını tam olarak doğru yaptın.
 Küçük bir SysAdmin ipucu: lvextend komutunun sonuna -r (veya --resizefs) parametresini eklersen, LVM genişleme biter bitmez dosya sistemini (ext4 veya xfs fark etmeksizin) arka planda otomatik olarak büyütür. Tek komutla iki işi halletmiş olursun:
@@ -72,7 +72,7 @@ Küçük bir SysAdmin ipucu: lvextend komutunun sonuna -r (veya --resizefs) para
 lvextend -l +100%FREE -r /dev/mapper/vg_prod-lv_data
 ```
 
-#### 4. Adım: Servis Kontrolü ve Log Analizi (Puan: 10/10)
+##### 4. Adım: Servis Kontrolü ve Log Analizi (Puan: 10/10)
 
 systemctl status ile durumu kontrol etmek ve loglara bakmak en doğru pratik. journalctl -u postgresql veya postgresql'in kendi log dizinine (/var/log/postgresql/) bakarak disk doluluğundan dolayı veri tabanında bir bozulma (corruption) olup olmadığını incelemen gerekir. Ardından 
 ```sh
@@ -81,26 +81,26 @@ systemctl start postgresql
 ile servisi ayağa kaldırabilirsin.
 
 
-# 2. Gün: Kullanıcı Yönetimi, İzinler ve Güvenlik Sıkılaştırma (Hardening)
+## 2. Gün: Kullanıcı Yönetimi, İzinler ve Güvenlik Sıkılaştırma (Hardening)
 
 2. Gün Senaryosu: "Geliştirici Erişimi ve Yetki Sınırlandırması"
 
 Şirkete yeni katılan kıdemli bir yazılımcı var. Adı: umut. Umut'un bu veri tabanı sunucusunda çalışması gerekiyor ancak sistemde tam yetkili (root) olmasını istemiyoruz.
 Senden İstenen Adımlar:
 
-#### 1. umut adında bir kullanıcı oluştur. Bu kullanıcının varsayılan kabuğu (shell) bash olsun.
+##### 1. umut adında bir kullanıcı oluştur. Bu kullanıcının varsayılan kabuğu (shell) bash olsun.
 
-#### 2. Umut'un sadece ve sadece systemctl restart postgresql ve systemctl status postgresql komutlarını sudo yetkisiyle (şifre girerek veya şifresiz) çalıştırmasına izin vermek istiyorsun. Diğer hiçbir sudo komutunu (örneğin sudo apt update veya sudo su) çalıştıramamalı. Bunu /etc/sudoers veya /etc/sudoers.d/ altında nasıl yapılandırırsın? (Satırı tam yazmanı bekliyorum).
+##### 2. Umut'un sadece ve sadece systemctl restart postgresql ve systemctl status postgresql komutlarını sudo yetkisiyle (şifre girerek veya şifresiz) çalıştırmasına izin vermek istiyorsun. Diğer hiçbir sudo komutunu (örneğin sudo apt update veya sudo su) çalıştıramamalı. Bunu /etc/sudoers veya /etc/sudoers.d/ altında nasıl yapılandırırsın? (Satırı tam yazmanı bekliyorum).
 
-#### 3. Güvenlik denetiminde (audit), sistemdeki bazı kritik dosyaların izinleri inceleniyor. /etc/passwd ve /etc/shadow dosyalarının izinleri (permission) ve sahiplikleri (owner/group) normal şartlarda ne olmalıdır? Güvenli olup olmadıklarını hangi komutla kontrol edersin?
+##### 3. Güvenlik denetiminde (audit), sistemdeki bazı kritik dosyaların izinleri inceleniyor. /etc/passwd ve /etc/shadow dosyalarının izinleri (permission) ve sahiplikleri (owner/group) normal şartlarda ne olmalıdır? Güvenli olup olmadıklarını hangi komutla kontrol edersin?
 
 
 
-#### 1. Adım: Kullanıcı Oluşturma (Puan: 10/10)
+##### 1. Adım: Kullanıcı Oluşturma (Puan: 10/10)
 
 ```useradd -m -s /bin/bash``` umut komutu kesinlikle doğru. -m ile home dizinini oluşturdun, -s ile de varsayılan shell'i belirledin.
 
-#### 2. Adım: Sudo Yetkilendirmesi (Puan: 9/10)
+##### 2. Adım: Sudo Yetkilendirmesi (Puan: 9/10)
 
 Yazdığın satır mantık olarak tamamen doğru:
 ```umut ALL=(ALL) NOPASSWD: /bin/systemctl restart postgresql, /bin/systemctl status postgresql```
@@ -111,7 +111,7 @@ systemctl status postgresql komutu çalıştırıldığında, eğer çıktı ekr
 Bunu engellemek için kurumsal dünyada sudoers satırına SYSTEMD_PAGER kısıtlaması eklenir veya sadece restart yetkisi verilir. Ayrıca bu kuralı doğrudan /etc/sudoers içine yazmak yerine, /etc/sudoers.d/umut adında ayrı bir dosya oluşturup içine yazmak en temiz yönetim şeklidir (Best Practice).
 
 
-#### 3. Adım: Dosya İzinleri ve Güvenlik Denetimi (Puan: 8/10)
+##### 3. Adım: Dosya İzinleri ve Güvenlik Denetimi (Puan: 8/10)
 
 ls -l ile kontrol etmek en temel ve doğru yöntem. Peki kurumsal bir denetimde (audit) karşına çıkması gereken ideal senaryo nedir?
 
@@ -131,7 +131,7 @@ Eğer denetimde bu dosyalardan birinin izni örneğin 777 veya 666 çıkarsa, o 
 
 
 
-# 3. Gün: Ağ Yönetimi ve Sorun Giderme (Networking & Troubleshooting)
+## 3. Gün: Ağ Yönetimi ve Sorun Giderme (Networking & Troubleshooting)
 
 Kullanıcı yönetimini de başarıyla tamamladık. Şimdi bir Linux yöneticisinin mesaisinin en az %30'unu kaplayan alana geliyoruz: Network sorunları.
 3. Gün Senaryosu: "Uygulama Sunucusu Veri Tabanına Bağlanamıyor!"
@@ -143,14 +143,14 @@ Uygulamanın çalıştığı Ubuntu Linux sunucusuna SSH ile bağlandın. Sorunu
 
 Senden İstenen Adımlar:
 
-#### 1. İlk olarak, uygulama sunucusunun database.internal alan adının IP adresini doğru çözüp çözemediğini (DNS sorununu) hangi komutlarla kontrol edersin? (En az 2 alternatif komut).
+##### 1. İlk olarak, uygulama sunucusunun database.internal alan adının IP adresini doğru çözüp çözemediğini (DNS sorununu) hangi komutlarla kontrol edersin? (En az 2 alternatif komut).
 
-#### 2. DNS'in doğru IP'yi çözdüğünü varsayalım (Örn: 10.0.0.50). Ancak sorun devam ediyor. Karşı sunucunun 5432 portunun erişilebilir olup olmadığını, yani arada bir firewall (güvenlik duvarı) engeli veya port kapanması olup olmadığını ping komutu dışında hangi komutlarla test edersin?
+##### 2. DNS'in doğru IP'yi çözdüğünü varsayalım (Örn: 10.0.0.50). Ancak sorun devam ediyor. Karşı sunucunun 5432 portunun erişilebilir olup olmadığını, yani arada bir firewall (güvenlik duvarı) engeli veya port kapanması olup olmadığını ping komutu dışında hangi komutlarla test edersin?
 
-#### 3. Eğer sorun uzak sunucuda değil de, bizim kendi uygulama sunucumuzun üzerindeki yerel bir firewall'dan (ufw veya iptables) kaynaklanıyorsa, sunucudaki aktif firewall kurallarını listelemek ve durumunu görmek için hangi komutları kullanırsın?
+##### 3. Eğer sorun uzak sunucuda değil de, bizim kendi uygulama sunucumuzun üzerindeki yerel bir firewall'dan (ufw veya iptables) kaynaklanıyorsa, sunucudaki aktif firewall kurallarını listelemek ve durumunu görmek için hangi komutları kullanırsın?
 
 
-#### 1. Adım: DNS Sorun Giderme (Puan: 10/10)
+##### 1. Adım: DNS Sorun Giderme (Puan: 10/10)
 
 Burada tam puan aldın, çünkü sadece komut söylemekle kalmadın, Linux'un isim çözümlleme (name resolution) mekanizmasının arka planına baktın.
 
@@ -158,7 +158,7 @@ Sıralama Mantığı: Linux bir domaini çözmek istediğinde önce ```/etc/nssw
 
 Komut Alternatifleri: nslookup harika. Modern sistemlerde bunun yanına dig database.internal veya host database.internal komutlarını da ekleyebiliriz. dig komutu DNS sunucusundan dönen tüm detayları (TTL, Query Time vb.) verdiği için troubleshooting esnasında çok sevilir.
 
-#### 2. Adım: Port ve Erişilebilirlik Kontrolü (Puan: 8/10) - Küçük Bir Detay
+##### 2. Adım: Port ve Erişilebilirlik Kontrolü (Puan: 8/10) - Küçük Bir Detay
 
 telnet ve curl kullanımı networkçülerin vazgeçilmezidir. telnet database.internal 5432 komutu bağlantı durumunu net olarak gösterir.
 
@@ -174,39 +174,39 @@ En popüler ve güçlü araç nc (netcat) veya nmap olurdu:
 
 ```bash
 nc -zv database.internal 5432
-# veya
+## veya
 nmap -p 5432 database.internal
 ```
 
-#### 3. Adım: Yerel Firewall Kontrolü (Puan: 9/10)
+##### 3. Adım: Yerel Firewall Kontrolü (Puan: 9/10)
 
 "Yerel firewall açık mı değil mi kontrol ederim" dedin, çok doğru. Peki bunu hangi komutlarla yapardın? Kurumsal dünyada Ubuntu üzerinde varsayılan olarak UFW (Uncomplicated Firewall) veya arka planda iptables/nftables bulunur.
 
 Kullanman gereken komutlar şunlar olmalıydı:
 
 ```bash
-# UFW durumunu ve kurallarını görmek için:
+## UFW durumunu ve kurallarını görmek için:
 sudo ufw status verbose
 
-# Eğer ufw aktif değil ama iptables kuralları varsa:
+## Eğer ufw aktif değil ama iptables kuralları varsa:
 sudo iptables -L -n -v
 ```
 
-# 4. Gün Senaryosu: "Özel Script Logları Diski Şişiriyor"
+## 4. Gün Senaryosu: "Özel Script Logları Diski Şişiriyor"
 
 Şirketteki DevOps ekibi, sunucuda arka planda sürekli çalışan ve log üreten özel bir Python uygulaması (script) çalıştırdı. Bu uygulama bir Systemd Servisi olarak yapılandırılmış.
 
 Ancak uygulama loglarını standart journald yerine doğrudan /var/log/my_app.log dosyasına yazıyor. Uygulama çok canlı olduğu için bu log dosyası günde 5 GB büyüyor ve birkaç güne diski yine bitirecek!
 Senden İstenen Adımlar:
 
-#### 1. Bu Python uygulamasının Systemd servis adının myapp.service olduğunu varsayalım. Bu servisin şu an çalışıp çalışmadığını, sistem başlangıcına (boot) eklenip eklenmediğini (enable/disable) nasıl kontrol edersin?
+##### 1. Bu Python uygulamasının Systemd servis adının myapp.service olduğunu varsayalım. Bu servisin şu an çalışıp çalışmadığını, sistem başlangıcına (boot) eklenip eklenmediğini (enable/disable) nasıl kontrol edersin?
 
-#### 2. Bu /var/log/my_app.log dosyasının diski doldurmasını engellemek için Linux'un yerleşik logrotate mekanizmasını kullanmak istiyorsun. Logların günlük (daily) olarak döndürülmesini (rotate), eski logların sıkıştırılmasını (compress) ve sistemde en fazla 7 günlük log tutulmasını istiyorsun. /etc/logrotate.d/myapp adında bir dosya oluşturup içine yazman gereken konfigürasyonu bana taslak olarak gösterebilir misin?
+##### 2. Bu /var/log/my_app.log dosyasının diski doldurmasını engellemek için Linux'un yerleşik logrotate mekanizmasını kullanmak istiyorsun. Logların günlük (daily) olarak döndürülmesini (rotate), eski logların sıkıştırılmasını (compress) ve sistemde en fazla 7 günlük log tutulmasını istiyorsun. /etc/logrotate.d/myapp adında bir dosya oluşturup içine yazman gereken konfigürasyonu bana taslak olarak gösterebilir misin?
 
-#### 3. logrotate konfigürasyonunu yazdıktan sonra, bir hata olup olmadığını görmek ve sistemi test etmek için bu kuralı elle (manually) ve zorla (force) nasıl çalıştırırsın?
+##### 3. logrotate konfigürasyonunu yazdıktan sonra, bir hata olup olmadığını görmek ve sistemi test etmek için bu kuralı elle (manually) ve zorla (force) nasıl çalıştırırsın?
 
 
-#### 1. Adım: Servis Durumu ve Boot Kontrolü (Puan: 10/10)
+##### 1. Adım: Servis Durumu ve Boot Kontrolü (Puan: 10/10)
 
 systemctl status myapp.service komutu tam olarak doğru. Çıktıda bahsettiğin loaded (...; enabled; ...) ibaresi servisinin boot sırasında otomatik başlayacağını gösterir.
 
@@ -216,7 +216,7 @@ Eğer disabled görseydin, bunu aktifleştirmek için şu komutu kullanacaktın:
 sudo systemctl enable myapp.service
 ```
 
-#### 2. Adım: Logrotate Konfigürasyonu (Yeni Bilgi 🚀)
+##### 2. Adım: Logrotate Konfigürasyonu (Yeni Bilgi 🚀)
 
 Linux'ta logların diski şişirmesini önlemek için logrotate servisi kullanılır. ```/etc/logrotate.d/``` dizini altına uygulaman için bir dosya açarsın ve kuralları yazarsın.
 
@@ -250,7 +250,7 @@ notifempty: Eğer log dosyası boşsa (0 byte) boşuna döndürme işlemi yapma.
 copytruncate: (En kritik SysAdmin numarası!) Python uygulaması log dosyasını sürekli açık tuttuğu için, dosyayı direkt silersek uygulama log yazmayı bırakabilir. Bu parametre, mevcut logun bir kopyasını alır ve orijinal dosyanın içini boşaltır (truncate). Uygulama kesintisiz yazmaya devam eder.
 
 
-#### 3. Adım: Logrotate Kuralını Elle ve Zorla Test Etmek (Yeni Bilgi 🚀)
+##### 3. Adım: Logrotate Kuralını Elle ve Zorla Test Etmek (Yeni Bilgi 🚀)
 
 Yazdığın bu kuralın çalışıp çalışmadığını gece yarısını beklemeden hemen test etmek istersin. Bunun için logrotate komutuna bazı parametreler veririz:
 
@@ -265,7 +265,7 @@ Bu komuttan sonra /var/log/ dizinine gidip ls -l yaparsan, my_app.log.1.gz adın
 
 
 
-# 5. Gün: Süreç Yönetimi ve Performans Analizi (Process Management & Troubleshooting)
+## 5. Gün: Süreç Yönetimi ve Performans Analizi (Process Management & Troubleshooting)
 
 Harika bir araç daha öğrendik. Şimdi sunucunun donanım kaynaklarını (CPU/RAM) sömüren durumları tespit etme günümüz.
 5. Gün Senaryosu: "Sunucu Kilitleniyor, CPU %100!"
@@ -273,15 +273,15 @@ Harika bir araç daha öğrendik. Şimdi sunucunun donanım kaynaklarını (CPU/
 Müşteriler web sitesine girmeye çalıştığında "502 Gateway Error" alıyor. Sunucuya zar zor SSH attın, terminal aşırı yavaş tepki veriyor. Belli ki içeride sistemi boğan bir şeyler var.
 Senden İstenen Adımlar:
 
-#### 1. Sunucudaki anlık CPU, Bellek (RAM) kullanımını ve en çok kaynak tüketen süreçleri (process) canlı olarak izlemek için hangi terminal aracını/araçlarını (top dışında daha modern bir alternatif de olabilir) kullanırsın?
+##### 1. Sunucudaki anlık CPU, Bellek (RAM) kullanımını ve en çok kaynak tüketen süreçleri (process) canlı olarak izlemek için hangi terminal aracını/araçlarını (top dışında daha modern bir alternatif de olabilir) kullanırsın?
 
-#### 2. İncelemende, zombi_islem adında bir Python script'inin arka arkaya onlarca süreç açtığını ve CPU'yu %100 tükettiğini gördün. Bu sürecin PID (Process ID) numarasının 4523 olduğunu varsayalım. Bu süreci sistemden en agresif ve kesin şekilde (sinyal göndererek) nasıl sonlandırırsın (öldürürsün)?
+##### 2. İncelemende, zombi_islem adında bir Python script'inin arka arkaya onlarca süreç açtığını ve CPU'yu %100 tükettiğini gördün. Bu sürecin PID (Process ID) numarasının 4523 olduğunu varsayalım. Bu süreci sistemden en agresif ve kesin şekilde (sinyal göndererek) nasıl sonlandırırsın (öldürürsün)?
 
-#### 3. Bazen bir süreç (process) arka planda takılı kalır ama o an hangi dosyaları okuduğunu veya hangi network portunu kullandığını bilmek isteriz. Çalışan bir PID'nin (örneğin yine 4523) sistemde açtığı tüm dosyaları ve network soketlerini listelemek için hangi Linux komutunu kullanırsın?
+##### 3. Bazen bir süreç (process) arka planda takılı kalır ama o an hangi dosyaları okuduğunu veya hangi network portunu kullandığını bilmek isteriz. Çalışan bir PID'nin (örneğin yine 4523) sistemde açtığı tüm dosyaları ve network soketlerini listelemek için hangi Linux komutunu kullanırsın?
 
 
 
-#### 1. Adım: Canlı Sistem İzleme (Ezber Bozan Modern Araçlar)
+##### 1. Adım: Canlı Sistem İzleme (Ezber Bozan Modern Araçlar)
 
 Sistem kilitlendiğinde veya yavaşladığında top komutu varsayılan olarak her Linux'ta bulunur ama okunması zordur. Kurumsal dünyada tüm SysAdmin'lerin ilk yüklediği modern araç htop'tur.
 
@@ -290,12 +290,12 @@ Terminale ```htop``` yazdığında karşına renkli, CPU çekirdeklerini tek tek
 Eğer sunucuda htop yoksa, anlık disk trafiğini görmek için iotop, network trafiğini görmek için ise iftop komutlarını kullanırız.
 
 
-#### 2. Adım: Süreçleri Sonlandırmak ve Zombi İşlemler (Yeni Bilgi 🚀)
+##### 2. Adım: Süreçleri Sonlandırmak ve Zombi İşlemler (Yeni Bilgi 🚀)
 
 Bir süreci en agresif şekilde öldürmek için ona SIGKILL (9) sinyali göndeririz. Bu sinyal sürece "işini bitirmeni beklemiyorum, hemen kapan" der.
 
 ```bash
-# 4523 PID'li süreci kesin olarak öldürmek için:
+## 4523 PID'li süreci kesin olarak öldürmek için:
 sudo kill -9 4523
 ```
 
@@ -319,12 +319,12 @@ ps aux | awk '{ print $8 " " $2 }' | grep -i Z
 Linux dünyasında her şey bir dosyadır (klasörler, network soketleri, donanımlar...). Bir sürecin arka planda ne karıştırdığını görmek için ```lsof``` (List Open Files) komutunu kullanırız. SysAdmin'lerin en çok kullandığı komutlardan biridir.
 
 ```bash
-# 4523 PID'li sürecin açık tuttuğu tüm dosyaları ve network bağlantılarını listeler:
+## 4523 PID'li sürecin açık tuttuğu tüm dosyaları ve network bağlantılarını listeler:
 sudo lsof -p 4523
 ```
 
 
-# 6. Gün: Zamanlanmış Görevler ve Otomasyon (Cronjobs & Bash Scripting)
+## 6. Gün: Zamanlanmış Görevler ve Otomasyon (Cronjobs & Bash Scripting)
 
 Şimdiye kadar disk kurtardın, kullanıcı yetkilendirdin, network çözdün, log döndürdün ve süreçleri yönettin. Şimdi bunları otomatize etme zamanı.
 6. Gün Senaryosu: "Otomatik Yedekleme ve Temizlik"
@@ -332,14 +332,14 @@ sudo lsof -p 4523
 Şirket, her gece yarısı saat 03:00'te /var/www/html dizininin yedeğinin (tar.gz formatında) alınmasını ve /backup dizinine yüklenmesini istiyor. Ayrıca diskte yer kaplamasın diye /backup dizinindeki 30 günden eski yedeklerin otomatik silinmesini istiyorlar.
 Senden İstenen Adımlar:
 
-#### 1. /backup dizini altındaki 30 günden eski ve ismi .tar.gz ile biten dosyaları bulup tek komutla silecek o meşhur find komutunu nasıl yazarsın?
+##### 1. /backup dizini altındaki 30 günden eski ve ismi .tar.gz ile biten dosyaları bulup tek komutla silecek o meşhur find komutunu nasıl yazarsın?
 
-#### Bu işlemi otomatikleştirmek için Linux'un zamanlanmış görev servisi olan Cron'u kullanacağız. crontab -e komutu ile editörü açtığını varsayalım. Her gece saat 03:00'te çalışacak bir görevi (cron satırını) nasıl tanımlarsın? (Zamanlama yıldızlarını * * * * * mantığına göre dizmeni bekliyorum).
+##### Bu işlemi otomatikleştirmek için Linux'un zamanlanmış görev servisi olan Cron'u kullanacağız. crontab -e komutu ile editörü açtığını varsayalım. Her gece saat 03:00'te çalışacak bir görevi (cron satırını) nasıl tanımlarsın? (Zamanlama yıldızlarını * * * * * mantığına göre dizmeni bekliyorum).
 
 İpucu: Cron zamanlaması Dakika Saat Ayın_Günü Ay Haftanın_Günü şeklindedir.
 
 
-#### 1. Adım: Eski Dosyaları Bulup Silmek (Puan: 10/10)
+##### 1. Adım: Eski Dosyaları Bulup Silmek (Puan: 10/10)
 
 ```find /backup -type f -name "*.tar.gz" -mtime +30 -exec rm -f {} \;```
 
@@ -354,7 +354,7 @@ Bu komut adeta bir İsviçre çakısıdır ve tam puanı hak ediyor.
 ```-exec rm -f {} \;```: Bulunan her bir dosyayı ({}) sırayla güvenli ve zorlayıcı şekilde (rm -f) siler. \; ise komutun bittiğini find mekanizmasına bildirir.
 
 
-#### 2. Adım: Cron Zamanlaması ve Akıllı Alternatif (Puan: 10/10)
+##### 2. Adım: Cron Zamanlaması ve Akıllı Alternatif (Puan: 10/10)
 
 ```0 3 * * * find /backup -type f -name "*.tar.gz" -mtime +30 -delete```
 
@@ -394,22 +394,22 @@ Zamanlama (``` 0 3 * * * ```): Tam olarak her gece saat 03:00'ü ifade eder.
 
 
 
-# 21. Gün: Bellek Canavarlarını Yakalamak
+## 21. Gün: Bellek Canavarlarını Yakalamak
 
 Karşımızda yine çok popüler bir Senior SysAdmin krizi var. Veri tabanının durup dururken kapanması kurumsal dünyada kırmızı alarmdır.
 Senden İstenen Adımlar:
 
-#### 1. Linux'ta fiziksel RAM ve Swap alanı tamamen tükendiğinde, işletim sisteminin kilitlenmesini önlemek için en çok RAM tüketen büyük süreçleri acımasızca seçip öldüren bu yerleşik Kernel mekanizmasının adı nedir?
+##### 1. Linux'ta fiziksel RAM ve Swap alanı tamamen tükendiğinde, işletim sisteminin kilitlenmesini önlemek için en çok RAM tüketen büyük süreçleri acımasızca seçip öldüren bu yerleşik Kernel mekanizmasının adı nedir?
 
-#### 2. Bu mekanizmanın PostgreSQL'i gerçekten öldürüp öldürmediğini kanıtlamak için, doğrudan çekirdeğin (Kernel) loglarını barındıran dmesg komutunu hangi kelimeyle filtreleyerek ararsın? (Loglarda neyi avlamamız gerekir?)
+##### 2. Bu mekanizmanın PostgreSQL'i gerçekten öldürüp öldürmediğini kanıtlamak için, doğrudan çekirdeğin (Kernel) loglarını barındıran dmesg komutunu hangi kelimeyle filtreleyerek ararsın? (Loglarda neyi avlamamız gerekir?)
 
-#### 3. Bu tarz bir krizin gelecekte tekrar yaşanmasını önlemek adına, Linux Kernel'ının "RAM sıkıştığında ne kadar kolay/agresif bir şekilde Swap alanına geçiş yapacağını" belirleyen o meşhur swappiness değeri varsayılan olarak kaç gelir ve kurumsal veri tabanı sunucularında (PostgreSQL/Oracle/MSSQL) performans için kaça düşürülmesi önerilir?
+##### 3. Bu tarz bir krizin gelecekte tekrar yaşanmasını önlemek adına, Linux Kernel'ının "RAM sıkıştığında ne kadar kolay/agresif bir şekilde Swap alanına geçiş yapacağını" belirleyen o meşhur swappiness değeri varsayılan olarak kaç gelir ve kurumsal veri tabanı sunucularında (PostgreSQL/Oracle/MSSQL) performans için kaça düşürülmesi önerilir?
 
 
 
 Gelin bu kurumsal dünyada çok can yakan OOM Killer konusunu ve veri tabanı sunucularının can damarı olan Swappiness ayarını derinlemesine inceleyelim.
 
-#### 1. Adım: Acımasız İnfazcı: OOM Killer (Out of Memory Killer)
+##### 1. Adım: Acımasız İnfazcı: OOM Killer (Out of Memory Killer)
 
 Söylediğin killall komutu, biz yöneticilerin terminalden elle çalıştırdığı, "X ismindeki tüm süreçleri kapat" dediğimiz bir araçtır.
 
@@ -417,7 +417,7 @@ Soruda bahsettiğim, RAM bittiğinde sistem kilitlenmesin diye Kernel'ın otomat
 
 Nasıl Çalışır? Sistemde RAM ve Swap tamamen bitince Kernel panikler. Eğer hiçbir şeyi kapatmazsa tüm işletim sistemi donacaktır. OOM Killer hemen devreye girer, süreçlerin RAM tüketimlerine ve çalışma sürelerine bakarak bir "kötülük puanı" (OOM Score) hesaplar. Sunucuda en çok RAM'i genellikle veri tabanı (PostgreSQL) tükettiği için, OOM Killer gider ve en büyük süreç olan PostgreSQL'i sistem yaşasın diye acımasızca vurur.
 
-#### 2. Adım: Suçüstü Yakalamak (Puan: 8/10)
+##### 2. Adım: Suçüstü Yakalamak (Puan: 8/10)
 
 dmesg | grep postgresql komutu sana PostgreSQL ile ilgili Kernel loglarını getirir, çok mantıklı. Ancak bazen loglarda sadece servisin öldüğü yazar, onu kimin öldürdüğü net çıkmaz.
 
@@ -425,7 +425,7 @@ OOM Killer'ın tetiği çektiğini kesin olarak kanıtlamak ve adli bilişim (fo
 
 ```bash
 sudo dmesg | grep -i -E 'oom|killed process'
-# veya daha genel loglardan bakmak için:
+## veya daha genel loglardan bakmak için:
 sudo grep -i 'killed process' /var/log/syslog
 ``` 
 
@@ -434,7 +434,7 @@ Out of memory: Killed process 4523 (postgres) total-vm:16384kB, anon-rss:8192kB,
 Bu satırı gördüğün an yazılımcılara veya yönetime sunum yapabilirsin: "Sorun yazılımsal değil, sunucunun RAM'i yetersiz geldiği için işletim sistemi servisi korumak amacıyla kapatmış."
 
 
-#### 3. Adım: Swappiness Ayarı (Yeni Bilgi 🚀)
+##### 3. Adım: Swappiness Ayarı (Yeni Bilgi 🚀)
 
 Swappiness, Linux Kernel'ının fiziksel RAM'deki verileri diskteki Swap alanına taşımak için ne kadar istekli olduğunu belirleyen 0 ile 100 arasında bir değerdir.
 
@@ -445,20 +445,20 @@ Kurumsal Veri Tabanı Standardı: PostgreSQL, Oracle veya MS SQL gibi yüksek pe
 Bu ayarı nasıl kontrol eder ve kalıcı değiştiririz?
 
 ```bash
-# Anlık swappiness değerini görmek için:
+## Anlık swappiness değerini görmek için:
 cat /proc/sys/vm/swappiness
 
-# Geçici olarak 10'a düşürmek için:
+## Geçici olarak 10'a düşürmek için:
 sudo sysctl vm.swappiness=10
 
-# Sunucu reboot olduğunda da kalıcı olması için:
-# /etc/sysctl.conf dosyasının en altına şu satır eklenir:
+## Sunucu reboot olduğunda da kalıcı olması için:
+## /etc/sysctl.conf dosyasının en altına şu satır eklenir:
 vm.swappiness = 10
 ```
 
 
 
-# 22. Gün: Disk Bölümleme ve Dosya Sistemi Oluşturma (Fdisk, Gparted ve Mkfs)
+## 22. Gün: Disk Bölümleme ve Dosya Sistemi Oluşturma (Fdisk, Gparted ve Mkfs)
 
 LVM konusunu ilk gün konuşmuştuk. Şimdi LVM olmadan, sisteme yeni eklenen yalın bir diski sıfırdan bölümlere ayırıp (partitioning) formatlamayı öğreneceğiz.
 22. Gün Senaryosu: "Sıfır Kilometre Disk Yapılandırması"
@@ -469,15 +469,15 @@ Senden istenen bu diski tek bir parça halinde bölümlendirip, kurumsal Linux s
 
 Senden İstenen Adımlar:
 
-#### 1. Bu tamamen ham durumdaki /dev/sdc diskinin içerisine girip yeni bir bölüm (partition) oluşturmak için kullandığımız o geleneksel terminal aracı nedir?
+##### 1. Bu tamamen ham durumdaki /dev/sdc diskinin içerisine girip yeni bir bölüm (partition) oluşturmak için kullandığımız o geleneksel terminal aracı nedir?
 
-#### 2. Bölümleme bitti ve artık elinde /dev/sdc1 var. Bu birimi EXT4 formatında biçimlendirmek (formatlamak) için hangi komutu kullanırsın?
+##### 2. Bölümleme bitti ve artık elinde /dev/sdc1 var. Bu birimi EXT4 formatında biçimlendirmek (formatlamak) için hangi komutu kullanırsın?
 
-#### 3. Her şey bitti. Bu yeni diski /etc/fstab dosyasına güvenle eklemek için disklerin o benzersiz kimlik numarasını (UUID) öğrenmemiz gerekir. Bir diskin veya bölümün UUID değerini ekrana basan o pratik komut hangisidir?
+##### 3. Her şey bitti. Bu yeni diski /etc/fstab dosyasına güvenle eklemek için disklerin o benzersiz kimlik numarasını (UUID) öğrenmemiz gerekir. Bir diskin veya bölümün UUID değerini ekrana basan o pratik komut hangisidir?
 
 
 
-#### 1. Adım: Bölümleme (Partitioning) (Puan: 9/10)
+##### 1. Adım: Bölümleme (Partitioning) (Puan: 9/10)
 
 fdisk kesinlikle doğru araç. Terminalde şu komutla diskin içine girersin:
 ```Bash
@@ -488,19 +488,19 @@ sudo fdisk /dev/sdc
 
 (Daha büyük, örneğin 2 TB'tan büyük modern diskler için ```fdisk``` yerine ```parted``` veya ```gdisk``` araçları kullanılarak GPT bölüm tablosu oluşturulması kurumsal standarttır).
 
-#### 2. Adım: Biçimlendirme (Formatting) (Puan: 10/10)
+##### 2. Adım: Biçimlendirme (Formatting) (Puan: 10/10)
 
 mkfs (Make File System) tam olarak aradığımız komut ailesi. sdc1 bölümünü EXT4 yapmak için komut tam olarak şöyledir:
 ```Bash
 sudo mkfs.ext4 /dev/sdc1
-# veya alternatif olarak:
+## veya alternatif olarak:
 sudo mkfs -t ext4 /dev/sdc1
 ```
 
 Bu komut saniyeler içinde dosya sistemini inşa eder ve diski yazılabilir hale getirir.
 
 
-#### 3. Adım: UUID Öğrenme Sihirbazı: blkid (Yeni Bilgi 🚀)
+##### 3. Adım: UUID Öğrenme Sihirbazı: blkid (Yeni Bilgi 🚀)
 
 Linux'ta diskler bazen reboot sonrasında harf değiştirebilir (Örn: ```/dev/sdc``` olan disk bir sonraki açılışta ```/dev/sdd``` olabilir). Bu durum ```/etc/fstab``` dosyasında çökmelere yol açar. Bu yüzden diskleri harfiyle değil, fabrikasyon benzersiz kimliği olan UUID (Universally Unique Identifier) ile fstab'a ekleriz.
 
@@ -518,7 +518,7 @@ UUID=a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d  /backup  ext4  defaults  0  2
 
 
 
-# 23. Gün: Linux Performans Analizi ve Darboğaz Tespiti (Load Average & Uptime)
+## 23. Gün: Linux Performans Analizi ve Darboğaz Tespiti (Load Average & Uptime)
 
 Temel disk yönetimini de tamamladık. Şimdi bir Linux sunucusunun genel sağlık durumunu tek bir bakışta okuma sanatına geçiyoruz.
 23. Gün Senaryosu: "Sunucu Ağlıyor Ama Neden?"
@@ -531,11 +531,11 @@ Ekrana şu çıktı düştü:
 Sunucunun 4 adet CPU çekirdeğine (4 Cores) sahip olduğunu biliyorsun.
 Senden İstenen Adımlar:
 
-######## 1. Çıktının en sonundaki ``load average`` (Yük Ortalaması) kısmında yan yana duran bu üç farklı sayı (```12.50, 8.10, 3.05```) sırasıyla hangi zaman dilimlerindeki (kaç dakikalık) yük ortalamasını temsil eder?
+######### 1. Çıktının en sonundaki ``load average`` (Yük Ortalaması) kısmında yan yana duran bu üç farklı sayı (```12.50, 8.10, 3.05```) sırasıyla hangi zaman dilimlerindeki (kaç dakikalık) yük ortalamasını temsil eder?
 
-######## 2. Sunucuda 4 CPU çekirdeği olduğunu varsaydığımızda, son 1 dakikalık yük ortalamasının 12.50 çıkması kurumsal anlamda neyi ifade eder? Sunucu rahat mıdır, sınırda mıdır, yoksa aşırı yük altında ezilmekte midir? (Mantığını açıklamanı bekliyorum).
+######### 2. Sunucuda 4 CPU çekirdeği olduğunu varsaydığımızda, son 1 dakikalık yük ortalamasının 12.50 çıkması kurumsal anlamda neyi ifade eder? Sunucu rahat mıdır, sınırda mıdır, yoksa aşırı yük altında ezilmekte midir? (Mantığını açıklamanı bekliyorum).
 
-######## 3. Bu yüksek yükün kaynağının CPU mu, RAM mi yoksa Disk G/Ç (I/O Wait) mi olduğunu anlamak için virtual memory istatistiklerini canlı veren hangi pratik komuttan yararlanırsın? (İpucu: ``vm...`` ile başlar).
+######### 3. Bu yüksek yükün kaynağının CPU mu, RAM mi yoksa Disk G/Ç (I/O Wait) mi olduğunu anlamak için virtual memory istatistiklerini canlı veren hangi pratik komuttan yararlanırsın? (İpucu: ``vm...`` ile başlar).
 
 
 
