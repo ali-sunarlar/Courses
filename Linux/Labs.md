@@ -518,3 +518,24 @@ UUID=a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d  /backup  ext4  defaults  0  2
 
 
 
+# 23. Gün: Linux Performans Analizi ve Darboğaz Tespiti (Load Average & Uptime)
+
+Temel disk yönetimini de tamamladık. Şimdi bir Linux sunucusunun genel sağlık durumunu tek bir bakışta okuma sanatına geçiyoruz.
+23. Gün Senaryosu: "Sunucu Ağlıyor Ama Neden?"
+
+Müşteriler sistemde genel bir yavaşlıktan şikayetçi. Sunucuya SSH attın ve terminale girdin. Sunucunun donanımsal bir darboğaza (bottleneck) girip girmediğini anlamak için ilk olarak ``uptime`` komutunu çalıştırdın.
+
+Ekrana şu çıktı düştü:
+```17:00:21 up 45 days, 3:12,  2 users,  load average: 12.50, 8.10, 3.05```
+
+Sunucunun 4 adet CPU çekirdeğine (4 Cores) sahip olduğunu biliyorsun.
+Senden İstenen Adımlar:
+
+## 1. Çıktının en sonundaki ``load average`` (Yük Ortalaması) kısmında yan yana duran bu üç farklı sayı (```12.50, 8.10, 3.05```) sırasıyla hangi zaman dilimlerindeki (kaç dakikalık) yük ortalamasını temsil eder?
+
+## 2. Sunucuda 4 CPU çekirdeği olduğunu varsaydığımızda, son 1 dakikalık yük ortalamasının 12.50 çıkması kurumsal anlamda neyi ifade eder? Sunucu rahat mıdır, sınırda mıdır, yoksa aşırı yük altında ezilmekte midir? (Mantığını açıklamanı bekliyorum).
+
+## 3. Bu yüksek yükün kaynağının CPU mu, RAM mi yoksa Disk G/Ç (I/O Wait) mi olduğunu anlamak için virtual memory istatistiklerini canlı veren hangi pratik komuttan yararlanırsın? (İpucu: ``vm...`` ile başlar).
+
+
+
