@@ -531,11 +531,51 @@ Ekrana şu çıktı düştü:
 Sunucunun 4 adet CPU çekirdeğine (4 Cores) sahip olduğunu biliyorsun.
 Senden İstenen Adımlar:
 
-######### 1. Çıktının en sonundaki ``load average`` (Yük Ortalaması) kısmında yan yana duran bu üç farklı sayı (```12.50, 8.10, 3.05```) sırasıyla hangi zaman dilimlerindeki (kaç dakikalık) yük ortalamasını temsil eder?
+##### 1. Çıktının en sonundaki ``load average`` (Yük Ortalaması) kısmında yan yana duran bu üç farklı sayı (```12.50, 8.10, 3.05```) sırasıyla hangi zaman dilimlerindeki (kaç dakikalık) yük ortalamasını temsil eder?
 
-######### 2. Sunucuda 4 CPU çekirdeği olduğunu varsaydığımızda, son 1 dakikalık yük ortalamasının 12.50 çıkması kurumsal anlamda neyi ifade eder? Sunucu rahat mıdır, sınırda mıdır, yoksa aşırı yük altında ezilmekte midir? (Mantığını açıklamanı bekliyorum).
+##### 2. Sunucuda 4 CPU çekirdeği olduğunu varsaydığımızda, son 1 dakikalık yük ortalamasının 12.50 çıkması kurumsal anlamda neyi ifade eder? Sunucu rahat mıdır, sınırda mıdır, yoksa aşırı yük altında ezilmekte midir? (Mantığını açıklamanı bekliyorum).
 
-######### 3. Bu yüksek yükün kaynağının CPU mu, RAM mi yoksa Disk G/Ç (I/O Wait) mi olduğunu anlamak için virtual memory istatistiklerini canlı veren hangi pratik komuttan yararlanırsın? (İpucu: ``vm...`` ile başlar).
+##### 3. Bu yüksek yükün kaynağının CPU mu, RAM mi yoksa Disk G/Ç (I/O Wait) mi olduğunu anlamak için virtual memory istatistiklerini canlı veren hangi pratik komuttan yararlanırsın? (İpucu: ``vm...`` ile başlar).
 
+
+#### 1. Adım: Load Average Zaman Dilimleri (Yeni Bilgi 🚀)
+
+``uptime`` veya ``top`` komutunun sağ üst köşesinde gördüğün o üç sayı, sırasıyla sistemin son 1 dakikalık, son 5 dakikalık ve son 15 dakikalık yük ortalamasını gösterir.
+
+`12.50` -> Son 1 dakikadaki durum
+
+`8.10`  -> Son 5 dakikadaki durum
+
+`3.05`  -> Son 15 dakikadaki durum
+
+Buradaki artış trendine bakarak (3'ten 8'e, oradan 12'ye çıkmış) krizin yeni büyümekte olan bir çığ gibi sunucunun üzerine geldiğini anlayabilirsin.
+
+#### 2. Adım: Load Average Mantığı ve CPU Çekirdek İlişkisi (Doğru Bilgi 🚀)
+
+Linux'ta Load Average, yüzdeyi değil "işlem kuyruğunda bekleyen süreçlerin sayısını" ifade eder. Bunu bir otoban veya banka kuyruğu gibi düşünebilirsin.
+
+Sunucumuzda 4 CPU çekirdeği var. Bu, sistemin aynı anda tam performansla 4 adet işi hiç bekleme yapmadan işleyebileceği anlamına gelir.
+
+Yük = 4.00 olsaydı: 4 çekirdeğin 4'ü de ucu ucuna tam kapasite çalışıyor, kuyrukta bekleyen kimse yok demektir (İdeal sınır).
+
+Yük = 12.50 ise: 4 çekirdek harıl harıl çalışıyor, ancak işlemciye yetişemeyen 8.5 adet işlem daha sırada, kuyrukta çaresizce bekliyor demektir!
+
+Sonuç: Sunucu rahat değil, tam aksine kapasitesinin 3 katından fazla yük altında ezilmektedir. Terminalin sana yavaş tepki vermesinin, web sitesinin yavaşlamasının sebebi işlemcinin bu kuyruğu eritememesidir.
+
+3. Adım: Darboğazın Kaynağını Bulan Sihirbaz: ``vmstat`` (Yeni Bilgi 🚀)
+
+Yükün 12.50 olduğunu gördük. Peki bu yükü işlemci mi yaratıyor, RAM yetersizliği mi yoksa disk yavaşlığı mı? Bunu anlamak için ``vmstat`` (Virtual Memory Statistics) komutunu kullanırız.
+
+Terminalde şu şekilde çalıştırılması kurumsal bir alışkanlıktır:
+```Bash
+vmstat 1 5
+```
+(Bu komut, 1 saniye aralıklarla toplam 5 kere sistem istatistiklerini ekrana basar).
+
+Çıktıda bakman gereken iki kritik kolon vardır:
+
+`r` (Running) kolonu: İşlemcide koşan veya sıra bekleyen süreç sayısıdır. Eğer burası yüksekse sorun CPU kaynaklıdır.
+
+`b` (Blocked) kolonu: Diskten veri gelmesini beklediği için kilitlenen (I/O Wait) süreç sayısıdır. Eğer burası yüksekse disk hızın (Storage) sunucuya yetişemiyordur, yani sorun Disk kaynaklıdır.
 
 
