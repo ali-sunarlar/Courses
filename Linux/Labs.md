@@ -367,6 +367,55 @@ Zamanlama (``` 0 3 * * * ```): Tam olarak her gece saat 03:00'ü ifade eder.
 
 
 
+## 7. Gün: Paket Yönetimi ve Bağımlılık Çözme (Package Management & Troubleshooting)
+
+İlk haftayı harika kapattın! Temel operasyonları cebe koyduğumuza göre, şimdi sistem güncellemeleri ve uygulama kurulumları sırasında başımıza gelen o can sıkıcı krizlerden birine odaklanalım.
+7. Gün Senaryosu: "Paket Yöneticisi Kilitlendi!"
+
+Sunucuya yeni bir güvenlik yaması geçmek veya bir paket kurmak istiyorsun. Terminalde ``sudo apt update`` veya ``sudo apt install nginx`` komutunu çalıştırdın. Ancak komut ilerlemiyor ve terminalde şu meşhur hata fırlatılıyor:
+
+```E: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 1234 (unattended-upgr)```
+
+Senden İstenen Adımlar:
+
+#### 1. Bu hata tam olarak ne anlama geliyor? Linux neden aynı anda ikinci bir yükleme işlemine izin vermiyor?
+
+#### 2. Hata çıktısında bu kilidi tutan sürecin PID numarasının `1234` ve adının ``unattended-upgr`` (otomatik güncellemeler) olduğu açıkça yazıyor. Bu durumda kilidi açıp kendi kurulumuna güvenli bir şekilde devam etmek için sırasıyla ne yaparsın? (Süreci hemen öldürmeli miyiz, yoksa başka bir yolu var mı?)
+
+
+#### 1. Adım: Bu Hata Ne Anlama Geliyor? (Yeni Bilgi 🚀)
+
+Linux (özellikle Debian/Ubuntu tabanlı sistemler) paket bütünlüğünü korumak konusunda çok katıdır.
+
+Neden Kilitlenir? Aynı anda iki farklı programın sistem dosyalarını değiştirmesini, veritabanını bozmasını engellemek için `apt` veya `dpkg` çalışmaya başladığında bazı kritik dosyalara (örneğin ``/var/lib/dpkg/lock-frontend``) bir "kilit" (`lock`) koyar. İşlem bitene kadar başka hiç kimse paket yükleyemez veya silemez.
+
+Hata mesajındaki ``unattended-upgr`` (Unattended Upgrades), Ubuntu'nun arka planda otomatik olarak güvenlik güncellemelerini indiren yerleşik bir servisidir. Sunucu arka planda kendi kendine güvenlik yaması yaparken sen araya girip apt çalıştırmaya çalıştığın için sistem seni engelliyor.
+
+
+#### 2. Adım: Kilidi Açmak İçin İzlenecek Doğru Yol (Puan: 9/10)
+
+"Loguna bakarım, takılmış mı kontrol ederim" yaklaşımın tam isabet. Bu durumda izlenmesi gereken profesyonel sıra şudur:
+
+1. Yol: Sabırla Beklemek (En Güvenlisi)
+Arka plandaki işlem (``unattended-upgr``) bir güvenlik güncellemesi yapıyor. Eğer sunucu o an kritik bir sistem kütüphanesini güncelliyorsa ve biz bu işlemi yarıda kesersek sistem dosyaları bozulabilir. Bu yüzden ilk kural 1-2 dakika beklemektir. Genelde güncelleme biter, kilit kalkar ve senin komutun çalışır.
+
+2. Yol: Servis Durumunu Kontrol Etmek (Senin Söylediğin Mantık)
+Bekledin ama kilit açılmıyor. Sürecin gerçekten takılıp kalıp kalmadığını görmek için servisin durumuna bakarız:
+
+
+```bash
+sudo systemctl status unattended-upgrades
+```
+
+
+3. Yol: Süreci Nazikçe Durdurmak (Graceful Shutdown)
+Eğer acelen varsa ve servisi kapatmak istiyorsan, süreci kill -9 ile vahşice öldürmek yerine servise durma talimatı verirsin. Böylece yaptığı işi güvenli bir noktada kaydeder ve durur:
+```Bash
+sudo systemctl stop unattended-upgrades
+```
+
+Asla Yapılmaması Gereken (Junior Hatası):
+İnternetteki bazı forumlarda bu hata için doğrudan ```rm -f /var/lib/dpkg/lock-frontend``` (kilit dosyasını zorla sil) komutunu önerirler. Arka plandaki işlem hala çalışırken o dosyayı silmek, paket veritabanının (apt database) bozulmasına yol açar ve bir daha sunucuya hiçbir şey kuramayabilirsin. Kilit dosyası sadece ve sadece arka planda hiçbir sürecin çalışmadığından %100 emin olunduğunda silinebilir.
 
 
 
@@ -377,14 +426,59 @@ Zamanlama (``` 0 3 * * * ```): Tam olarak her gece saat 03:00'ü ifade eder.
 
 
 
+## 8. Gün: Dosya Sistemi Sağlığı ve "Inbound/Outbound" Kavramları (Inode ve Disk Sorunları)
+
+İlk haftayı geride bıraktık ve harika bir temel attık. Şimdi seni mülakatlarda ve gerçek krizlerde en çok terletecek, "görünmez" bir disk problemine götürüyorum.
+8. Gün Senaryosu: "Diskte Yer Var Ama Dosya Oluşturulamıyor!"
+
+Yazılım ekibi yine panikle geldi. Sunucuya bir dosya yazmaya çalışıyorlar ve sistem ``No space left on device`` (Diskte boş yer kalmadı) hatası veriyor.
+
+Sunucuya bağlandın ve ilk gün öğrendiğin gibi df -h komutunu çalıştırdın. Gördüğün sonuç seni şaşırttı: Disk kullanım oranı sadece %40. Yani diskte fersah fersah boş yer var!
+
+Senden İstenen Adımlar:
+
+##### 1. ``df -h`` komutu diskte bolca boş yer olduğunu söylerken, işletim sistemi neden "Yer yok" hatası veriyor olabilir? Linux dosya sistemindeki hangi yapısal sınır (limit) aşılmış olabilir?
+
+#### 2. Bu şüpheyi doğrulamak için, diskin bu bahsettiğimiz yapısal doluluk oranını hangi komutla (hangi parametre ile) kontrol edersin?
+
+#### 3. Eğer tahmin ettiğimiz şey dolduysa, buna genellikle milyonlarca çok küçük boyutlu dosya (örneğin session dosyaları veya küçük loglar) neden olur. Sunucuda en çok dosya barındıran dizini bulmak için nasıl bir strateji izlersin?
 
 
+#### 1. Adım: Sorunun Kaynağı Nedir? (Görünmez Limit: Inode)
+
+Linux'ta bir dosya sistemi (ext4, xfs vb.) oluşturulduğunda, disk sadece Gigabyte (GB) cinsinden bir alana bölünmez; aynı zamanda Inode (Index Node) adı verilen sabit sayıda "kimlik kartı/indeks numarası" oluşturulur.
+
+Linux'ta her bir dosya ve klasör için tam olarak 1 adet Inode (indeks numarası) harcanır. Dosyanın boyutu ister 10 GB olsun, ister 1 Byte olsun fark etmez; o dosya sistemde bir yer kaplıyorsa 1 Inode tüketir.
+
+Krizin Nedeni: Eğer bir uygulama (örneğin PHP session'ları, cache servisleri veya mikroservisler) diskte milyonlarca 0 byte veya çok küçük boyutlu dosya oluşturursa, diskte GB cinsinden yer bitmeden önce sunucunun üretebileceği Inode (indeks numarası) sayısı biter. * Sonuç olarak: ``df -h`` yaptığında disk %40 dolu görünür (çünkü GB olarak yer vardır) ama yeni bir dosya oluşturmak istediğinde sistem ona kimlik numarası (Inode) veremediği için ``No space left on device`` hatası fırlatır.
 
 
+2. Adım: Inode Doluluğunu Kontrol Etmek (Yeni Bilgi 🚀)
+
+Diskin GB cinsinden doluluğuna ``df -h`` (human-readable) ile bakıyorduk. Inode doluluk oranını görmek için ise komuta `-i` parametresini ekleriz:
+```Bash
+df -i
+```
+Bu komutu çalıştırdığında karşına yine disk bölümleri gelir ama bu sefer GB değil, ``IUsed`` (Kullanılan Inode sayısı), ``IFree`` (Boşta olan Inode sayısı) ve IUse% (Inode kullanım yüzdesi) değerlerini görürsün. Sorunumuzun olduğu sunucuda bu oran %100 görünecektir.
 
 
+3. Adım: Milyonlarca Küçük Dosyayı Bulan SysAdmin Stratejisi (Yeni Bilgi 🚀)
 
+Sorunu teşhis ettik; içeride bir yerde milyonlarca küçük dosya var ve bunları bulup silmemiz gerekiyor. Klasik ``du -sh`` komutu dosya boyutuna baktığı için burada işe yaramaz. Bize dosya sayısını sayacak bir komut lazım.
 
+Bunun için ilgili dizinlerde (genelde ``/var/log``, ``/tmp`` veya ``/var/lib``) şu sihirli script'i çalıştırırız:
+```Bash
+find /var -xdev -type f | cut -d "/" -f 2,3,4 | sort | uniq -c | sort -nr | head -n 10
+```
+Bu komut ne yapıyor?
+
+1. ``/var`` dizini altındaki tüm dosyaları (``-type f``) buluyor.
+
+2. ``cut`` ve ``sort`` kullanarak bu dosyaların hangi alt klasörlerde toplandığını sayıyor (``uniq -c``).
+
+3. En çok dosyaya sahip olan ilk 10 klasörü büyükten küçüğe listeleyerek (``head -n 10``) sana teslim ediyor.
+
+Çıktıda örneğin ``/var/lib/php/sessions`` klasörünün yanında 2.500.000 gibi bir rakam görürsün. Katili buldun! O klasörün içindeki eski session dosyalarını sildiğin an Inode'lar serbest kalır ve sunucu nefes alır.
 
 
 
