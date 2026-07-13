@@ -550,9 +550,80 @@ Hatta bir dosyanın sadece sonuna 3 satır eklendiyse, tüm dosyayı değil sade
 
 
 
+## 10. Gün: Log Analizi ve Metin Filtreleme (Grep, Sed, Awk ile Hata Avcılığı)
+
+Yedeklemeyi de cebe koyduk. Şimdi, bir SysAdmin'in günlük hayatta en çok zaman geçirdiği, "bize gelen bir log yığınından samanlıkta iğne arama" konusuna geliyoruz.
+10. Gün Senaryosu: "Saldırı Altındayız! Kim Bu IP'ler?"
+
+Şirketin ana web sunucusuna (Nginx) yoğun bir trafik geliyor ve web sitesi yavaşladı. ``/var/log/nginx/access.log`` dosyasında saniyede yüzlerce satır akıyor. Birilerinin sunucuya botlarla kaba kuvvet (Brute Force) veya DDoS saldırısı yaptığından şüpheleniyorsun.
+
+Log satırları standart olarak şu formatta akıyor:
+```192.168.1.150 - - [08/Jun/2026:12:00:01 +0300] "GET /login HTTP/1.1" 401 2340```
+Senden Иstenen Adımlar:
+
+#### 1. Bu log dosyasının içinden, sadece içinde "POST /login" (yani giriş yapmayı deneyen) ve "401" (hatalı şifre/yetkisiz) ifadesi geçen satırları filtreleyip ekrana basmak için hangi Linux komutunu kullanırsın?
+
+#### 2. Log dosyası o kadar büyük ki ekrana sığmıyor. Bu log dosyasının sadece en son eklenen 50 satırını canlı olarak (yeni loglar geldikçe ekranda akacak şekilde) nasıl takip edersin?
+
+#### 3. (İleri Düzey Sorusu): Bu devasa log dosyasındaki tüm IP adreslerini (satırın en başındaki ilk sütunu) ayıklayıp, hangi IP'nin kaç kere saldırdığını büyükten küçüğe sıralamak için hangi komut zincirini (piping - |) kullanırsın?
+
+Küçük bir ipucu: ``awk`` ile ilk sütunu alabilir, ``sort`` ve ``uniq`` kullanabilirsin.
 
 
 
+
+#### 1. Adım: Log İçinde Kelime Filtreleme (Grep Mucizesi)
+
+Bir log dosyasında belirli kelimeleri aramak için ``grep`` komutunu kullanırız. Bizim senaryomuzda hem ``"POST /login"`` hem de ``"401"`` ifadelerinin aynı satırda geçmesini istiyoruz. Bunu ardışık boru hattı (`|` - pipe) kullanarak yapabiliriz:
+```Bash
+grep "POST /login" /var/log/nginx/access.log | grep "401"
+```
+Bu komut ne yapıyor?
+
+İlk ``grep`` dosyayı okur ve sadece içinde ``"POST /login"`` geçen satırları ayıklar.
+
+Araya koyduğumuz | işareti, bu ayıklanan satırları ikinci ``grep`` komutuna aktarır.
+
+İkinci ``grep`` ise o gelen satırların içinden sadece ``"401"`` hatası barındıranları seçip ekrana basar. Böylece nokta atışı saldırganları görürsün.
+
+
+
+#### 2. Adım: Canlı Akan Logu Takip Etmek (``tail -f``)
+
+"Log dosyası saniyede yüzlerce satır akıyor ve ben en güncel logları canlı görmek istiyorum" diyorsan, ``less`` yerine ``tail`` komutunu kullanmalısın.
+
+```Bash
+tail -n 50 -f /var/log/nginx/access.log
+```
+
+Bu parametreler ne işe yarıyor?
+
+``-n 50``: Dosyanın en sonundaki (kuyruğundaki) 50 satırı ekrana basar.
+
+`-f` (follow): Terminali kapatmaz, dosyayı açık tutar. Sunucuya yeni bir log satırı düştüğü anda canlı olarak terminal ekranında aşağıya doğru kaymaya başlar. Saldırının o an devam edip etmediğini böyle anlarsın.
+
+
+
+#### 3. Adım: En Çok Saldıran IP'leri Sıralamak (İleri Düzey Awk & Sort Zinciri)
+
+İşte mülakatların vazgeçilmez, gerçek hayatın ise en çok can kurtaran komut zinciri. Adım adım inşa edelim:
+```Bash
+awk '{print $1}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head -n 10
+```
+
+Bu sihirli zincir nasıl çalışıyor?
+
+``awk '{print $1}'``: Log satırındaki boşluklara bakar ve sadece 1. sütunu (yani IP adresini) çekip alır, gerisini çöpe atar.
+
+``sort``: Alınan tüm IP adreslerini alt alta alfabetik/sayısal olarak sıralar. (Bir sonraki komutun çalışması için bu şarttır).
+
+``uniq -c``: Alt alta gelen aynı IP adreslerini teke düşürür ve soluna kaç kere tekrar ettiğini yazar. (Örn: ``4500 192.168.1.150``).
+
+``sort -nr``: Sol tarafa yazılan bu sayıları, numaraya göre (`-r` - reverse) yani en büyükten en küçüğe doğru yeniden sıralar.
+
+``head -n 10``: Bize en çok istek atan ilk 10 IP adresini gösterir.
+
+Bu komutun çıktısına baktığında en üstte 150000 91.93.x.x görüyorsan, o IP adresini doğrudan firewall üzerinden engelleyerek (Drop) sunucuyu rahatlatırsın.
 
 
 
@@ -785,3 +856,67 @@ wget -c http://dosya.internal/agent.tar.gz
 ```
 Nasıl Çalışır?
 Diyelim ki 2 GB'lık dosyanın 1 GB'ı indi ve internet koptu. İnternet geri geldiğinde yukarıdaki komutu tekrar çalıştırırsan, ``wget`` diskteki mevcut 1 GB'lık dosyayı görür, karşı sunucuya "Ben ilk 1 GB'ı aldım, sen bana 1.01. GB'tan sonrasını gönder" der ve kaldığı yerden devam eder. Sıfırdan başlamayarak ciddi zaman kazandırır.
+
+
+
+
+
+
+
+25. Gün: Linux Çekirdek Parametreleri ve Anlık Değişiklikler (Sysctl & Kernel Parameters)
+
+günde seninle ``swappiness`` ayarını konuşurken ``/etc/sysctl.conf`` dosyasına ufak bir dokunuş yapmıştık. Bugün Linux Kernel'ının canlı çalışan ayarlarına doğrudan müdahale etmeyi öğreneceğiz.
+
+25. Gün Senaryosu: "Ağ Trafiği Limite Takıldı! (Network Hardening)"
+
+Şirketin çok yoğun istek alan web sunucusunda network performans sorunları yaşanıyor. İşletim sistemi gelen binlerce eşzamanlı (concurrent) bağlantıyı kuyrukta tutamayıp paketleri düşürüyor (drop ediyor). Senior Network ekibi sana geldi ve şu talimatı verdi:
+
+"Sunucunun Kernel seviyesindeki maksimum bağlantı kuyruk limitini (``net.core.somaxconn``) acilen 1024'ten 65535'e yükseltmen gerekiyor. Ama sunucuyu kesinlikle reboot edemezsin, canlı sistem kesintiye uğramamalı!"
+Senden İstenen Adımlar:
+
+#### 1. Sunucuyu yeniden başlatmadan (canlı ortamda) bir Kernel parametresini anlık olarak değiştirmek ve devreye almak için hangi Linux komutunu ve parametresini kullanırsın?
+
+#### 2. Yapılandırmanın sunucu gelecekte herhangi bir sebeple reboot olduğunda sıfırlanmaması ve kalıcı olması için bu net.core.somaxconn = 65535 satırını hangi kritik sistem dosyasına yazmalısın?
+
+#### 3. Bu dosyaya yeni kurallar ekledikten sonra, sunucuyu reboot etmeden dosyadaki tüm yeni kuralları sisteme yeniden okutup (reload) aktif hale getirmek için hangi komutu çalıştırırsın?
+
+
+
+#### 1. Adım: Canlı Sistemde Kernel Ayarı Değiştirmek (Yeni Bilgi 🚀)
+
+Linux'ta canlı çalışan çekeceğe (Kernel) sunucuyu kapatıp açmadan anlık olarak parametre göndermek için ``sysctl`` komutunu kullanırız.
+
+Network ekibinin bizden istediği değişikliği canlı sistemde kesintisiz uygulamak için komut şudur:
+```Bash
+sudo sysctl -w net.core.somaxconn=65535
+```
+`-w` (write) parametresi: Kernel'a "Sana yeni bir değer yazıyorum, bunu hafızanda anında güncelle" talimatı verir. Komutu çalıştırdığın milisaniyede sunucunun ağ kuyruk limiti yükselir ve paket düşmeleri (drop) bıçak gibi kesilir.
+
+
+
+
+
+2. Adım: Değişikliği Kalıcı Hale Getirmek (Puan: 10/10 - Geçmiş Bilgi Refleksi!)
+
+günde ``swappiness`` ayarını yaparken kullandığımız o meşhur dosya burada da devreye giriyor. ``sysctl -w`` ile yaptığımız değişiklikler RAM üzerinde yaşar, yani sunucu reboot olursa silinir.
+
+Kalıcı olması için satırı tam olarak şu dosyanın en altına ekleriz:
+
+Dosya Yolu: ``/etc/sysctl.conf``
+
+Dosyanın içine şu satırı yazar ve kaydederiz:
+
+```bash
+net.core.somaxconn = 65535
+```
+
+3. Adım: Sunucuyu Reboot Etmeden Dosyayı Yeniden Okutmak (Yeni Bilgi 🚀)
+
+``/etc/sysctl.conf`` dosyasına yeni kuralları yazdık. Sunucuyu yeniden başlatmadan, dosyadaki tüm yeni ayarları Kernel'a tek seferde yüklemek (reload etmek) için şu sihirli parametreyi kullanırız:
+```Bash
+sudo sysctl -p
+```
+
+`-p` (load policy/file) parametresi: Gider ``/etc/sysctl.conf`` dosyasını baştan aşağıya okur ve içeride gördüğü tüm kuralları canlı sisteme tek hamlede uygular. Kurumsal dünyada bir değişiklik yaptıktan sonra sunucuyu reboot etmek yerine hep ``sysctl -p`` tercih edilir.
+
+
