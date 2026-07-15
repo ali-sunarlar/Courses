@@ -896,7 +896,7 @@ sudo sysctl -w net.core.somaxconn=65535
 
 
 
-2. Adım: Değişikliği Kalıcı Hale Getirmek (Puan: 10/10 - Geçmiş Bilgi Refleksi!)
+#### 2. Adım: Değişikliği Kalıcı Hale Getirmek (Puan: 10/10 - Geçmiş Bilgi Refleksi!)
 
 günde ``swappiness`` ayarını yaparken kullandığımız o meşhur dosya burada da devreye giriyor. ``sysctl -w`` ile yaptığımız değişiklikler RAM üzerinde yaşar, yani sunucu reboot olursa silinir.
 
@@ -910,7 +910,7 @@ Dosyanın içine şu satırı yazar ve kaydederiz:
 net.core.somaxconn = 65535
 ```
 
-3. Adım: Sunucuyu Reboot Etmeden Dosyayı Yeniden Okutmak (Yeni Bilgi 🚀)
+#### 3. Adım: Sunucuyu Reboot Etmeden Dosyayı Yeniden Okutmak (Yeni Bilgi 🚀)
 
 ``/etc/sysctl.conf`` dosyasına yeni kuralları yazdık. Sunucuyu yeniden başlatmadan, dosyadaki tüm yeni ayarları Kernel'a tek seferde yüklemek (reload etmek) için şu sihirli parametreyi kullanırız:
 ```Bash
@@ -919,4 +919,63 @@ sudo sysctl -p
 
 `-p` (load policy/file) parametresi: Gider ``/etc/sysctl.conf`` dosyasını baştan aşağıya okur ve içeride gördüğü tüm kuralları canlı sisteme tek hamlede uygular. Kurumsal dünyada bir değişiklik yaptıktan sonra sunucuyu reboot etmek yerine hep ``sysctl -p`` tercih edilir.
 
+
+
+
+## 26. Gün: Linux Dosya Arşivleme ve Sıkıştırma Standartları (Tar, Gzip ve Bzip2)
+
+Kernel ayarlarını da cebe koyduk. Şimdi kurumsal dünyada logları saklarken, yedek alırken veya diskte yer açmaya çalışırken her gün istisnasız kullandığımız dosya paketleme operasyonlarına geliyoruz.
+26. Gün Senaryosu: "Yedekleri Sıkıştırıp Arşivleyin"
+
+Geliştiricilerin üzerinde çalıştığı ``/data/project_files`` dizini altında yaklaşık 50 GB veri var. Senden istenen, bu klasörü hem tek bir arşiv dosyası haline getirmen (tar formatı) hem de diskte az yer kaplaması için sıkıştırman (gzip formatı).
+
+Oluşacak yedek dosyasının adının ``project_backup.tar.gz`` olması isteniyor.
+Senden İstenen Adımlar:
+
+#### 1. Bu klasörü tek bir komutla hem arşivleyip (tar) hem de gzip ile sıkıştırarak ``project_backup.tar.gz`` dosyasını oluşturacak o meşhur tar komutunu ve kurumsal parametre birleşimini (``-c...``) nasıl yazarsın?
+
+#### 2. Oluşturduğun bu ``.tar.gz`` uzantılı arşiv dosyasının içini, dosyayı dışarıya hiç çıkarmadan (extract etmeden), sadece içindeki klasör yapısını ve dosya listesini terminalde görmek için ``tar`` komutuna hangi parametreyi vermelisin?
+
+#### 3. Aradan zaman geçti ve bu yedeği geri açman (klasöre çıkartman) gerekti. Bu sıkıştırılmış arşiv dosyasını bulunduğun dizine geri açmak için hangi ``tar`` parametre birleşimini kullanırsın?
+
+
+#### 1. Adım: Sıkıştırılmış Arşiv Oluşturmak (Yeni Bilgi 🚀)
+
+Linux'ta klasörleri doğrudan sıkıştıramazsınız. Önce klasördeki tüm dosyaları tek bir paket haline (arşiv) getirmek, ardından bu paketi sıkıştırmak gerekir. ``tar`` komutu bu iki işlemi tek seferde yapar.
+
+50 GB'lık ``/data/project_files`` dizinini sıkıştırıp ``project_backup.tar.gz`` yapmak için komutumuz:
+```Bash
+tar -czvf project_backup.tar.gz /data/project_files
+```
+Bu parametrelerin gizemi nedir? (Hafızaya Kazınacak Kısım):
+
+`-c` (create): Yeni bir arşiv dosyası oluştur.
+
+`-z` (gzip): Bu arşivi Gzip algoritmasıyla sıkıştır (böylece dosya boyutu ciddi oranda düşer ve sonuna ``.tar.gz`` eklenir).
+
+`-v` (verbose): Sıkıştırılan dosyaları ekranda canlı canlı listele (işlemin donmadığını görmek için harikadır).
+
+`-f` (file): Oluşacak arşiv dosyasının adını belirteceğimizi söyler (parametrelerin en sonuna yazılır ve hemen ardından dosya adı gelir).
+
+
+
+#### 2. Adım: Arşivi Açmadan İçine Bakmak (Yeni Bilgi 🚀)
+
+Bazen elimize çok büyük bir yedek dosyası geçer ve diskte yer kaplamasın diye dosyayı dışarı çıkarmadan sadece içinde hangi dosyaların olduğunu görmek isteriz.
+
+Bunun için tek yapmamız gereken `-c` (create) parametresini `-t` (list) ile değiştirmektir:
+```Bash
+tar -tzf project_backup.tar.gz
+```
+Bu komut, sıkıştırılmış paketi hiç açmadan içindeki tüm klasör ve dosya ağacını jilet gibi ekrana listeler.
+3. Adım: Arşivi Dışarı Çıkarmak (Extract) (Yeni Bilgi 🚀)
+
+Günün birinde bu yedeği geri yüklemen gerektiğinde, paketi bulunduğun klasöre açmak için bu sefer -x (extract) parametresini kullanırız:
+```Bash
+tar -xzvf project_backup.tar.gz
+```
+`-x`: Arşivi dışarı çıkar/çöz.
+
+Eğer bu yedeği bulunduğun dizine değil de başka bir klasöre (örneğin ``/tmp``) çıkartmak istersen, komutun sonuna büyük `-C` (Change directory) parametresini eklersin:
+```tar -xzvf project_backup.tar.gz -C /tmp```
 
