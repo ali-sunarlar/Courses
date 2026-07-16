@@ -979,3 +979,97 @@ tar -xzvf project_backup.tar.gz
 Eğer bu yedeği bulunduğun dizine değil de başka bir klasöre (örneğin ``/tmp``) çıkartmak istersen, komutun sonuna büyük `-C` (Change directory) parametresini eklersin:
 ```tar -xzvf project_backup.tar.gz -C /tmp```
 
+## 27. Gün: Disk Alanı Analizi ve Görsel Temizlik (Du, Df ve Ncdu)
+
+Arşivleme ve sıkıştırmayı da cebe koyduk. Şimdi, sunucuda disk dolduğunda "hangi klasörün ne kadar yer kapladığını" bulup nokta atışı temizlik yapma günümüz.
+27. Gün Senaryosu: "Diski Kim Şişiriyor?"
+
+İzleme (monitoring) sisteminden yine disk doluluk uyarısı aldın. Sunucuya bağlandın. Amacın, kök dizinden (`/`) başlayarak hangi klasörün diskte ne kadar Gigabyte yer kapladığını bulmak ve en çok yer kaplayan klasörün içine sızıp gereksiz verileri temizlemek.
+Senden İstenen Adımlar:
+
+#### 1. Bulunduğun dizindeki tüm klasörlerin boyutlarını, insanların okuyabileceği formatta (MB/GB cinsinden) ve derinlere inmeden sadece ana başlıklar halinde görmek için hangi ``du`` (disk usage) komut mimarisini kullanırsın?
+
+#### 2. Standart ``du`` komutu terminalde çok karmaşık çıktılar verebilir. Kurumsal Linux yöneticilerinin bu tarz disk analizlerini interaktif, yön tuşlarıyla klasörlerin içine girip çıkarak ve dosya boyutlarını grafik barlarla görerek yapmasını sağlayan, NCurses tabanlı o efsane görsel disk analiz aracı hangisidir?
+
+#### 3. Linux'ta genel disk doluluk oranını veren ``df -h`` komutu ile klasör bazlı boyut veren ``du -sh`` komutu arasındaki temel fark nedir? Hangisi bize sistemdeki disk bölümlerini (partition) gösterir?
+
+
+
+
+#### 1. Adım: Klasör Boyutlarını Listelemek (du) (Puan: 10/10)
+
+``du -sh /`` komutu kesinlikle doğru!
+
+`-s` (summary): Klasörün altındaki binlerce dosyayı tek tek listelemek yerine, o klasörün toplam boyutunu tek bir satırda özetler.
+
+`-h` (human-readable): Boyutu kilobayt cinsinden değil, bizim anlayacağımız şekilde `15G`, `450M` şeklinde gösterir.
+
+Kurumsal İpucu: Eğer sadece `/` (kök) dizininin altındaki birinci seviye klasörlerin (örn: ``/var``, ``/usr``, ``/home``) boyutlarını toplu halde görmek istersen şu komut hayat kurtarır:
+```Bash
+sudo du -h --max-depth=1 /
+```
+
+#### 2. Adım: Terminalin Disk Röntgeni: ``ncdu`` (Yeni Bilgi 🚀)
+
+Standart ``du`` komutuyla uğraşmak, klasör klasör gezip elle boyut bakmak kurumsal sistemlerde çok zaman kaybettirir. İşte bu yüzden her Linux yöneticisinin sunucuya ayak basar basmaz ilk kurduğu araç ``ncdu`` (NCurses Disk Usage) aracıdır.
+```Bash
+sudo apt install ncdu  # Ubuntu/Debian için
+sudo ncdu /
+```
+Neden bir efsanedir?
+
+* Sana tamamen interaktif bir arayüz açar.
+
+* Klasörleri en çok yer kaplayandan en aza doğru otomatik sıralar.
+
+* Klavyenin yön tuşlarıyla klasörlerin içine girip çıkabilir, hangi alt klasörün diski şişirdiğini saniyeler içinde bulabilirsin.
+
+* Silmek istediğin gereksiz bir dosyanın üzerine gelip sadece `d` (delete) tuşuna basarak anında temizlik yapabilirsin.
+
+
+
+#### 3. Adım: ``df`` ve ``du`` Arasındaki Fark (Puan: 10/10)
+
+Yazdığın gibi; ``df -h`` (disk free) doğrudan disk bölümlerini (partition), bağlı olan cihazları (SATA, NVMe, NFS) ve bunların doluluk oranlarını gösterir. ``du -sh`` (disk usage) ise dosya ve klasör bazlı derinlemesine tüketimi gösterir.
+
+Çok Kritik Bir Senior Detayı (Mülakat Sorusu):
+Bazen ``df -h`` komutu diskin %100 dolu olduğunu söyler ama `/` dizininde ``du -sh`` çalıştırdığında dosyaların toplam boyutu sadece 20 GB görünür (arada kayıp 80 GB vardır).
+
+* Nedeni: Bir süreç (proses) büyük bir log dosyasını açık tutuyorken, sen gidip o dosyayı ``rm`` ile silersen dosya diskten tam olarak silinmez. Süreç onu hafızada tuttuğu için df diski dolu gösterir ama ``du`` dosyayı bulamaz. Çözümü, o süreci yeniden başlatmaktır (``systemctl restart``)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
