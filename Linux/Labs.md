@@ -1080,3 +1080,11 @@ Bazen ``df -h`` komutu diskin %100 dolu olduğunu söyler ama `/` dizininde ``du
 
 
 
+
+
+
+
+
+
+
+
