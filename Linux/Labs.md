@@ -1040,8 +1040,49 @@ Bazen ``df -h`` komutu diskin %100 dolu olduğunu söyler ama `/` dizininde ``du
 
 
 
+## 28. Gün: Linux Paket Yönetimi ve Depo Mantığı (Apt, Dpkg ve Repository)
+
+Disk temizliğini bitirdik. Şimdi az önce ``ncdu`` kurarken kullandığımız, Linux'ta programların nasıl yüklendiğini, kurumsal paket depolarının arka planda nasıl çalıştığını inceleme günümüz.
+28. Gün Senaryosu: "Güvenli Depodan Paket Yüklemek"
+
+Şirketteki Ubuntu sunucusuna güvenlik nedeniyle internetten doğrudan .deb dosyası indirip kurmak yasaklandı. Her şeyin resmi Ubuntu depolarından veya şirketin kendi yerel paket sunucusundan kurulması isteniyor.
+Senden İstenen Adımlar:
+
+#### 1. Ubuntu'da sistemin yeni paketleri aradığı ve indirdiği o resmi depo adreslerinin (repository list) tutulduğu ana kaynak dosyasının (``/etc/apt/...``) tam yolu ve adı nedir?
+
+#### 2. Sunucuya yeni bir program kurmadan önce, depolardaki paketlerin en güncel versiyon listesini sunucuya çekmek için hangi apt komutunu kullanırsın? (İpucu: Sistemi yükseltmez, sadece listeyi günceller).
+
+#### 3. İnterneti olmayan kapalı bir sunucuya, elindeki yerel bir application.deb paketini bağımlılıklarıyla birlikte doğrudan kurmak için hangi alt seviye paket yönetim aracını (dpkg veya apt parametresi) kullanırsın?
 
 
+
+1. Adım: Paket Depolarının Kalbi (Puan: 8/10)
+
+Hatırladığın isimler mantıksal olarak tamamen doğru, resmi kurumsal isimleri tam olarak şöyledir:
+
+Ana Dosya: ``/etc/apt/sources.list``
+
+Ek Depo Klasörü: ``/etc/apt/sources.list.d/``
+
+Sunucuya yeni bir harici depo (örneğin Docker veya PostgreSQL deposu) ekleyeceğimiz zaman, ana dosyayı bozmamak için ``/etc/apt/sources.list.d/docker.list`` adında küçük dosyalar oluşturup içine depo adresini yazarız. Kurumsal standart budur.
+
+2. Adım: Depo Listesini Tazelemek (Puan: 10/10)
+
+``apt update`` kesinlikle doğru!
+
+SysAdmin Detayı: Bu komut sisteme hiçbir şey yüklemez veya mevcut paketleri yükseltmez (upgrade etmez). Sadece ``/etc/apt/sources.list`` dosyasındaki adreslere giderek "Sizde hangi programların, hangi güncel versiyonları var?" sorusunu sorar ve o listeyi yerelde günceller. Paket kurmadan önce bunu çalıştırmak şarttır.
+
+3. Adım: Yerel Paket Kurulumu (Puan: 9/10)
+
+``dpkg -i application.deb`` komutu alt seviye paket kurulumu için nokta atışı doğru cevaptır. Ancak burada kurumsal dünyada çok sık yaşayacağın küçük bir kör nokta (tuzak) vardır:
+
+Kritik Paket Uyarısı: dpkg aracı çok ham bir araçtır. Eğer kurmaya çalıştığın ``application.deb`` paketi sunucuda olmayan başka kütüphanelere (``.so`` dosyalarına) ihtiyaç duyuyorsa, dpkg o bağımlılıkları internetten gidip otomatik indiremez ve kuruluma izin vermeyip hata basar.
+
+Modern Kurumsal Alternatif: İnterneti olan veya yerel deposu hazır olan sunucularda, yereldeki bir ``.deb`` dosyasını bağımlılıklarını da otomatik çözerek kurması için artık modern apt komutu tercih edilir:
+```Bash
+sudo apt install ./application.deb
+```
+(Başına `./` koyduğun an apt bunun yerel bir dosya olduğunu anlar, bağımlılıkları gider depodan çeker ve tertemiz kurar).
 
 
 
