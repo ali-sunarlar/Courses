@@ -1033,6 +1033,7 @@ Neden bir efsanedir?
 Yazdığın gibi; ``df -h`` (disk free) doğrudan disk bölümlerini (partition), bağlı olan cihazları (SATA, NVMe, NFS) ve bunların doluluk oranlarını gösterir. ``du -sh`` (disk usage) ise dosya ve klasör bazlı derinlemesine tüketimi gösterir.
 
 Çok Kritik Bir Senior Detayı (Mülakat Sorusu):
+
 Bazen ``df -h`` komutu diskin %100 dolu olduğunu söyler ama `/` dizininde ``du -sh`` çalıştırdığında dosyaların toplam boyutu sadece 20 GB görünür (arada kayıp 80 GB vardır).
 
 * Nedeni: Bir süreç (proses) büyük bir log dosyasını açık tutuyorken, sen gidip o dosyayı ``rm`` ile silersen dosya diskten tam olarak silinmez. Süreç onu hafızada tuttuğu için df diski dolu gösterir ama ``du`` dosyayı bulamaz. Çözümü, o süreci yeniden başlatmaktır (``systemctl restart``)
