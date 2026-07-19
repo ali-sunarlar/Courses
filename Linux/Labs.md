@@ -1087,11 +1087,56 @@ sudo apt install ./application.deb
 
 
 
+## 29. Gün: Linux Süreç Yönetimi ve Sinyaller (Kill, Pkill ve Signals)
+
+Paketleri de kurduk. Şimdi sistemde takılı kalan, zombiye dönen veya kurumsal bir operasyon sırasında güvenli bir şekilde kapatılması gereken süreçleri (processes) yönetme günümüz.
+29. Gün Senaryosu: "Süreci Güvenle Kapatın"
+
+Sunucuda arka planda çalışan ve veri tabanına veri yazan devasa bir veri işleme süreci var (Process ID'si: ``8844``). Bu süreci kapatman gerekiyor.
+
+Ancak süreç o an diske veri yazıyor olabilir. Eğer acımasızca tetiği çekip anında öldürürsen veri tabanı bozulabilir (data corruption). Senden istenen, sürece "Lütfen işini toparla, açık dosyalarını kapat ve ardından kendini güvenli bir şekilde sonlandır" sinyali göndermen. Eğer süreç buna rağmen kapanmazsa, en son çare olarak onu "zorla öldürmen" istenecek.
+Senden İstenen Adımlar:
+
+#### 1. Bir sürece "İşini bitir ve kibarca kapan" talimatı veren, varsayılan olarak ``kill 8844`` yazdığımızda da arkadan gönderilen o meşhur güvenli kapatma sinyalinin adı veya numarası nedir?
+
+#### 2. Süreç kibar uyarımızı dinlemedi ve dondu. Diski veya sistemi tehlikeye atmasını engellemek için tetiği çekip onu kesin ve acımasız olarak zorla öldürmek (Force Kill) için ``kill`` komutuna hangi sinyal numarasını (`-9` dışında adıyla da olabilir) verirsin?
+
+#### 3. (Pratik Bilgi): Sürecin ID'sini (``8844``) ``ps aux`` ile aramaya üşendin. Doğrudan sürecin adına bakarak (örneğin sürecin adı ``nginx`` ise) o isimdeki tüm süreçleri tek hamlede kapatan o pratik komut hangisidir? (İpucu: Başında `p` harfi var).
 
 
 
+#### 1. Adım: Kibar ve Güvenli Kapanma Sinyali: ``SIGTERM`` (Sinyal No: 15)
 
+Bir sürece zarar vermeden, "Açık dosyalarını kaydet, bağlantılarını kopar ve kapan" demenin kurumsal yolu ``SIGTERM`` (Termination) sinyalidir.
 
+Terminalde doğrudan ``kill 8844`` yazdığında, Linux arkada varsayılan olarak bu sinyali gönderir. Açık hali ve numarası şöyledir:
+
+Sinyal Numarası: ``15``
+
+Komut Mimarisi: ``kill -15 8844`` veya ``kill -SIGTERM 8844``
+
+Süreç bu sinyali aldığında işini düzgünce bitirir ve sistemden temiz bir şekilde ayrılır.
+#### 2. Adım: Acımasız ve Zorla Öldürme Sinyali: ``SIGKILL`` (Sinyal No: 9)
+
+Eğer süreç donduysa, ``SIGTERM`` sinyaline yanıt vermiyorsa ve sisteme zarar vermeye başladıysa kibarlığı bir kenara bırakırız. Süreci Kernel seviyesinde acımasızca, hemen o salisede yok etmek için ``SIGKILL`` (Kill) sinyalini göndeririz.
+
+Sinyal Numarası: `9`
+
+Komut Mimarisi: ``kill -9 8844`` veya ``kill -SIGKILL 8844``
+
+⚠️ Kurumsal Uyarı: ``SIGKILL (-9)``, sürece hiçbir şekilde söz hakkı tanımaz. Süreç o an diske veri yazıyorsa yarım kalır ve dosya bozulabilir (data corruption). Bu yüzden üretim (production) ortamlarında `-9` her zaman en son çare olarak kullanılmalıdır.
+
+#### 3. Adım: İsme Göre Süreç Avcısı: ``pkill`` veya ``killall``
+
+Süreçlerin tek tek Process ID (PID) numaralarını bulup uğraşmak yerine, doğrudan adıyla toplu katliam yapmak istiyorsan imdadımıza ``pkill`` (Process Kill) veya ``killall`` yetişir.
+
+Örneğin, arka planda çalışan tüm ``nginx`` süreçlerini tek hamlede kapatmak için:
+```Bash
+pkill nginx
+# veya
+killall nginx
+```
+Bu komut, sistemde ne kadar ``nginx`` süreci varsa hepsini otomatik olarak bulur ve varsayılan olarak ``SIGTERM (15)`` sinyaliyle güvenle kapatır. Eğer zorla kapatmak istersen yine ``pkill -9`` nginx şeklinde kullanabilirsin.
 
 
 
