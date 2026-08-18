@@ -24,6 +24,8 @@ Azure Active Directory (güncel adıyla **Microsoft Entra ID**), Microsoft'un bu
 * **Tenant (Kiracı / Directory):** Bir organizasyonun Microsoft bulut hizmetlerine kaydolurken aldığı özel ve adanmış Azure AD örneğidir (instance).
 * **Subscription (Abonelik):** Azure kaynaklarının kullanımını ve faturalandırmasını takip eden mantıksal konteynerdir. Bir Azure AD Kiracısına birden fazla abonelik bağlanabilir.
 
+![alt text](image.png)
+
 #### Avantajları ve Temel Özellikleri (Benefits and Features)
 * **Bulut ve Şirket İçi Web Uygulamalarına Single Sign-On (SSO):** Microsoft 365, Salesforce, Workday, DocuSign, ServiceNow ve Box gibi binlerce SaaS uygulamasının yanı sıra şirket içi web uygulamalarına da güvenli SSO erişimi sağlar.
 * **Çoklu Platform Desteği (iOS, macOS, Android, Windows):** Kullanıcılar; özelleştirilmiş web tabanlı erişim paneli, mobil uygulama, Microsoft 365 veya kurumsal portal üzerinden mevcut iş kimlikleriyle erişim sağlayabilirler. Deneyim tüm işletim sistemlerinde aynıdır.
@@ -76,6 +78,9 @@ Azure Active Directory (güncel adıyla **Microsoft Entra ID**), Microsoft'un bu
 Azure AD; cihazlara, uygulamalara ve servisere her yerden Single Sign-On (SSO) erişimi sağlar. IT yöneticileri kurumsal varlıkların korunduğundan, cihazların güvenlik ve uyumluluk standartlarını karşıladığından emin olmalıdır.
 
 #### Cihaz Bağlantı Seçenekleri (Connection Options)
+
+![alt text](image-1.png)
+
 Bir cihazı Azure AD kontrolü altına almak için iki temel seçenek bulunur:
 
 * **Registering a device (Azure AD Registered):** Cihaz kimliğini yönetmeyi sağlar. Kullanıcı Azure AD'de oturum açtığında cihaz doğrulanır. Cihazı etkinleştirmek veya devre dışı bırakmak mümkündür.
@@ -99,6 +104,9 @@ Bir cihazı Azure AD kontrolü altına almak için iki temel seçenek bulunur:
 Helpdesk çağrılarının büyük kısmı parola sıfırlama taleplerinden oluşur. SSPR'ı etkinleştirmeler kullanıcıların Helpdesk'e ihtiyaç duymadan kendi parolalarını sıfırlamalarını sağlar.
 
 #### SSPR Konfigürasyonu ve Kapsam Seçenekleri
+
+![alt text](image-2.png)
+
 Azure Portal üzerinde **Microsoft Entra ID (Azure AD) > Password reset** sekmesinden yapılandırılır. Üç temel erişim seçeneği bulunur:
 * **None:** SSPR tüm kullanıcılar için kapalıdır.
 * **Selected:** Belirli grupların SSPR kullanmasını sağlar. Tüm organizasyona dağıtmadan önce PoC veya test grupları oluşturmak için idealdir.
@@ -110,6 +118,8 @@ SSPR etkinleştirildikten sonra parola sıfırlama için gereken doğrulama yön
 * **Sunulabilen Yöntemler:** E-posta bildirimi, mobil veya iş telefonuna SMS/arama, mobil uygulama kodu veya Güvenlik Soruları (Security Questions).
 * **Güvenlik Soruları (Security Questions):** Kiracıdaki kullanıcıların yanıtlaması gereken soru sayısı ve doğru bilinmesi gereken yanıt sayısı ayarlanabilir. *Diğer kullanıcılar yanıtları tahmin edebileceğinden güvenlik soruları diğer yöntemlere kıyasla daha düşük güvenlik sunar.*
 
+![alt text](image-3.png)
+
 ---
 
 ### 1.6 Kullanıcı ve Grup Yönetimi
@@ -118,6 +128,8 @@ SSPR etkinleştirildikten sonra parola sıfırlama için gereken doğrulama yön
 1. **Cloud Identities:** Doğrudan Azure AD üzerinde oluşturulan hesaplardır.
 2. **Directory-Synchronized Identities:** Şirket içi Active Directory'den Azure AD Connect ile senkronize edilen hesaplardır.
 3. **Guest Users (B2B):** Dış organizasyonlardan veya kişisel Microsoft hesaplarından davet edilen konuk kullanıcılardır.
+
+![alt text](image-4.png)
 
 > 🗑️ **Silinen Kullanıcılar:** Silinen bir kullanıcı hesabı **30 gün** boyunca "Deleted Users" alanında saklanır ve bu süre içinde geri yüklenebilir (Soft Delete).
 
@@ -130,6 +142,10 @@ Azure AD, CSV şablon dosyası ile toplu kullanıcı oluşturma, silme ve kullan
   * **İsimlendirme Standartları (Naming Conventions):** Kullanıcı adları (UPN), görünen adlar ve takma adlar (alias) için kurumsal bir standart belirlenmelidir (Örn: `Soyad.Ad@contoso.com`).
   * **İlk Parola Yönetimi:** Yeni oluşturulan kullanıcıların geçici parolaları için bir standart belirlenmeli ve bu parolaların kullanıcıya/yöneticisine güvenli ulaştırılması sağlanmalıdır (Örn: Rastgele parola üretip e-posta ile iletme).
 
+![alt text](image-5.png)
+
+![alt text](image-6.png)
+
 > 💡 **İpucu:** Toplu kullanıcı yükleme işlemleri Azure Portal'ın yanı sıra **PowerShell** (Microsoft Graph PowerShell modülü) kullanılarak da gerçekleştirilebilir.
 
 ---
@@ -139,6 +155,8 @@ Azure AD, CSV şablon dosyası ile toplu kullanıcı oluşturma, silme ve kullan
 Azure AD üzerinde iki temel grup türü tanımlanabilir:
 * **Security Groups (Güvenlik Grupları):** Kullanıcı ve bilgisayarların paylaşılan kaynaklara erişim yetkilerini yönetmek için kullanılır. İzinler kullanıcılara tek tek atanmak yerine gruba tek seferde tanımlanır. *Sadece Azure AD yöneticileri tarafından oluşturulabilir.*
 * **Microsoft 365 Groups:** Ortak çalışma (collaboration) imkanı sunar. Üyelere paylaşılan e-posta kutusu, takvim, dosyalar, SharePoint sitesi ve Teams erişimi sağlar. Organizasyon dışındaki kişilere de erişim verilebilir. *Hem kullanıcılar hem de yöneticiler tarafından oluşturulabilir.*
+
+![alt text](image-7.png)
 
 **Grup Üyelik Tipleri (Adding Members to Groups):**
 * **Assigned (Elle Atamalı):** Belirli kullanıcılar gruba elle üye yapılır ve özgün izinler alırlar.
