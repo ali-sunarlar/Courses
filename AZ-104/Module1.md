@@ -24,9 +24,41 @@ Azure Active Directory (güncel adıyla **Microsoft Entra ID**), Microsoft'un bu
 * **Tenant (Kiracı / Directory):** Bir organizasyonun Microsoft bulut hizmetlerine kaydolurken aldığı özel ve adanmış Azure AD örneğidir (instance).
 * **Subscription (Abonelik):** Azure kaynaklarının kullanımını ve faturalandırmasını takip eden mantıksal konteynerdir. Bir Azure AD Kiracısına birden fazla abonelik bağlanabilir.
 
+#### Avantajları ve Temel Özellikleri (Benefits and Features)
+* **Bulut ve Şirket İçi Web Uygulamalarına Single Sign-On (SSO):** Microsoft 365, Salesforce, Workday, DocuSign, ServiceNow ve Box gibi binlerce SaaS uygulamasının yanı sıra şirket içi web uygulamalarına da güvenli SSO erişimi sağlar.
+* **Çoklu Platform Desteği (iOS, macOS, Android, Windows):** Kullanıcılar; özelleştirilmiş web tabanlı erişim paneli, mobil uygulama, Microsoft 365 veya kurumsal portal üzerinden mevcut iş kimlikleriyle erişim sağlayabilirler. Deneyim tüm işletim sistemlerinde aynıdır.
+* **Güvenli Uzaktan Erişim ile Şirket İçi Web Uygulamalarını Koruma:** Şirket içi web uygulamalarına her yerden erişim imkanı sunarken Multi-Factor Authentication (MFA), Conditional Access (Koşullu Erişim) ve grup tabanlı erişim politikalarıyla koruma sağlar. Kullanıcılar SaaS ve on-premise uygulamalara aynı portal üzerinden erişebilir.
+* **Active Directory'yi Buluta Kolayca Genişletme:** Şirket içi Active Directory yapısı birkaç adımda Azure Active Directory'ye bağlanabilir. Bu bağlantı, her iki ortamda da tutarlı kullanıcı, grup, parola ve cihaz kümesi oluşturur.
+* **Hassas Veri ve Uygulamaları Koruma:** Benzersiz kimlik koruma yetenekleriyle erişim güvenliği artırılır. Şüpheli oturum açma etkinlikleri ve potansiyel zafiyetler için konsolide görünüm, gelişmiş güvenlik raporları, risk tabanlı politikalar ve çözüm önerileri sunar.
+* **Self-Service Özellikler ile Maliyet Azaltma ve Güvenlik Artırma:** Parola sıfırlama, grup oluşturma/yönetme ve self-service uygulama erişimi gibi kritik görevler çalışanlara devredilebilir. Bu durum Helpdesk çağrılarını azaltır.
+
+> 💡 **Önemli Not:** Bir Microsoft 365, Azure veya Dynamics CRM Online müşterisiyseniz, halihazırda Azure AD kullanıyorsunuz demektir. Her M365, Azure ve Dynamics CRM kiracısı zaten bir Azure AD kiracısıdır.
+
 ---
 
-### 1.2 AD DS (Geleneksel Active Directory) vs. Azure AD Karşılaştırması
+### 1.2 Azure AD Sürümleri (Editions & Pricing)
+
+* **Azure Active Directory Free:**
+  * Kullanıcı ve grup yönetimi sunar.
+  * Şirket içi dizin senkronizasyonunu (On-premises directory synchronization / Azure AD Connect) destekler.
+  * Temel raporlar ile Azure, Microsoft 365 ve birçok popüler SaaS uygulaması genelinde Single Sign-On (SSO) sağlar.
+
+* **Azure Active Directory Microsoft 365 Apps:**
+  * Office 365 / Microsoft 365 abonelikleri ile birlikte gelir.
+  * Free sürümünün tüm özelliklerine ek olarak; Microsoft 365 uygulamaları için Kimlik ve Erişim Yönetimi, özel şirket markalaması (Branding), Çok Faktörlü Kimlik Doğrulama (MFA), grup erişim yönetimi ve bulut kullanıcıları için Self-Service Parola Sıfırlama (SSPR) sunar.
+
+* **Azure Active Directory Premium P1:**
+  * Free ve M365 Apps özelliklerine ek olarak hibrit kullanıcıların hem şirket içi (on-premises) hem de bulut kaynaklarına erişmesine imkan tanır.
+  * Gelişmiş yönetim özellikleri içerir: Dinamik Gruplar (Dynamic Groups), self-service grup yönetimi, Microsoft Identity Manager (MIM) ve şirket içi kullanıcıların SSPR yapabilmesini sağlayan buluta geri yazma (Cloud Write-Back) yetenekleri (Password Writeback).
+
+* **Azure Active Directory Premium P2:**
+  * Free, M365 Apps ve P1 sürümlerinin tüm özelliklerini kapsar.
+  * **Azure Active Directory Identity Protection:** Uygulamalarınıza ve kritik şirket verilerinize risk tabanlı Koşullu Erişim (Risk-based Conditional Access) sağlamak için kullanılır.
+  * **Privileged Identity Management (PIM):** Yöneticileri ve kaynak erişimlerini keşfetmek, kısıtlamak, izlemek ve gerektiğinde Tam Zamanında Erişim (Just-In-Time / JIT access) sağlamak için dahili olarak sunulur.
+
+---
+
+### 1.3 AD DS (Geleneksel Active Directory) vs. Azure AD Karşılaştırması
 
 | Özellik | Geleneksel AD DS (On-Premises) | Azure AD (Bulut) |
 | :--- | :--- | :--- |
@@ -39,28 +71,44 @@ Azure Active Directory (güncel adıyla **Microsoft Entra ID**), Microsoft'un bu
 
 ---
 
-### 1.3 Azure AD Sürümleri (Editions)
+### 1.4 Azure AD Cihaz Yönetimi ve Azure AD Join Uygulaması
 
-1. **Free:** Temel kullanıcı/grup yönetimi, SSO, 500.000 nesne sınırı.
-2. **Microsoft 365 Apps:** M365 abonelikleri ile gelir. Markalama, self-service parola sıfırlama (SSPR - bulut kullanıcıları için).
-3. **Premium P1:** Hibrit kimlikler (Azure AD Connect), Dinamik Gruplar, Şirket içi (On-prem) kullanıcılar için Password Writeback desteği, Conditional Access (Koşullu Erişim).
-4. **Premium P2:** P1'e ek olarak **Identity Protection** (Risk tabanlı erişim) ve **Privileged Identity Management (PIM)** (Tam zamanlı/Just-in-Time yönetici yetkilendirmesi) sunar.
+Azure AD; cihazlara, uygulamalara ve servisere her yerden Single Sign-On (SSO) erişimi sağlar. IT yöneticileri kurumsal varlıkların korunduğundan, cihazların güvenlik ve uyumluluk standartlarını karşıladığından emin olmalıdır.
+
+#### Cihaz Bağlantı Seçenekleri (Connection Options)
+Bir cihazı Azure AD kontrolü altına almak için iki temel seçenek bulunur:
+
+* **Registering a device (Azure AD Registered):** Cihaz kimliğini yönetmeyi sağlar. Kullanıcı Azure AD'de oturum açtığında cihaz doğrulanır. Cihazı etkinleştirmek veya devre dışı bırakmak mümkündür.
+  > 💡 **MDM Notu:** Registration işlemi Microsoft Intune gibi bir MDM (Mobile Device Management) çözümüyle birleştirildiğinde Azure AD'ye ek cihaz öznitelikleri aktarılır. Bu sayede cihazların güvenlik standartlarına uyumunu zorunlu kılan Koşullu Erişim (Conditional Access) kuralları yazılabilir.
+* **Joining a device (Azure AD Joined):** Registration yeteneklerinin tamamını kapsar ve cihazın yerel durumunu değiştirir. Kullanıcıların kişisel hesap yerine kurumsal iş/okul hesaplarıyla (`user@company.com`) cihaza doğrudan oturum açmasını sağlar.
+
+#### Azure AD Join Avantajları
+* **Azure Tarafından Yönetilen SaaS ve Servislere SSO:** Kurumsal kaynaklara erişirken ek kimlik doğrulama adımları çıkmaz. Kullanıcılar domain ağına bağlı olmasalar bile SSO çalışır.
+* **Kurumsal Ayarların Gezinmesi (Enterprise Compliant Roaming):** Kullanıcıların ayarlarını cihazlar arasında senkronize etmek için kişisel Microsoft hesaplarına (Hotmail, Outlook vb.) ihtiyacı yoktur.
+* **Microsoft Store for Business Erişimi:** Kullanıcılar organizasyon tarafından önceden seçilmiş uygulama envanterine Azure AD hesaplarıyla erişebilir.
+* **Windows Hello Desteği:** Kurumsal kaynaklara güvenli ve pratik erişim sağlar.
+* **Uyumlu Cihaz Kısıtlaması:** Uygulamalara erişim, sadece güvenlik ve uyumluluk politikalarını karşılayan cihazlarla sınırlandırılabilir.
+* **Şirket İçi Kaynaklara Sorunsuz Erişim:** Cihaz şirket içi Domain Controller (DC) ile görüşebildiği (line-of-sight) durumlarda şirket içi kaynaklara kesintisiz erişim sunar.
+
+> 📌 **Mimarî Not:** Azure AD Join temel olarak şirket içi Windows Server Active Directory altyapısı bulunmayan organizasyonlar için tasarlanmış olsa da şube/şantiye (branch office) senaryolarında da yaygın olarak kullanılır.
 
 ---
 
-### 1.4 Azure AD Join ve Cihaz Yönetimi
+### 1.5 Self-Service Password Reset (SSPR) Uygulaması
 
-Cihazları Azure AD kapsamına almak için iki temel yöntem bulunurlar:
-1. **Azure AD Registered:** Kişisel cihazlar (BYOD) için uygundur. Kullanıcı kendi Microsoft hesabıyla oturum açar, iş hesabını ekler.
-2. **Azure AD Joined:** Kurumsal cihazlar içindir. Kullanıcılar bilgisayarlarına doğrudan kurumsal iş/okul hesaplarıyla (`user@company.com`) oturum açarlar. Windows Hello, kurumsal kaynaklara SSO ve Intune uyumluluk politikaları desteklenir.
+Helpdesk çağrılarının büyük kısmı parola sıfırlama taleplerinden oluşur. SSPR'ı etkinleştirmeler kullanıcıların Helpdesk'e ihtiyaç duymadan kendi parolalarını sıfırlamalarını sağlar.
 
----
+#### SSPR Konfigürasyonu ve Kapsam Seçenekleri
+Azure Portal üzerinde **Microsoft Entra ID (Azure AD) > Password reset** sekmesinden yapılandırılır. Üç temel erişim seçeneği bulunur:
+* **None:** SSPR tüm kullanıcılar için kapalıdır.
+* **Selected:** Belirli grupların SSPR kullanmasını sağlar. Tüm organizasyona dağıtmadan önce PoC veya test grupları oluşturmak için idealdir.
+* **All:** Kiracıdaki tüm kullanıcı hesapları için SSPR'ı aktif eder.
 
-### 1.5 Self-Service Password Reset (SSPR)
-
-Kullanıcıların bilgi işlem destek ekibine (Helpdesk) ihtiyaç duymadan parolalarını sıfırlamalarını sağlar.
-* **Kapsam:** `None`, `Selected` (Test grupları için) veya `All` olarak seçilebilir.
-* **Doğrulama Yöntemleri:** E-posta, SMS/Arama, Mobil Uygulama Bildirimi/Kodu, Güvenlik Soruları.
+#### Kimlik Doğrulama Yöntemleri (Authentication Methods)
+SSPR etkinleştirildikten sonra parola sıfırlama için gereken doğrulama yöntemi sayısı ve kullanıcılara sunulacak yöntemler belirlenir:
+* **Yöntem Sayısı:** Parola sıfırlama için en az 1 yöntem gereklidir (birden fazla yöntem sunmak önerilir).
+* **Sunulabilen Yöntemler:** E-posta bildirimi, mobil veya iş telefonuna SMS/arama, mobil uygulama kodu veya Güvenlik Soruları (Security Questions).
+* **Güvenlik Soruları (Security Questions):** Kiracıdaki kullanıcıların yanıtlaması gereken soru sayısı ve doğru bilinmesi gereken yanıt sayısı ayarlanabilir. *Diğer kullanıcılar yanıtları tahmin edebileceğinden güvenlik soruları diğer yöntemlere kıyasla daha düşük güvenlik sunar.*
 
 ---
 
@@ -75,21 +123,45 @@ Kullanıcıların bilgi işlem destek ekibine (Helpdesk) ihtiyaç duymadan parol
 
 ---
 
-#### Grup Türleri ve Üyelik Tipleri
+#### Toplu Kullanıcı Oluşturma (Create Bulk User Accounts)
+Azure AD, CSV şablon dosyası ile toplu kullanıcı oluşturma, silme ve kullanıcı listelerini indirme işlemlerini destekler.
+* **Yetki Gereksinimi:** Azure Portal üzerinde toplu kullanıcı oluşturmak için **Global Administrator** veya **User Administrator** rolüne sahip olunmalıdır.
+* **Şablon Kullanımında Dikkat Edilecek Hususlar:**
+  * **İsimlendirme Standartları (Naming Conventions):** Kullanıcı adları (UPN), görünen adlar ve takma adlar (alias) için kurumsal bir standart belirlenmelidir (Örn: `Soyad.Ad@contoso.com`).
+  * **İlk Parola Yönetimi:** Yeni oluşturulan kullanıcıların geçici parolaları için bir standart belirlenmeli ve bu parolaların kullanıcıya/yöneticisine güvenli ulaştırılması sağlanmalıdır (Örn: Rastgele parola üretip e-posta ile iletme).
 
-* **Grup Türleri:**
-  * **Security Groups:** Kaynaklara erişim yetkisi dağıtmak için kullanılır.
-  * **Microsoft 365 Groups:** E-posta, Teams, SharePoint ve takvim paylaşımı gibi ortak çalışma için kullanılır.
+> 💡 **İpucu:** Toplu kullanıcı yükleme işlemleri Azure Portal'ın yanı sıra **PowerShell** (Microsoft Graph PowerShell modülü) kullanılarak da gerçekleştirilebilir.
 
-* **Üyelik Tipleri (Membership Types):**
-  * **Assigned:** Kullanıcılar elle gruba eklenir.
-  * **Dynamic User:** Kullanıcı özniteliklerine (Department, Job Title gibi) göre otomatik kural ile eklenir (P1 lisans gerektirir).
-  * **Dynamic Device:** Cihaz özniteliklerine göre otomatik eklenir.
+---
+
+#### Grup Hesapları Oluşturma ve Üyelik Türleri (Create Group Accounts)
+
+Azure AD üzerinde iki temel grup türü tanımlanabilir:
+* **Security Groups (Güvenlik Grupları):** Kullanıcı ve bilgisayarların paylaşılan kaynaklara erişim yetkilerini yönetmek için kullanılır. İzinler kullanıcılara tek tek atanmak yerine gruba tek seferde tanımlanır. *Sadece Azure AD yöneticileri tarafından oluşturulabilir.*
+* **Microsoft 365 Groups:** Ortak çalışma (collaboration) imkanı sunar. Üyelere paylaşılan e-posta kutusu, takvim, dosyalar, SharePoint sitesi ve Teams erişimi sağlar. Organizasyon dışındaki kişilere de erişim verilebilir. *Hem kullanıcılar hem de yöneticiler tarafından oluşturulabilir.*
+
+**Grup Üyelik Tipleri (Adding Members to Groups):**
+* **Assigned (Elle Atamalı):** Belirli kullanıcılar gruba elle üye yapılır ve özgün izinler alırlar.
+* **Dynamic User (Dinamik Kullanıcı):** Kullanıcı özniteliklerine (Department, Title vb.) göre otomatik üye ekleme/çıkarma kuralları tanımlanır. Kullanıcının öznitelikleri değiştiğinde Azure kuralları kontrol ederek üyeliği günceller.
+* **Dynamic Device (Dinamik Cihaz - Sadece Güvenlik Grupları):** Cihaz özniteliklerine göre cihazları otomatik gruba ekler veya çıkarır. Cihaz durumu değiştiğinde grup üyeliği otomatik güncellenir.
 
 ---
 
 #### Administrative Units (Yönetsel Birimler)
-Organizasyon içindeki yönetim yetkilerini sınırlandırmak için kullanılır (Örn: Sadece Mühendislik Fakültesi kullanıcılarını yönetebilen bir alt yetkili atamak).
+
+Bölüm veya fakülte gibi bağımsız birimlerden oluşan organizasyonlarda yönetsel yetki kapsamını (administrative scope) sınırlandırmak için kullanılır.
+
+* **Örnek Senaryo:**
+  Bir üniversitede İşletme Fakültesi ve Mühendislik Fakültesi gibi özerk okullar bulunsun. Merkezi yönetici (Central Admin):
+  1. İşletme Fakültesi için bir Administrative Unit (AU) oluşturur.
+  2. Bu AU içerisine sadece İşletme Fakültesi öğrenci ve personelini ekler.
+  3. Sadece bu AU kapsamındaki kullanıcıları yönetebilecek özel bir rol oluşturur.
+  4. İşletme Fakültesi IT ekibine bu sınırlandırılmış yetkiyi (scope) atar.
+
+* **Önemli Hususlar:**
+  * AU'lar **Azure Portal**, **PowerShell** veya **Microsoft Graph API** kullanılarak yönetilebilir.
+  * Portal üzerinden AU yönetimi için **Global Administrator** veya **Privileged Role Administrator** rolü gereklidir.
+  * **Kapsam Sınırı:** AU'lar sadece *yönetim yetkilerini (management permissions)* sınırlandırır. Kullanıcıların veya yöneticilerin varsayılan kullanıcı yetkilerini kullanarak AU dışındaki diğer kullanıcıları, grupları veya kaynakları gözlemlemesini (browse) engellemez.
 
 ---
 
@@ -182,7 +254,7 @@ resource "azuread_administrative_unit" "it_au" {
 # 8. Kullanıcı 1'i Administrative Unit'e Ekleme
 resource "azuread_administrative_unit_member" "au_member" {
   administrative_unit_object_id = azuread_administrative_unit.it_au.id
-  member_object_id              = azuread_user.user1.object_id
+  member_object_id              = azuread_user.user1.id
 }
 
 output "created_users" {
