@@ -592,12 +592,13 @@ output "load_balancer_id" {
   value = azurerm_lb.public_lb.id
 }
 ```
-
-
 # AZ-104: Module 06 - Configure Azure Application Gateway (Azure Uygulama Ağ Geçidini Yapılandırma)
 
-AZ-104 (Microsoft Azure Administrator) sertifikasyon sınavının altıncı modülünün bu dördüncü ve son bölümü; OSI Katman 7 (Uygulama Katmanı) seviyesinde yük dengeleme, URL ve Path tabanlı yönlendirme (Path-Based Routing), çoklu site barındırma (Multi-Site Routing), Web Uygulama Güvenlik Duvarı (WAF), Durum Yoklamaları (Health Probes) ve **Azure Application Gateway** bileşenlerini kapsar.
+AZ-104 (Microsoft Azure Administrator) sertifikasyon sınavının altıncı modülünün bu bölümü; OSI Katman 7 (Uygulama Katmanı) seviyesinde yük dengeleme, URL ve Path tabanlı yönlendirme (Path-Based Routing), çoklu site barındırma (Multi-Site Routing), Web Uygulama Güvenlik Duvarı (WAF), Durum Yoklamaları (Health Probes) ve **Azure Application Gateway** bileşenlerini kapsar.
 
+---
+
+## 📚 Bölüm 1: Detaylı Ders Notları
 
 ---
 
@@ -612,6 +613,8 @@ Azure Application Gateway, istemci uygulamalarının bir web uygulamasına gönd
 * **Yük Dengeleme Algoritması:** Arka uç havuzundaki sunuculara gelen istekleri **Round-Robin** kullanarak dağıtır.
 * **Oturum Kalıcılığı (Session Stickiness):** Aynı oturumdaki istemci isteklerinin aynı arka uç sunucusuna yönlendirilmesini sağlamak için kitle çerezleri (cookie-based affinity) kullanır.
 * **Arka Uç Destek Yapısı:** Arka uç havuzları (Backend Pools) Azure Sanal Makineleri, Sanal Makine Ölçek Kümeleri (VMSS), Azure App Service veya şirket içi (on-premises) sunucuları içerebilir.
+
+![alt text](image-18.png)
 
 #### Öne Çıkan Diğer Özellikler
 * **Protokol Desteği:** HTTP, HTTPS, HTTP/2 ve WebSocket protokollerini destekler.
@@ -629,9 +632,13 @@ Application Gateway, istekleri belirlediğiniz kurallara göre uygun arka uç ha
 Farklı URL yollarına (path) sahip istekleri farklı arka uç sunucu havuzlarına gönderir. 
 * Örneğin: `/video/*` yolundaki istekleri video akışı için optimize edilmiş sunucu havuzuna, `/images/*` yolundaki istekleri ise görsel işleme sunucu havuzuna yönlendirir.
 
+![alt text](image-19.png)
+
 #### 2. Çoklu Site Yönlendirmesi (Multiple Site Routing)
 Tek bir Application Gateway örneği üzerinde birden fazla web uygulamasını yapılandırır. IP adresi için birden fazla DNS adı (CNAME) kaydedilir. Her site için ayrı dinleyiciler (listeners) kullanılır.
 * Örneğin: `http://contoso.com` adresinden gelen tüm istekleri bir arka uç havuzuna, `http://fabrikam.com` adresinden gelen istekleri ise tamamen farklı bir arka uç havuzuna yönlendirir. Çok kiracılı (multi-tenant) uygulamalar için idealdir.
+
+![alt text](image-20.png)
 
 #### Ek Özellikler
 * **Yönlendirme (Redirection):** Başka bir siteye veya HTTP'den HTTPS'e otomatik yönlendirme.
@@ -641,6 +648,10 @@ Tek bir Application Gateway örneği üzerinde birden fazla web uygulamasını y
 ---
 
 ### Application Gateway Bileşenleri (Setup Application Gateway Components)
+
+Application Gateway, istekleri bir web sunucuları havuzuna yönlendirmek ve bu web sunucularının durumunu kontrol etmek için bir araya gelen bir dizi bileşene sahiptir.
+
+![alt text](image-21.png)
 
 #### Front-End IP Adresi (Ön Uç IP Adresi)
 İstemci istekleri bir ön uç IP adresi üzerinden alınır. Bir Public IP, bir Private IP veya her ikisi birden yapılandırılabilir. En fazla bir Public ve bir Private IP adresine sahip olabilir.
@@ -811,5 +822,3 @@ output "application_gateway_id" {
   value = azurerm_application_gateway.network.id
 }
 ```
-
-
