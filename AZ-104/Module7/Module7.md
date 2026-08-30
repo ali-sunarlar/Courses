@@ -500,3 +500,98 @@ Bir SAS oluşturulduğunda, Depolama Kaynak URI'si ve SAS belirtecinden (token) 
 | **IP Range (IP Aralığı)** | `sip=168.1.5.60-168.1.5.70` | İstekte bulunmasına izin verilen IP adresi aralığı[cite: 3]. |
 | **Protocol (Protokol)** | `spr=https` | Erişimi yalnızca HTTPS istekleriyle sınırlar[cite: 3]. |
 | **Signature (İmza)** | `sig=F%6GRVAZ...` | SHA256 kullanılarak imzalanacak dize üzerinden hesaplanan ve Base64 ile kodlanan HMAC imzası[cite: 3]. |
+
+
+
+
+# Azure Dosyalarını ve Dosya Eşitlemesini Yapılandırma (Configure Azure Files and File Sync)
+
+## Giriş
+
+### Senaryo
+Şirketinizin tüm birimler tarafından kullanılan büyük bir belge deposu bulunmaktadır[cite: 3]. Ofisleriniz farklı coğrafi bölgelerde yer almakta, ancak belgelere ait en güncel sürümlere erişim sağlaması gerekmektedir[cite: 3].
+Belgeler için merkezi bir konum sağlamak amacıyla Azure Dosya Paylaşımlarını (Azure File shares) yapılandırıyorsunuz[cite: 3]. Bilgilerin birden fazla ofis arasında güncel tutulmasını sağlamak üzere Azure File Sync hizmetini kuruyorsunuz[cite: 3].
+
+### Ölçülen Yetenekler (Skills Measured)
+Azure Dosyalarını ve Azure File Sync'i yapılandırmak, **Exam AZ-104: Microsoft Azure Administrator** sınavının bir parçasıdır[cite: 3].
+* **Depolamayı Uygulama ve Yönetme (%15–20)**[cite: 3]
+* **Azure Dosyalarını ve Azure Blob Depolamasını Yapılandırma:**[cite: 3]
+  * Bir Azure dosya paylaşımı oluşturma[cite: 3].
+  * Azure File Sync oluşturma ve yapılandırma[cite: 3].
+
+### Öğrenme Hedefleri
+Bu modülde şunları öğreneceksiniz:
+* Azure Files ile Azure Blobs kullanım senaryolarını ayırt etme[cite: 3].
+* Azure dosya paylaşımlarını ve dosya paylaşım anlık görüntülerini (snapshots) yapılandırma[cite: 3].
+* Azure File Sync özelliklerini ve kullanım alanlarını belirleme[cite: 3].
+* File Sync bileşenlerini ve yapılandırma adımlarını tanımlama[cite: 3].
+
+### Önkoşullar
+Bulunmamaktadır[cite: 3].
+
+---
+
+## Dosyaları ve Blob'ları Karşılaştırma (Compare Files to Blobs)
+
+Dosya depolama (File storage), endüstri standardı **SMB protokolünü** kullanarak uygulamalar için paylaşımlı depolama imkanı sunar[cite: 3]. Microsoft Azure sanal makineleri ve bulut hizmetleri, bağlı paylaşımlar (mounted shares) aracılığıyla uygulama bileşenleri arasında dosya verilerini paylaşabilir; aynı zamanda şirket içi (on-premises) uygulamalar da paylaşımdaki verilere erişebilir[cite: 3].
+
+Azure sanal makinelerinde veya bulut hizmetlerinde çalışan uygulamalar, dosya verilerine erişmek için bir dosya depolama paylaşımını bağlayabilir (mount)[cite: 3]. Bu işlem, bir masaüstü uygulamasının tipik bir SMB paylaşımını bağlamasına oldukça benzer[cite: 3]. İstediğiniz sayıda Azure sanal makinesi veya rolü, Dosya depolama paylaşımını eşzamanlı olarak bağlayabilir ve erişim sağlayabilir[cite: 3].
+
+### Dosya Depolamanın Yaygın Kullanım Alanları
+* **Değiştirme ve Tamamlama (Replace and Supplement):** Azure Files, geleneksel şirket içi dosya sunucularını (File Server) veya NAS cihazlarını tamamen değiştirmek ya da desteklemek için kullanılabilir[cite: 3].
+* **Her Yerden Erişim (Access Anywhere):** Windows, macOS ve Linux gibi popüler işletim sistemleri, dünyanın neresinde olurlarsa olsunlar Azure Dosya paylaşımlarını doğrudan bağlayabilir[cite: 3].
+* **Buluta Taşıma (Lift and Shift):** Azure Files, dosya veya kullanıcı verilerini depolamak için bir dosya paylaşımı bekleyen uygulamaların buluta taşınmasını ("lift and shift") kolaylaştırır[cite: 3].
+* **Azure File Sync:** Azure Dosya paylaşımları; verilerin kullanıldığı yerel ortamlarda yüksek performans ve dağıtık önbellekleme (distributed caching) sağlamak amacıyla, şirket içindeki veya buluttaki Windows Server'lara Azure File Sync ile çoğaltılabilir (replicate)[cite: 3].
+* **Paylaşılan Uygulamalar (Shared Applications):** Örneğin konfigürasyon dosyalarında bulunan paylaşılan uygulama ayarlarını depolama[cite: 3].
+* **Teşhis Verileri (Diagnostic Data):** Günlükler (logs), metrikler ve çökme dökümleri (crash dumps) gibi teşhis verilerini ortak bir konumda saklama[cite: 3].
+* **Araçlar ve Yardımcı Programlar (Tools and Utilities):** Azure sanal makinelerini veya bulut hizmetlerini geliştirmek ya da yönetmek için gereken araçları saklama[cite: 3].
+
+---
+
+### Dosyalar ve Blob'ların Karşılaştırılması
+
+Bazen blob'lar veya disk paylaşımları yerine dosya paylaşımlarını ne zaman kullanacağınıza karar vermek zor olabilir[cite: 3]. Farklı özellikleri karşılaştıran aşağıdaki tabloyu inceleyebilirsiniz[cite: 3]:
+
+| Özellik | Açıklama | Ne Zaman Kullanılır? |
+| :--- | :--- | :--- |
+| **Azure Files** | Saklanan dosyalara her yerden erişilmesine izin veren bir **SMB arabirimi**, istemci kitaplıkları ve bir **REST arabirimi** sağlar[cite: 3]. | Diğer uygulamalarla veri paylaşmak için yerel dosya sistemi API'lerini kullanan bir uygulamayı buluta taşımak ("lift and shift") istediğinizde[cite: 3]. Birçok sanal makineden erişilmesi gereken geliştirme ve hata ayıklama araçlarını depolamak istediğinizde[cite: 3]. |
+| **Azure Blobs** | Yapılandırılmamış (unstructured) verilerin blok blob'larda devasa ölçekte depolanmasını ve erişilmesini sağlayan istemci kitaplıkları ve bir **REST arabirimi** sağlar[cite: 3]. | Uygulamanızın akış (streaming) ve rastgele erişim senaryolarını desteklemesini istediğinizde[cite: 3]. Uygulama verilerine her yerden erişebilmeyi hedeflediğinizde[cite: 3]. |
+
+**Azure Files'ı seçerken öne çıkan diğer ayırıcı özellikler:**
+* Azure dosya nesneleri **gerçek dizin (directory) nesneleridir**; Azure blob'ları ise düz bir ad alanıdır (flat namespace)[cite: 3].
+* Azure dosyalarına **dosya paylaşımları** üzerinden erişilir; Azure blob'larına ise bir **kapsayıcı (container)** üzerinden erişilir[cite: 3].
+* Azure dosyaları birden fazla sanal makine arasında **paylaşımlı erişim** sağlar; Azure diskleri ise yalnızca tek bir sanal makineye özeldir (exclusive)[cite: 3].
+
+> **Not:** Azure Files, endüstri standardı Server Message Block (SMB) protokolü aracılığıyla erişilebilen, bulutta tamamen yönetilen dosya paylaşımları sunar[cite: 3]. Azure Dosya paylaşımları, Windows, Linux ve macOS'un bulut veya şirket içi dağıtımları tarafından eşzamanlı olarak bağlanabilir[cite: 3].
+
+---
+
+## Dosya Paylaşımlarını Yönetme (Manage File Shares)
+
+Dosyalarınıza erişebilmek için bir depolama hesabına (Storage Account) ihtiyacınız vardır[cite: 3]. Depolama hesabı oluşturulduktan sonra dosya paylaşımı Adı (Name) ve **Kota (Quota)** değerini belirtmeniz gerekir[cite: 3]. Kota, paylaşımdaki dosyaların toplam boyut sınırını ifade eder[cite: 3].
+
+### Dosya Paylaşımlarını Eşleme - Windows (Mapping File Shares)
+Windows veya Windows Server ile Azure dosya paylaşımınıza bağlanabilirsiniz[cite: 3]. Dosya paylaşımı sayfanızdan **Bağlan (Connect)** seçeneğini belirlemeniz yeterlidir[cite: 3].
+
+> **Not:** **Port 445**'in açık olduğundan emin olun[cite: 3]. Azure Files SMB protokolünü kullanır ve SMB, TCP 445 bağlantı noktası üzerinden iletişim kurar[cite: 3]. Ayrıca güvenlik duvarınızın istemci makineden çıkan TCP 445 trafiğini engellemediğini doğrulayın[cite: 3].
+
+### Dosya Paylaşımlarını Bağlama - Linux (Mounting File Shares)
+Azure dosya paylaşımları, **CIFS çekirdek istemcisi (CIFS kernel client)** kullanılarak Linux dağıtımlarına bağlanabilir[cite: 3]. Dosya bağlama işlemi `mount` komutu ile isteğe bağlı (on-demand) olarak yapılabileceği gibi, `/etc/fstab` dosyasına bir girdi eklenerek sistem açılışında kalıcı (persistent) hale de getirilebilir[cite: 3].
+
+### Güvenli Aktarım Gerekliliği (Secure Transfer Required)
+Güvenli aktarım seçeneği, depolama hesabınıza yapılan isteklerin yalnızca güvenli bağlantılar üzerinden kabul edilmesini sağlayarak güvenliği artırır[cite: 3]. Örneğin, depolama hesaplarınıza erişmek için REST API'lerini çağırırken **HTTPS** kullanmanız gerekir[cite: 3]. `Secure transfer required` (Güvenli aktarım gerekli) etkinleştirildiğinde HTTP kullanan tüm istekler reddedilir[cite: 3].
+
+---
+
+## Dosya Paylaşımı Anlık Görüntüleri Oluşturma (Create File Share Snapshots)
+
+Azure Files, dosya paylaşımlarının **anlık görüntülerini (share snapshots)** alma olanağı sağlar[cite: 3]. Paylaşım anlık görüntüleri, verilerinizin belirli bir andaki salt okunur (read-only) kopyasını yakalar[cite: 3].
+
+Anlık görüntü özelliği dosya paylaşımı düzeyinde sağlanır; ancak bireysel dosyaları geri yükleyebilmek için veri kurtarma işlemi dosya bazında gerçekleştirilebilir[cite: 3]. Önce tüm anlık görüntüleri silmediğiniz sürece, üzerinde anlık görüntü bulunan bir paylaşımı silemezsiniz[cite: 3].
+
+Anlık görüntüler **artımlı (incremental)** yapıdadır[cite: 3]. Yalnızca en son anlık görüntünüzden sonra değişen veriler kaydedilir[cite: 3]. Artımlı anlık görüntüler, snapshot oluşturma süresini en aza indirir ve depolama maliyetlerinden tasarruf sağlar[cite: 3]. Anlık görüntüler artımlı olarak saklansa bile, paylaşımı tamamen geri yüklemek için yalnızca en son anlık görüntüyü tutmanız yeterlidir[cite: 3].
+
+### Anlık Görüntüler Ne Zaman Kullanılır?
+* **Uygulama Hatalarına ve Veri Bozulmalarına Karşı Koruma:** Dosya paylaşımlarını kullanan uygulamalar yazma, okuma, depolama ve işleme gibi işlemler yürütür[cite: 3]. Bir uygulama yanlış yapılandırıldığında veya bir kod hatası (bug) oluştuğunda kazara veri üzerine yazma veya veri bozulması yaşanabilir[cite: 3]. Yeni uygulama kodunu dağıtmadan önce bir anlık görüntü alarak bu senaryolara karşı koruma sağlayabilirsiniz[cite: 3]. Dağıtımla birlikte bir hata oluşursa verilerinizin önceki sürümüne geri dönebilirsiniz[cite: 3].
+* **Yanlışlıkla Silmelere veya İstenmeyen Değişikliklere Karşı Koruma:** Bir dosya paylaşımındaki metin dosyası üzerinde çalıştığınızı ve dosyayı kapattıktan sonra değişiklikleri geri alma yeteneğinizi kaybettiğinizi düşünün[cite: 3]. Dosya kazara yeniden adlandırılırsa veya silinirse, önceki sürümünü kurtarmak için paylaşım anlık görüntülerini kullanabilirsiniz[cite: 3].
+* **Genel Yedekleme Amaçları:** Bir dosya paylaşımı oluşturduktan sonra, bunu veri yedeklemesi olarak kullanmak için periyodik olarak anlık görüntüler oluşturabilirsiniz[cite: 3]. Düzenli alınan anlık görüntüler, gelecekteki denetim gereksinimleri veya felaket kurtarma (disaster recovery) için kullanılabilecek geçmiş veri sürümlerinin korunmasına yardımcı olur[cite: 3].
