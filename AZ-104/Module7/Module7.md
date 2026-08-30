@@ -570,13 +570,19 @@ Bazen blob'lar veya disk paylaşımları yerine dosya paylaşımlarını ne zama
 
 Dosyalarınıza erişebilmek için bir depolama hesabına (Storage Account) ihtiyacınız vardır[cite: 3]. Depolama hesabı oluşturulduktan sonra dosya paylaşımı Adı (Name) ve **Kota (Quota)** değerini belirtmeniz gerekir[cite: 3]. Kota, paylaşımdaki dosyaların toplam boyut sınırını ifade eder[cite: 3].
 
+![alt text](image-7.png)
+
 ### Dosya Paylaşımlarını Eşleme - Windows (Mapping File Shares)
 Windows veya Windows Server ile Azure dosya paylaşımınıza bağlanabilirsiniz[cite: 3]. Dosya paylaşımı sayfanızdan **Bağlan (Connect)** seçeneğini belirlemeniz yeterlidir[cite: 3].
+
+![alt text](image-8.png)
 
 > **Not:** **Port 445**'in açık olduğundan emin olun[cite: 3]. Azure Files SMB protokolünü kullanır ve SMB, TCP 445 bağlantı noktası üzerinden iletişim kurar[cite: 3]. Ayrıca güvenlik duvarınızın istemci makineden çıkan TCP 445 trafiğini engellemediğini doğrulayın[cite: 3].
 
 ### Dosya Paylaşımlarını Bağlama - Linux (Mounting File Shares)
 Azure dosya paylaşımları, **CIFS çekirdek istemcisi (CIFS kernel client)** kullanılarak Linux dağıtımlarına bağlanabilir[cite: 3]. Dosya bağlama işlemi `mount` komutu ile isteğe bağlı (on-demand) olarak yapılabileceği gibi, `/etc/fstab` dosyasına bir girdi eklenerek sistem açılışında kalıcı (persistent) hale de getirilebilir[cite: 3].
+
+![alt text](image-9.png)
 
 ### Güvenli Aktarım Gerekliliği (Secure Transfer Required)
 Güvenli aktarım seçeneği, depolama hesabınıza yapılan isteklerin yalnızca güvenli bağlantılar üzerinden kabul edilmesini sağlayarak güvenliği artırır[cite: 3]. Örneğin, depolama hesaplarınıza erişmek için REST API'lerini çağırırken **HTTPS** kullanmanız gerekir[cite: 3]. `Secure transfer required` (Güvenli aktarım gerekli) etkinleştirildiğinde HTTP kullanan tüm istekler reddedilir[cite: 3].
@@ -587,6 +593,8 @@ Güvenli aktarım seçeneği, depolama hesabınıza yapılan isteklerin yalnızc
 
 Azure Files, dosya paylaşımlarının **anlık görüntülerini (share snapshots)** alma olanağı sağlar[cite: 3]. Paylaşım anlık görüntüleri, verilerinizin belirli bir andaki salt okunur (read-only) kopyasını yakalar[cite: 3].
 
+![alt text](image-10.png)
+
 Anlık görüntü özelliği dosya paylaşımı düzeyinde sağlanır; ancak bireysel dosyaları geri yükleyebilmek için veri kurtarma işlemi dosya bazında gerçekleştirilebilir[cite: 3]. Önce tüm anlık görüntüleri silmediğiniz sürece, üzerinde anlık görüntü bulunan bir paylaşımı silemezsiniz[cite: 3].
 
 Anlık görüntüler **artımlı (incremental)** yapıdadır[cite: 3]. Yalnızca en son anlık görüntünüzden sonra değişen veriler kaydedilir[cite: 3]. Artımlı anlık görüntüler, snapshot oluşturma süresini en aza indirir ve depolama maliyetlerinden tasarruf sağlar[cite: 3]. Anlık görüntüler artımlı olarak saklansa bile, paylaşımı tamamen geri yüklemek için yalnızca en son anlık görüntüyü tutmanız yeterlidir[cite: 3].
@@ -595,3 +603,84 @@ Anlık görüntüler **artımlı (incremental)** yapıdadır[cite: 3]. Yalnızca
 * **Uygulama Hatalarına ve Veri Bozulmalarına Karşı Koruma:** Dosya paylaşımlarını kullanan uygulamalar yazma, okuma, depolama ve işleme gibi işlemler yürütür[cite: 3]. Bir uygulama yanlış yapılandırıldığında veya bir kod hatası (bug) oluştuğunda kazara veri üzerine yazma veya veri bozulması yaşanabilir[cite: 3]. Yeni uygulama kodunu dağıtmadan önce bir anlık görüntü alarak bu senaryolara karşı koruma sağlayabilirsiniz[cite: 3]. Dağıtımla birlikte bir hata oluşursa verilerinizin önceki sürümüne geri dönebilirsiniz[cite: 3].
 * **Yanlışlıkla Silmelere veya İstenmeyen Değişikliklere Karşı Koruma:** Bir dosya paylaşımındaki metin dosyası üzerinde çalıştığınızı ve dosyayı kapattıktan sonra değişiklikleri geri alma yeteneğinizi kaybettiğinizi düşünün[cite: 3]. Dosya kazara yeniden adlandırılırsa veya silinirse, önceki sürümünü kurtarmak için paylaşım anlık görüntülerini kullanabilirsiniz[cite: 3].
 * **Genel Yedekleme Amaçları:** Bir dosya paylaşımı oluşturduktan sonra, bunu veri yedeklemesi olarak kullanmak için periyodik olarak anlık görüntüler oluşturabilirsiniz[cite: 3]. Düzenli alınan anlık görüntüler, gelecekteki denetim gereksinimleri veya felaket kurtarma (disaster recovery) için kullanılabilecek geçmiş veri sürümlerinin korunmasına yardımcı olur[cite: 3].
+
+
+
+## Azure File Sync Hizmetini Uygulama (Implement File Sync)
+
+### Giriş
+
+Azure File Sync, kuruluşunuzun dosya paylaşımlarını Azure Files'ta merkezileştirirken şirket içi (on-premises) dosya sunucusunun esnekliğini, performansını ve uyumluluğunu korumanızı sağlar[cite: 1, 2]. Azure File Sync, Windows Server'ı Azure dosya paylaşımınızın hızlı bir önbelleğine (quick cache) dönüştürür[cite: 1, 2]. SMB, NFS ve FTPS dahil olmak üzere Windows Server'da bulunan herhangi bir protokolü verilerinize yerel olarak erişmek için kullanabilirsiniz[cite: 1, 2]. Dünya genelinde ihtiyacınız olduğu kadar önbelleğe sahip olabilirsiniz[cite: 1, 2].
+
+![alt text](image-11.png)
+
+---
+
+### Azure File Sync Avantajları ve Kullanım Alanları
+
+1. **Buluta Taşıma (Lift and Shift):** Şirket içi sistemler ile Azure arasında erişim gerektiren uygulamaları taşıma imkanı sunar[cite: 1, 2]. Windows Server'lar ve Azure Files genelinde aynı veriye yazma erişimi sağlar[cite: 1, 2]. Bu sayede birden fazla ofisi olan şirketler, dosyaları tüm lokasyonlarla kolayca paylaşabilir[cite: 1, 2].
+2. **Şube Ofisleri (Branch Offices):** Şube ofislerinin dosyalarını yedeklemesi veya Azure depolamaya bağlanacak yeni bir sunucunun kurulması gerektiğinde kullanılır[cite: 1, 2].
+3. **Yedekleme ve Felaket Kurtarma (Backup and Disaster Recovery):** File Sync uygulandıktan sonra Azure Backup şirket içi verilerinizi yedekler[cite: 1, 2]. Ayrıca hızlı felaket kurtarma için dosya üstverilerini (metadata) anında geri yükleyebilir ve ihtiyaç duyulduğunda verileri geri çağırabilirsiniz (recall)[cite: 1, 2].
+4. **Dosya Arşivleme ve Bulut Katmanlama (File Archiving & Cloud Tiering):** Yalnızca yakın zamanda erişilen veriler yerel sunucularda tutulur[cite: 1, 2]. Kullanılmayan veriler **Cloud Tiering (Bulut Katmanlama)** özelliğiyle Azure'a taşınır[cite: 1, 2].
+
+> **Not:** **Cloud Tiering**, sık erişilen dosyaların yerel olarak önbelleğe alındığı, diğer tüm dosyaların ise ilke ayarlarına göre Azure Files'a katmanlandığı isteğe bağlı bir özelliktir[cite: 1, 2]. Bir dosya katmanlandığında yerel dosya sistemi bunu bir yönlendirici (pointer / reparse point) ile değiştirir[cite: 1, 2]. Kullanıcı dosyayı açtığında Azure File Sync veriyi hissettirmeden geri çağırır[cite: 1, 2]. Katmanlanmış dosyalar, yalnızca Azure'da olduklarını belirtmek için gri simgelere ve çevrimdışı `O` (offline) dosya özniteliğine sahiptir[cite: 1, 2].
+
+---
+
+### File Sync Bileşenleri (Identify File Sync Components)
+
+![alt text](image-12.png)
+
+* **Storage Sync Service (Depolama Eşitleme Hizmeti):** Azure File Sync için en üst düzey Azure kaynağıdır[cite: 1, 2]. Birden fazla eşitleme grubu aracılığıyla birden fazla depolama hesabı ile eşitleme ilişkileri kurabilir[cite: 1, 2]. Bir abonelikte birden fazla Storage Sync Service bulunabilir[cite: 1, 2].
+* **Sync Group (Eşitleme Grubu):** Bir dosya kümesi için eşitleme topolojisini tanımlar[cite: 1, 2]. Bir eşitleme grubu içindeki uç noktalar birbiriyle eşzamanlı tutulur[cite: 1, 2].
+* **Registered Server (Kayıtlı Sunucu):** Sunucunuz (veya kümeniz) ile Storage Sync Service arasındaki güven ilişkisini temsil eder[cite: 1, 2]. Bir sunucu aynı anda yalnızca bir Storage Sync Service'e kaydedilebilir[cite: 1, 2].
+* **Azure File Sync Agent (Ajanı):** Windows Server'ın bir Azure dosya paylaşımıyla eşsenkronize edilmesini sağlayan indirilebilir bir pakettir[cite: 1, 2]. Üç temel bileşeni vardır:
+  * **FileSyncSvc.exe:** Sunucu uç noktalarındaki değişiklikleri izleyen ve Azure'a eşitleme oturumlarını başlatan arka plan Windows hizmeti[cite: 1, 2].
+  * **StorageSync.sys:** Cloud Tiering etkinleştirildiğinde dosyaları Azure Files'a katmanlamaktan sorumlu dosya sistemi filtresi[cite: 1, 2].
+  * **PowerShell Yönetim Cmdlet'leri:** `Microsoft.StorageSync` kaynak sağlayıcısı ile etkileşim kurmak için kullanılan PowerShell komutları[cite: 1, 2].
+* **Server Endpoint (Sunucu Uç Noktası):** Kayıtlı bir sunucudaki belirli bir konumu (örneğin bir birimdeki klasörü) temsil eder[cite: 1, 2]. Ad alanları çakışmadığı sürece aynı birimde birden fazla uç nokta olabilir (ör. `F:\sync1` ve `F:\sync2`)[cite: 1, 2].
+  * **Sistem Birimi (System Volume - C:\) Sınırlamaları:** Sistem biriminde bir sunucu uç noktası oluşturulabilir ancak **Cloud Tiering etkinleştirilemez** ve **hızlı ad alanı geri yüklemesi (rapid namespace restore) gerçekleştirilemez**[cite: 1, 2].
+* **Cloud Endpoint (Bulut Uç Noktası):** Bir eşitleme grubunun parçası olan Azure dosya paylaşımıdır[cite: 1, 2]. Bir Azure dosya paylaşımı yalnızca bir bulut uç noktası ve dolayısıyla tek bir eşitleme grubunun üyesi olabilir[cite: 1, 2].
+
+---
+
+### File Sync Kurulum Adımları (Setup File Sync)
+
+![alt text](image-13.png)
+
+1. **Storage Sync Service Dağıtımı:** Azure Portal üzerinden İsim, Abonelik, Kaynak Grubu ve Bölge bilgileri girilerek dağıtılır[cite: 1, 2].
+2. **Windows Server'ı Hazırlama:** Sunucularda Internet Explorer Artırılmış Güvenlik Yapılandırmasının (IE ESC) geçici olarak kapatılması ve güncel PowerShell sürümünün doğrulanması gerekir[cite: 1, 2].
+3. **Azure File Sync Agent Kurulumu:** Ajan paketi sunucuya yüklenir[cite: 1, 2]. Varsayılan yükleme yolunun korunması ve Microsoft Update'in etkin tutulması önerilir[cite: 1, 2].
+4. **Sunucuyu Storage Sync Service'e Kaydetme:** Kurulum tamamlandığında Sunucu Kayıt Arayüzü (Server Registration UI) açılır[cite: 1, 2]. Abonelik Kimliği, Kaynak Grubu ve Storage Sync Service seçilerek güven ilişkisi kurulur[cite: 1, 2].
+
+![alt text](image-14.png)
+
+---
+
+### Terraform Uygulama Örneği
+
+Söz konusu altyapıyı ve bulut uç noktasını kod olarak tanımlamak için aşağıdaki Terraform örneği kullanılabilir:
+
+```hcl
+# Storage Sync Service Dağıtımı
+resource "azurerm_storage_sync" "sync" {
+  name                = "st-sync-service"
+  resource_group_name = "rg-storage-prod"
+  location            = "westeurope"
+}
+
+# Sync Group Tanımlaması
+resource "azurerm_storage_sync_group" "sync_group" {
+  name                  = "sync-group-kurumsal"
+  storage_sync_id       = azurerm_storage_sync.sync.id
+}
+
+# Cloud Endpoint Entegrasyonu
+resource "azurerm_storage_sync_cloud_endpoint" "cloud_endpoint" {
+  name                  = "cloud-endpoint-01"
+  storage_sync_group_id = azurerm_storage_sync_group.sync_group.id
+  file_share_name       = "kurumsal-belgeler"
+  storage_account_id    = "/subscriptions/.../storageAccounts/stfilesyncprod001"
+}
+``` 
+
