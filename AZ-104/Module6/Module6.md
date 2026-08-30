@@ -605,6 +605,8 @@ AZ-104 (Microsoft Azure Administrator) sertifikasyon sınavının altıncı mod�
 
 Azure Application Gateway, istemci uygulamalarının bir web uygulamasına gönderdiği istekleri yöneten **OSI Katman 7 (Uygulama Katmanı)** yük dengeleyicisidir. 
 
+![alt text](image-18.png)
+
 #### Temel Çalışma Mantığı ve Özellikler
 * **Katman 7 Yönlendirme:** Ağ trafiğini bir isteğin URL'sine, host adına veya yoluna (path) göre web sunucu havuzlarına yönlendirir. (Azure Load Balancer OSI Katman 4'te IP ve Port seviyesinde çalışırken, Application Gateway Katman 7'de çalışır).
 * **Yük Dengeleme Algoritması:** Arka uç havuzundaki sunuculara gelen istekleri **Round-Robin** kullanarak dağıtır.
