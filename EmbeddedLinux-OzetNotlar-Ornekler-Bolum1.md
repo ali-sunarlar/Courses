@@ -1,4 +1,4 @@
----
+
 
 # C ve Sistem Programcıları Derneği
 
@@ -20,13 +20,13 @@ C ve Sistem Programcıları Derneği, İstanbul.
 
 # Son Güncelleme: 24/04/2025 - Cuma
 
----
 
----
+
+
 # 1. Ders 05/03/2024 - Salı
----
 
----
+
+
 Kurs için gerekli olabilecek malzemeler şunlardır:
 
 - Raspberry Pi SBC (Single Board Computer): Version 3, 4 ya da 5 olabilir. Yeni satın alacakların Raspberry Pi 5 almalarını 
@@ -69,17 +69,17 @@ Ancak BeagleBone Black USB kablo ile PC’den de güç alabilmektedir.
 - USB Uzatma Kablosu Gerekebilir.
 
 - Ethernet RJ45 Kablosu: Eğer SBC'nin wireless özelliği varsa buna gerek duymayabilirsiniz.
----
 
----
+
+
 # 2. Ders 07/03/2024 - Perşembe
----
 
----
+
+
 Kursumuzun giriş bölümünde çeşitli kavramları ve terimleri açıklayacağız.
----
 
----
+
+
 Asıl amacı bilgisayar olmayan fakat bilgisayar devresi içeren sistemlere genel olarak gömülü sistemler (embedded systems) 
 denilmektedir. Yani gömülü sistemler başka amaçları gerçekleştirmek için tasarlanmış olan aygıtların içerisindeki bilgisayar
 sistemleridir. Örneğin elektronik tartılar, biyomedikal aygıtlar, GPS cihazları, turnike geçiş sistemleri (validatörler), 
@@ -159,18 +159,18 @@ Gömülü sistemlerde genel olarak üç işlem birimi kullanılmaktadır:
 1. Mikrodenetleyiciler
 2. Mikroişlemciler
 3. DSP'ler
----
 
----
+
+
 Bir bilgisayar sisteminde aritmetik, mantıksal, bitsel işlemler ve karşılaştırma gibi bilgi işlem faaliyetleri işlemleri 
 "mikroişlemci (microprocessor)" denilen birim tarafından yapılmaktadır. Mikroişlemciler entegre devre biçiminde üretilmişlerdir. 
 Mikroişlemcilere kavramsal olarak CPU (Central Processing Unit) de denilmektedir. Aslında genel amaçlı bir bilgisayar sisteminde 
 komut çalıştıran pek çok işlemci bulunabilmektedir. CPU bu işlemcileri de programlayan "merkezi (central)" işlemcidir. Bilgisayar 
 sisteminde yerel bazı işlemlerden sorumlu yardımcı işlemciler de vardır. Örneğin "kesme denetleyicisi (interrupt controller)", 
 "disk denetleyicisi (disk controller)", "DMA denetleyicisi (DMA controller)" gibi.
----
 
----
+
+
 Mikrodenetleyiciler tek bir chip içerisine yerleştirilmiş bir bilgisayar sistemi gibi düşünülebilirler. Tipik olarak bir 
 mikrodenetleyicide bir "işlemci (processor)", kendi içerisinde "RAM ve Flash EPROM", dış dünya ile haberleşmek için kullanılan 
 "Giriş/Çıkış (IO) birimleri" ve bazı "çevre birimleri (peripherals)" bulunmaktadır. Mikrodenetleyicilere İngilizce "Microcontroller" 
@@ -186,9 +186,9 @@ avantajlarındandır. Gömülü uygulamalarda kullanılan pek çok mikrodenetley
 - ARM Mikrodenetleyici Ailesi (Tasarımcısı ARM Holding, ancak çok çeşitli firmalar tarafından üretiliyor)
 - AVR Mikrodenetleyici Ailesi (Atmel, ancak Atmel firması 2016'da Microchip tarafından satın alındı)
 - MSP Mikrodenetleyici Ailesi (Texas Instruments)
----
 
----
+
+
 Bazı firmalar ayrı birimler olarak tasarlanmış mikroişlemcileri, RAM'leri, ROM’ları ve diğer bazı çevre birimlerini tek bir 
 entegre devrenin içerisine sıkıştırmaktadır. Bunlara genel olarak "SoC (System on Chip)" denilmektedir. SoC mikrodenetleyicilere 
 benzese de aslında onlardan farklıdır. SoC’lar içerisindeki işlemcilerin ve belleklerin kapasiteleri yüksektir. Bunlar özel 
@@ -197,9 +197,9 @@ az yer kaplamasıdır. Örneğin Raspberry Pi kitlerinde Broadcom isimli firman�
 çipleri kullanılmıştır. SoC'ların RAM ve ROM bellek içermesi zorunlu değildir. Bazı SoC'lar RAM içerirken bazıları içermeyebilmektedir. 
 Örneğin Raspberry Pi 1, 2, 3 modellerinde kullanılan SoC'lar RAM içerirken Raspberry Pi 4 ve 5 modellerinde kullanılan SoC'lar 
 RAM içermemektedir.
----
 
----
+
+
 SoC kavramına benzer diğer bir kavram da "SoM (System on Module)" kavramıdır. SoM bir işlemci ve onunla ilişkili bazı birimlerin
 monte edildiği kartları belirtmek için kullanılmaktadır. SoM'lar SoC'ları içerebilir. Ancak başka birimleri de içerebilir. 
 Örneğin bir SoM bir işlemci, buna ilişkin RAM, IO denetleyicisi (IO controllers) içeren bir kart olabilir. Örneğin "Raspberry Pi
@@ -207,17 +207,17 @@ Pico" ve "Raspberry Pi Compute Module" birer SBC'den ziyade birer SoM olarak ele
 SBC arasında bir yerde konumlandırabilirsiniz. SoM terimine yakın başka bir kavram da "modül (module)"  kavramıdır. 
 Modül bir kart üzerine yerleştirilmiş çeitli bileşenlerden oluşan devrelere denilmektedir. Örneğin bir RTC kartına RTC 
 modülü ya da bir GPS kartına GPS modülü de denilmektedir. 
----
 
----
+
+
 Küçük bir kit (baskılı devre) üzerine monte edilmiş bilgisayarlara SBC (Single Board Computer) denilmektedir. Genellikle 
 bu kitlerde SoC'lar, RAM'ler, başka çevre birimleri ve IO işlemleri için uçlar bulunmaktadır. Örneğin Raspberry Pi’lar,
 Beagleboard’lar SBC'lere örnek verilebilir. SBC'ler klavye, fare ve monitör takılarak bir masaüstü bilgisayar gibi 
 kullanılabilmektedir. SBC'ler masaüstü bilgisayarlar gibi de kullanılabildiğinden bunlara Linux başta olmak üzere, Android 
 ve Windows gibi işletim sistemleri yüklenebilmektedir.
----
 
----
+
+
 Mikroişlemcileri tasarım mimarilerine göre CISC (Complex Instruction Set Computers) ve RISC (Reduced Instruction Set Computers) 
 olmak üzere iki kısma ayırabiliriz. CISC ailesi işlemcilere Intel firmasının x86 ailesi işlemcilerini örnek verebiliriz. 
 ARM, MIPS, PowerPC, Itanium gibi işlemciler ise tipik RISC işlemcileridir. Her ne kadar CISC ve RISC isimleri komut kümesi 
@@ -311,13 +311,13 @@ olarak birbirinden çok farklılaşmaktadır.
 RISC ve CISC mimarilerini bir spektrum olarak düşünmek gerekir. Örneğin MIPS işlemcileri ARM işlemcilerine göre bu spektrumun 
 daha fazla RISC tarafındadır. Intel'in x86 işlemcilerini kategori olarak CISC grubu işlemciler olarak ele alsak da Pentium 
 işlemcileri ile birlikte bu işlemcilerde de RISC prensipleri gittikçe daha fazla kullanılır hale gelmiştir.
----
 
----
+
+
 # 3. Ders 12/03/2024 - Salı
----
 
----
+
+
 ARM işlemcilerinin tarihi "Acorn Computer" isimli İngiliz firmasına dayanmaktadır. Bu firma 80’li yılların başlarında 
 "BBC Micro" isimli 64K’lık ev bilgisayarlarını yapmıştı. Bu bilgisayarlarda Rockwell’in 8 bitlik 6502 işlemcileri kullanılıyordu. 
 Firma daha sonra "Berkeley RISC" projesinden etkilenerek kendi RISC işlemcilerini yapmaya odaklandı. Böylece ilk ARM modelleri 
@@ -328,9 +328,9 @@ Acorn ise az sayıda tasarım mühendisini bu yeni firmaya aktarmıştır. 2016 
 bölümünü aldı. 2018'de ARM'ın Çin şubesinin yarısından fazlasını "Chine Investment" şirketine sattı. 2020'de "NVidia", ARM'ı 
 SoftBank Group'tan satın almak istediyse de satış gerçekleşmedi. Bugün "SoftBank Group" ARM'ın %90 civarındaki hisselerine 
 sahiptir. Geri kalan hisseleri kurucu ortaklarda ve halka arzdadır.
----
 
----
+
+
 ARM (İngilizce'de de "ey ar em" biçiminde değil "arm" biçiminde okuyorlar) bir tasarım firmasıdır. Yani fabrikalara sahip 
 değildir. ARM yaptığı tasarımları lisanslandırarak üretici firmalara satmaktadır. ARM'ın uyguladığı dört tür lisans vardır:
 
@@ -346,9 +346,9 @@ kullanarak üretim yapabilirler ancak onu özelleştiremezler.
 
 Geliştirici Lisansı (Development License): Bu lisans ARM'nin tasarım araçlarına erişim sağlayan bir lisanstır. Müşteri 
 bu araçları kullanarak kendi işlemcilerini tasarlayabilir.
----
 
----
+
+
 ARM dünyasında çalışmak için bazı terimler hakkında bilgi sahibi olmak gerekir. ARM firması kendine özgü terimler uydurmuştur.
 Bu dünyada en çok karşılaşılan terimler "core", "cortex" ve "version" terimleridir.
 
@@ -390,9 +390,9 @@ kullanan cortex'ler 32 bitlik işlemciler içermektedir. ARMv8-A versiyonları i
 versiyonları kullanan cortex'ler 64 bitlik işlemcilere ilişkindir. Ancak ARM cortex'lerinin bir grubu hem 32 bit hem de 64 
 bit olarak kullanılabilmektedir. Bu cortex'lerdeki işlemcileri kullanan işletim sistemleri 32 bitlik ve 64 bitlik programları 
 zaman paylaşımlı olarak bir arada çalıştırabilmektedir.
----
 
----
+
+
 Mikroişlemciler ilk çıktığında 8 bit işlemleri yapabiliyordu (örneğin 8080, 6800 gibi işlemciler). Bunlara 8 bitlik mikroişlemci 
 deniyordu. Sonra 16 bitlik mikroişlemciler çıktı (örneğin Intel'in 8086, 8088 işlemcileri gibi). Bunu 32 bit işlemciler izledi. 
 Günümüzde artık ağırlıklı olarak 64 bit işlemciler kullanılmaktadır. Peki bir işlemcinin N bitlik olmasının anlamı nedir? 
@@ -424,9 +424,9 @@ Peki 128 bitlik işlemciler tasarlansa, bunlar daha hızlı bir çalışma sunma
 İşte 128 bitlik tamsayı işlemlerine çok nadir gereksinim duyulmaktadır. 2^128 uzunluğunda RAM zaten şu an için erişilmesi 
 imkansız bir RAM miktarıdır. O halde işlemcilerin 64 bitten 128 bite çıkartılmasının şu an için önemli bir faydası olmayacaktır.
 Ancak tabii gelecekte böyle bir ihtiyaç ortaya çıkabilecektir.
----
 
----
+
+
 Popüler ürünlerde kullanılan ARM cortex'leri şunlardır:
 
 iPhone 14: Apple'ın A15 isimli SoC'unu kullanmaktadır. Bu SoC'un içerisinde Apple'ın ARMv8.6‑A versiyonunu kullanan Avalanche 
@@ -449,9 +449,9 @@ Cortex A715 bulunmaktadır.
 
 Redmi Note 11: Xiaomi firmasının ürünüdür. Qualcomm Snapdragon-685 SoC'unu kullanmaktadır. Bu SoC'un içerisinde ARMv8.2-A 
 versiyonuna ilişkin Cortex A78 bulunmaktadır.
----
 
----
+
+
 Bu kursta kullanacağımız SBC'lerin üzerinde bulunan ARM cortex'leri ve bunların versiyon numaraları da şöyledir:
 
 Raspberry Pi 3: BCM2837 SoC'u kullanılmıştır. Bu SoC'un içerisinde ARMv8-A versiyonuna ilişkin Cortex-A53 bulunmaktadır.
@@ -470,13 +470,13 @@ BeagleBone Black 4G ve BeagleBone Black Wireless: Texas Instruments firmasının
 SoC'un içerisinde Cortex-A8 kullanılmıştır. Bu cortex 32 bit işlemcilerden oluşmaktadır. Bunların kullandığı komut mimarisi 
 de ARMv7-A'dır. BeagleBone Black'ler 32 bit ARM işlemcilerini kullandığı için bunlara yalnızca 32 bit Linux sistemleri
 yüklenebilmektedir.
----
 
----
+
+
 # 4. Ders 14/03/2024 - Perşembe
----
 
----
+
+
 Şimdi de Raspberry Pi 5 donanımını inceleyelim. Kartın üzerinde BCM2712 SoC'u hemen dikkati çekmektedir. Bu SoC'un hemen 
 yanında RAM chip'i bulunmaktadır. Raspberyy Pi 5'in 1 GB, 2 GB, 4 GB ve 8 GB RAM'li modelleri vardır. Raspberry Pi 5 modelinde 
 toplam 4 USB soketi bulunmaktadır. Bunlardan iki tanesi USB 2.0, diğer 2 tanesi de USB 3.0'dır. Klavye ve fare gibi 
@@ -496,15 +496,15 @@ https://grobotronics.com/raspberry-pi-5-4gb.html
 
 Raspberry Pi'ın resmi iki sitesi raspberrypi.com ve raspberrypi.org siteleridir. Raspberry Pi ile ilgili tüm dokümanlar 
 https://www.raspberrypi.com/documentation/ bağlantısından elde edilebilir.
----
 
----
+
+
 Raspberry Pi bir proje olarak özellikle az gelişmiş ülkelerde düşük fiyatlı bilgisayar oluşturmayı hedeflemiştir. Dolayısıyla
 biz Raspberry Pi'ı tamamen Linux tabanlı bir kişisel bilgisayar olarak kullanabiliriz. Kursumuzda önce Raspberry Pi'ın 
 kişisel bilgisayar olarak nasıl kullanıldığı üzerinde duracağız.
----
 
----
+
+
 Raspberry Pi için birkaç işletim sistemi oluşturulmuştur. Ancak bunlardan en yaygın kullanılan ikisi Linux'un "Raspberry Pi 
 OS (eski ismiyle Raspbian)" ve "Ubuntu" dağıtımlarıdır. Raspberry Pi ile tam uyum içinde olan ana dağıtım "Raspberry Pi OS"
 dağıtımıdır. Biz sizlerinde de "Raspberry Pi OS" ve "Ubuntu" dağıtımlarını ayrı micro SD kartlara yüklemenizi tavsiye ediyoruz.
@@ -518,9 +518,9 @@ hazır hale getirir. Sonra boot loader'ın işletim sisteminin yüklenmesinden s
 bu kısmı işletim sistemini yükler. Zaten bu konular ileride ayrıntılarıyla ele alınacaktır. Bizim bu aşamada bilmemiz gereken 
 şey işletim sistemimizin micro SD karta nasıl yükleneceğidir. Çünkü bu işlem yapıldıktan sonra artık her şey otomatik 
 gerçekleşmektedir.
----
 
----
+
+
 Micro SD kartımıza işletim sisteminin yüklenmesi gelişi güzel yapılacak bir işlem değildir. Çünkü belli programların disk 
 üzerinde belli sektörlerde bulunuyor olması gerekmektedir. Bunu sağlamanın basit bir yolu önceden hazırlanmış bir imaj dosyasını 
 micro SD kartımıza aktarmaktır. Raspberry Pi için bu imaj dosyaları hazır bir biçimde zaten bulunmaktadır. O halde bizim 
@@ -556,13 +556,13 @@ Artık her şey hazırdır. Bundan sonra şu bağlantıları yapmalısınız:
 2. Monitörünüzü Raspberry Pi'ınızın micro HDMI soketine takınız.
 3. Klavye ve farenizi Raspberry Pi'ınızın USB soketlerine takınız.
 4. USB Type-C soketi ile Raspberry Pi'ınıza güç veriniz.
----
 
----
+
+
 # 5. Ders 19/03/2024 - Salı
----
 
----
+
+
 Gömülü sistemimize Linux'u kurduktan sonra ona başka bir makineden erişmek isteyebiliriz. Bunun çeşitli yolları varsa da 
 en çok kullanılan yöntemler şunlardır:
 
@@ -642,9 +642,9 @@ protokol için başka client programlar da bulunmaktadır.
 VNC ve RDP protokolleri hem Linux sistemlerinde hem de Windows ve macOS sistemlerinde kullanılabilmektedir. Windows dünyasında
 RDP programları VNC programlarına göre daha hızlı bir biçimde çalışmaktadır. Ancak Linux'ta VNC programları RDP programlarına 
 göre daha hızlıdır.
----
 
----
+
+
 BeagleBoard'lar en yaygın kullanılan SBC'ler arasındadır. Biz de kursumuz Beaglebone Black (BBB) kullanacağımızı söylemiştik.
 BBB'nin dokümantasyonuna aşağıdaki bağlantıdan erişilebilir:
 
@@ -700,13 +700,13 @@ BBB'deki Linux sisteminin masaüstü host makinemizdeki interneti kullanabilmesi
 ayarların da yapılması gerekmektedir. Tabii BBB'nin interneti kullanabilmesini sağlamanın en normal ve hızlı yolu doğrudan 
 ADSL Router'ımızdan gelen Ethernet RJ45 jakını BBB'ye takmaktır. Biz "Internet over USB" yerine bu yöntemi kullanmanızı 
 öneriririz.
----
 
----
+
+
 # 6. Ders 21/03/2024 - Perşembe
----
 
----
+
+
 BBB'ni on-board flash belleğine işletim sisteminin yeni bir sürümünü yerleştirebiliriz. Aslında Beagleboard için hazır imajlar
 zaten bulundurulmaktadır. Aşağıdaki bağlantıdan size uygun olan hazır imajları indirebilirsiniz:
 
@@ -740,9 +740,9 @@ tamamen söner. (Boot düğmeciği Micro SD kartın yanındaki (USB portun bulun
 5. SD kart çıkartılarak sistem yeniden boot edilir. Artık on-board flash üzerine çektiğimiz işletim sistemi ile boot işlemini
 yapmış olduk. Ancak bizim indirdiğimiz imaj İngilizce (US) olarak ayarlanmıştır. Dolayısıyla default klavye ayarları da 
 İngilizce klavye biçimindedir.
----
 
----
+
+
 Debian türevi sistemlerde klavye ayarlarını değiştirmenin birkaç yolu vardır. Öncelikle locale ayarlarının Türkiye ve Türkçe 
 biçiminde yapılmasını tavsiye ederiz. Çünkü BBB için hazır bulundurulan Debian dağıtımında default locale ayarları Amerika 
 ve İngilizce biçimindedir. Bunu sağlamanın bir yolu aşağıdaki komutu kullanmaktadır:
@@ -835,17 +835,17 @@ sudo update-initramfs -u
 
 Diğer yolu ise sistem boot edildiğinde otomatik olarak bu "setupcon" programının çalıştırılmasını sağlamaktır. Bu konular 
 ileride ele alınacaktır.
----
 
----
+
+
 Yukarıdaki ayarlama işlemlerinden de görüldüğü gibi aslında birtakım ayarlar "/etc" dizinin altındaki çeşitli dosyalarda 
 saklanmaktadır. Çeşitli programlar da ayarları bu dosyalara bakarak set etmektedir. Microsoft eskiden Linux'takilere benzer
 ismine ".ini dosyaları" denilen ayar dosyalarını kullanıyordu. Daha sonra "registry" denilen tüm ayarların saklandığı mini 
 bir hiyerarşik veritabanı sistemine geçti. Ancak UNIX/Linux sistemlerinde böyle bir merkezi ayar sistemi kullanılmamaktadır. 
 Her ayar "/etc" dizininin altında belli formattaki dosyaların içerisinde saklanmaktadır.
----
 
----
+
+
 Sizin de gördüğünüz gibi Raspberry Pi donanımı BBB'ye göre oldukça güçlüdür. Raspberry Pi'ın SD kartına yüklediğimiz 
 işletim sistemleri oldukça dolu bir biçimdedir. Çünkü bu sistemler tam bir bilgisayar gibi kullanılsın istenmiştir. Halbuki
 BBB'nin kaynakları zayıf olduğu için hazır imajlar genellikle dolu bir biçimde değildir. Örneğin UNIX/Linux sistemlerinde 
@@ -858,9 +858,9 @@ $ sudo apt install man-db manpages-posix
 ```bash
 $ sudo apt install manpages-dev manpages-posix-dev
 ```
----
 
----
+
+
 BBB'yi on-board flash (eMMC) üzerine yüklü olan Linux sistemiyle açmak zorunda değiliz. SD kartımıza Linux kurup SD kart 
 ile de boot edebiliriz. SD karttan boot işlemi için yine "boot düğmeciğine basılı olarak board'a güç verilir. Led'ler yandığında 
 basılı olan boot düğmeciğinden el bırakılır. Böylece boot işlemi SD karttan hareketle başlatılacaktır. (Ayrıca internal eMMC'de 
@@ -875,19 +875,19 @@ https://www.beagleboard.org/distros
 AM335x 11.7 2023-09-02 4GB microSD IoT
 
 Beagleboard Black kartınızın boot süreci kursumuzun ayrı bir bölümünde ayrıntılı bir biçimde ele alınacaktır.
----
 
----
+
+
 # 7. Ders 26/03/2024 - Salı
----
 
----
+
+
 Kursumuzun bu bölümünde gömülü Linux sistemlerinde C/C++ ile yazılım geliştirmek için kullanılan toolchain'ler üzerinde
 duracağız. Kursumuzda "toolchain" sözcüğünü bazen bu biçimde İngilizce olarak bazen de "araç zinciri" biçiminde Türkçe 
 olarak kullanacağız.
----
 
----
+
+
 Aşağı seviyeli (C/C++, sembolik makine dilleri) biçimde yazılım geliştirmek için kullanılan araçlardan oluşan topluluğa 
 "araç zinciri (toolchain)" denilmektedir. Bir araç zincirinin tipik bileşenleri şunlardır:
 
@@ -906,9 +906,9 @@ Her araç zincirinin bu öğelerin hepsini içermesi gerekmez. Bazı araç zinci
 noktaya dikkatinizi çekmek istiyoruz. Gömülü Linux sistemlerinde "araç zinciri (toolchain)" demekle "aşağı seviyeli araçlar"
 kastedilmektedir. Yani örneğin araç zincirleri içerisine Java, .NET, Python gibi platformlarda yazılım geliştirmek için 
 gerekli olan araçlar dahil değildir.
----
 
----
+
+
 Kursumuzda kimi zaman çapraz derleme (cross compile) işlemleri yapacağız. Bu durumda host makine ile hedef makine arasında 
 dosya transferi yapmamız gerekecek. İki makine arasında dosya transferi yapmak için genellikle IP protokol ailesinin sunduğu 
 olanaklar kullanılmaktadır. Bunun için en çok kullanılan utility program "scp" isimli programdır. Bu program "Secure Copy 
@@ -986,9 +986,9 @@ Yerel makine ile uzak makine arasında dosya transfer etmenin diğer bir yolu da
 kullanmaktır. Ancak bunun için uzak makinede bir FTP sunucusunun yüklü olması gerekir. Düşük kapasiteli gömülü aygıtlarda 
 geliştirici bu server'ı uzak makineye yüklemek istemeyebiir. FTP server ve client programların Linux sistemlerine nasıl 
 kurulacağını ilgili dokümanlardan öğrenebilirsiniz.
----
+
 "
----
+
 Araç zincirlerini iki bölüme ayırabiliriz:
 
 1. Doğal Araç Zincirleri (Native Toolchains)
@@ -1015,9 +1015,9 @@ olarak çapraz araç zincirleri kastedilmektedir.
 
 Araç zincirlerini başka bakımlardan da sınıflandırabiliriz. Örneğin araç zincirini "tedarik eden (vendor)" kuruma göre, 
 kullanılan derleyici sistemlerine göre de sınıflandırılabiliriz.
----
 
----
+
+
 Araç zincirlerinin isimlendirilmesi genellikle (ancak her zaman değil) "hedef (target) sisteme" göre yapılmaktadır. 
 İsimlendirmede '-' karakterleriyle ayrılmış üç alan ya da dört alan kullanılabilmektedir. Üçlü (triple) isimlendirmede 
 ismin alanları şunlardır:
@@ -1101,9 +1101,9 @@ lrwxrwxrwx 1 root root 26 Oca 10 2021 /usr/bin/gcc-10 -> arm-linux-gnueabihf-gcc
 
 Buradaki araç zincirinden de şunu anlıyoruz: Bu araç zinciri 32 bit ARM kodu üretmektedir. Yine üretilen kodun Liux sistemlerinde 
 çalıştırılması gerektiği belirtilmektedir. GNU'nu araçları ve GNU'nun "eabihf" ABI'si kullanılmıştır.
----
 
----
+
+
 Peki araç zincirleri sistemimizde hazır bir biçimde bulunmuyorsa bunları nasıl elde edebiliriz? İşte bunun tipik olarak 
 üç yolu vardır:
 
@@ -1120,9 +1120,9 @@ gerekir.
 Biz kursumuzda önce ARM platformu için hazır araç zincirlerini tanıtacağız. Sonra "crosstool-NG" yazılımı ile araç 
 zinciri oluşturmayı göreceğiz. Buildroot ve Yocto projeleri araç zinciri oluşturmaktan daha fazla işlevselliğe sahiptir.
 Biz kursumuzda bunları ileride ayrı bir bölümde ele alacağız.
----
 
----
+
+
 ARM platformu için önceden hazırlanmış ve kullanıma hazır hale getirilmiş hazır doğal ve çapraz araç zincirleri bulunmaktadır. 
 Bu amaçla kullanılan tipik araç zincirleri şunlardır:
 
@@ -1169,13 +1169,13 @@ Ancak buradaki araç zincirleri maalesef bizim kullandığımız BeagleBone Blac
 glibc kütüphanesinin daha ileri bir versiyonu kullanılmıştır. Dolayısıyla bu kütüphane dinamik kütüphane olarak kullanılacaksa 
 sorun oluşacaktır. Ancak statik kütüphane biçiminde kullanılacaksa sorun oluşmayacaktır.) Biz burada test amacıyla BeagleBone 
 Black aygıtımızla uyumlu olan ilk verdiğimiz bağlantıdaki araç zincirlerini kullanacağız.
----
 
----
+
+
 # 8. Ders 28/03/2024 - Perşembe
----
 
----
+
+
 Yukarıdaki araç zincirini yerel host makineye indirdiğimizde aşağıdaki bir dizin yapısıyla karşılaşırız:
 
 bin
@@ -1330,13 +1330,13 @@ kurabilirsiniz:
 ```bash
 $ sudo apt-get install crossbuild-essential-amd64
 ```
----
 
----
+
+
 # 9. Ders 02/04/2024 - Salı
----
 
----
+
+
 Gömülü Linux sistemleri için host makine olarak Windows kullanılmasının çok uygun olmadığını belirtmiştik. Windows'ta 
 geleneksel çalışma modeli GUI çalışma modelidir. Windows'ta komut satırından komutlar yoluyla çalışma yaygın bir kullanım 
 biçimi değildir. Halbuki daha önceden de söylediğimiz gibi UNIX/Linux sistemlerinin geleneksel çalışma biçimi "console" 
@@ -1351,9 +1351,9 @@ macOS sistemleri UNIX türevi bir sistem gibi değerlendirilebilir. Ancak durum 
 üreten programlar tarafından derlenerek oluşturulması gerekmektedir. Dolayısıyla macOS sistemlerini host sistem olarak 
 kullanmak Windows sistemlerini host sistem olarak kullanmaktan biraz daha zordur. Biz macOS sistemlerini kullanan 
 katılımcılarımıza sanal makinelerine Linux kurmalarını öneriyoruz.
----
 
----
+
+
 Eclipse ilk kez bir Java IDE'si olarak tasarlanmıştır. Daha sonra plugin'ler yoluyla genel bir IDE haline getirilmiştir. 
 Eclips IDE'sinin C/C++ plugin'ine CDT denilmektedir. Elimizde Java için zaten kurmuş olduğumuz bir Eclipse varsa biz bu CDT
 plugin'ini IDE'ye ekleyerek C/C++ çalışması da yapabiliriz. Ancak kolaylık olsun diye Eclipse'in çeşitli diller için plugin'leri
@@ -1389,13 +1389,13 @@ Eclipse üzerinden uzak bağlantı kurmak için de şunları yapılabilir:
 2. "Window/Show View/Remote Systems" seçilir. "Linux" seçilerek yeni bir bağlantı oluşturulur. Bağlantıya bir isim verilerek "Next" 
 düğmesine basılır. "Configuration" penceresinden "SSH files" seçilir. "Next" düğmesine basılır. Bu kez "Configuration" sekmesinden 
 "processes.shell.linux" seçilir ve "Next" seçilir. Oradan da "ssh.shells" seçilir ve "Finish" düğmesine basılır.
----
 
----
+
+
 # 10. Ders 04/04/2024 - Perşembe
----
 
----
+
+
 Microsoft'un ünlü IDE'sine "Visual Studio" denilmektedir. Visual Studio IDE'si Windows için tasarlanmış ve gerçekleştirilmiştir. 
 Linux sistemlerinde bulunmamaktadır. Microsoft bu IDE'nin macOS versiyonunu çıkartmışsa da artık o projeyi devam ettirmemektedir. 
 Diğer sistemler için IDE ile editör arasında olan "Visual Studio Code" denilen aracı önermektedir. Visual Studio IDE'si 
@@ -1418,9 +1418,9 @@ kullanıcının ismi ve parolası istenecektir. Bağlantı "Tools/Options/Multi 
 4. Projeye kaynak kod eklenip "build" işlemi yapıldığında hedef makine için kod üretilir. Derleme menüsünden "Çözümü Dağıt"
 seçeneği seçildiğinde otomatik olarak tüm proje uzak makineye aktarılmaktadır. Debug işlemleri için de aslında programcının 
 özel bir hazırlık yapmasına gerek kalmamaktadır. Debug işlemi yerel makinede olduğu gibi yapılmaktadır.
----
 
----
+
+
 Microsoft değişik sistemlerde platform bağımsız geliştirme yapabilmek için "Visual Studio Code" isimli IDE ile Editör arası
 bir araç da gelişmiştir. Son yıllarda bu araç çok kullanılır olmuştur. Visual Studio Code yüksek seviyeli bir çalışma biçimine 
 sahip değildir. Çalışma düşük seviyede çeşitli ayar dosyaların edit edilmesiyle yapılmaktadır. Ancak editör tasarım olarak 
@@ -1432,9 +1432,9 @@ derlenip çalıştırılabilmektedir.
 
 Biz kursumuzdaki kodlama örneklerinde ağırlıklı olarak Visual Studio Code editörünü kullanacağız. Ancak bu aracı bir IDE 
 gibi değil, bir text editör gibi kullanacağız. İşlemleri genellikle manuel bir biçimde komut satırından yapacağız.
----
 
----
+
+
 Visual Studio Code ile çapraz derleme işlemi maalesef kolay değildir. Bunun için henüz hazır eklentiler bulunmamaktadır. 
 Programcı tek tuşa basarak Visual Studio'da olduğu gibi işlemlerini otomatize edebilir. Ancak bunu yapmak için Visual Studio 
 Code'un çalışma biçimi hakkında ayrıntılı bilgi sahibi olması gerekir.
@@ -1518,9 +1518,9 @@ sample.o: sample.c
 $(SDK_PATH)/arm-none-linux-gnueabihf-gcc -c sample.c
 
 Bu make kodunu yaratmış olduğunuz proje dizinine "Makefile" ismiyle kaydedebilirsiniz.
----
 
----
+
+
 Visual Studio Code editöründe uzak bağlantı ile çalışmak için de sırasıyla şunlar yapılmalıdır:
 
 1. Aşağıdaki bağlantıdan CLI paketini uzak makineye indirip sıkıştırılmış dosyayı açınız:
@@ -1549,9 +1549,9 @@ Tabii siz aslında uzak makinede VSCode editörü ile çalışıyor durumda olac
 
 3. Bu işlemden sonra uzak makinedeki server program bir URL verir. Bu URL yerel makinede girilirse karşımıza tarayıcıda 
 Visual Studio Code editörü çıkacaktır.
----
 
----
+
+
 Biz yukarıda çeşitli kurumlar tarafından hazır hale getirilmiş (prebuilt) araç zincirlerini kullandık. Ancak hazır araç 
 zincirlerini kullanmanın kimi zaman bazı dezavantajları söz konusu olabilmektedir. Örneğin:
 
@@ -1576,9 +1576,9 @@ gerektirmektedir. İşte bu nedenden dolayı araç zincirlerini otomatik olarak 
 "buildroot" ve "yocto" projelerini ayrı bölümlerde ele alacağız. Bu projelerle araç zincirleri de oluşturulabilmektedir.
 Araç zincirlerinin oluşturulmasında son zamanlarda "crosstool-NG" isimli yazılım yaygın biçimde kullanılmaya başlanmıştır. 
 Biz de bu bölümde bu crosstool-NG yazılımının kullanılması üzerinde duracağız.
----
 
----
+
+
 crosstool-NG araç zinciri oluşturan bir yazılımdır. Zaman içerisinde çeşitli böcekler giderilmiş olsa da hala birtakım böcekler 
 bulunmaktadır. Ancak yazılım iş görür bir durumdadır.
 
@@ -1641,13 +1641,13 @@ $ make install
 ```
 
 Bu komutla crosstool-NG configure işleminde --prefix ile belirtilen dizine kurulacaktır.
----
 
----
+
+
 # 11. Ders 16/04/2024 - Salı
----
 
----
+
+
 crosstool-NG'de çapraz araç zincirleri için üç makine söz konusudur:
 
 1. Build Makinesi (Build Machine): Çapraz derleme araçlarının oluşturulduğu makinedir. Örneğin biz Intel tabanlı masaüstü 
@@ -1683,9 +1683,9 @@ Kanadalı araç zinciri söz konusudur.
 
 Ancak crosstool-NG her zaman build işleminin yapıldığı makinede çalışacak araç zinciri kodu üretmektedir. Yani üretilen 
 araç zincirinde "build makinesi == host makine" olmaktadır.
----
 
----
+
+
 crosstool-NG'de işlemler "bin" klasörünün altında "ct-ng" isimli programla yapılmaktadır. Biz burada sizin crosstool-NG'nin 
 ana klasöründe olduğunuzu varsayacağız.
 
@@ -1835,9 +1835,9 @@ silmektedir.
 ct-ng programının diğer komut satırı argümanları için aşağıdaki bağlantıdan faydalanabilirsiniz:
 
 https://man.archlinux.org/man/extra/crosstool-ng/ct-ng.1.en
----
 
----
+
+
 Araç zincirlerinin nasıl oluşturulduğunu ve kullanıldığını gördükten sonra şimdi dikkatimizi araç zincirleri içerisindeki 
 araçlara yönelteceğiz. Araç zincirleri içerisindeki en önemli araçlar şüphesiz "C Derleyicileri", "C++ Derleyicileri" ve 
 "Bağlayıcı (linker)" programlardır.
@@ -1846,9 +1846,9 @@ Bilindiği gibi derleyiciler aslında "amaç dosya (object file)" denilen bir do
 (linker)" denilen programlara sokularak çalıştırılabilir (executable) dosya oluşturulmaktadır. Sistem programcısının bu 
 kavramlar hakkında temel bilgilere sahip olması gerekmektedir. Amaç dosyaların UNIX/Linux sistemlerindeki uzantıları ".o" 
 biçimindedir. Çalıştırılabilen dosyalar için UNIX/Linux sistemlerinde özel bir uzantı kullanılmamaktadır.
----
 
----
+
+
 Derleyicilerin ürettiği amaç dosyaların (object files) ve bağlayıcıların ürettiği çalıştırılabilir dosyaların (executable files)
 önceden belirlenmiş belli bir formatı vardır. Microsoft DOS zamanlarında amaç dosya formatı olarak "OMF (Object Module Format)" 
 denilen bir formatı, çalıştırılabilir dosya formatı olarak da "MZ (Mark Zbikowski) " denilen bir formatı kullanıyordu. Sonra 
@@ -1866,16 +1866,16 @@ UNIX/Linux sistemlerinde uzunca bir süredir en yaygın kullanılan amaç dosya 
 formatıdır. ELF formatının 32 bit ve 64 bit biçimleri vardır. Linux geçmişe doğru uyum için eski geleneksel "a.out" denilen 
 çalıştırılabilir dosya formatını da desteklemektedir. Fakat Linux sistemlerindeki default amaç dosya ve çalıştırılabilir 
 dosya formatı ELF formatıdır.
----
 
----
+
+
 UNIX/Linux sistemlerinde ELF dosyasını belleğe yükleyip çalışmaya hazır hale getirme işlemi "exec fonksiyonları" tarafından
 yapılmaktadır. (Linux sistemlerinde yalnızca execve fonksiyonu sistem fonksiyonu olarak bulundurulmuştur. Diğer exec 
 fonksiyonları execve fonksiyonunu çağırmaktadır.) Kavramsal olarak işletim sistemlerinde çalıştırılabilir dosyayı belleğe 
 yükleyerek çalıştırma durumuna getiren alt sistemlere "yükleyici (loader)" denilmektedir.
----
 
----
+
+
 Sistem programcısı olarak bir dosyanın içeriğini byte-byte hex sistemde görmek isteyebiliriz. Windows sistemlerinde bunu 
 yapan pek çok GUI uygulaması vardır. "HxD" denilen program oldukça yeteneklidir ve ücretsiz olarak kullanılabilmektedir. 
 Linux ve macOS sistemlerinde "hex editör" olarak çok güzel GUI programlarla karşılaşmak zordur. "GHex" isimli GUI hex editör 
@@ -1915,24 +1915,24 @@ $ sudo ept-get install hexer
 ```bash
 $ sudo apt-get install hexcurse
 ```
----
 
----
+
+
 # 12. Ders 18/04/2024 - Perşembe
----
 
----
+
+
 ELF dosyasının genel yapısı şöyledir:
 
-+----------------------------------------------------------------+
++-+
 |ELF Başlığı (ELF Header)|
-+----------------------------------------------------------------+
++-+
 |  Program Başlık Tablosu (Program Header Table) (İsteğe Bağlı)  |
-+----------------------------------------------------------------+
++-+
 | Bölümler (Sections)|
-+----------------------------------------------------------------+
++-+
 |   Bölüm Başlık Tablosu (Section Header Table)  |
-+----------------------------------------------------------------+
++-+
 
 ELF dosyasının hemen başında bir başlık kısmı (ELF Header) bulunmaktadır. Bu başlık kısmında dosya hakkında en önemli bilgiler
 tutulmaktadır.
@@ -1958,9 +1958,9 @@ Elf64_Sword 4   4   Signed integer
 Elf64_Xword 8   8   Unsigned long integer
 Elf64_Sxword8   8   Signed long integer
 unsigned char   1   1   Unsigned small integer
----
 
----
+
+
 ELF Başlığı'nda dosyadaki meta-data alanları hakkında önemli bilgiler yer almaktadır. ELF Başlığı'nın ilk 16 byte'ı "kimlik 
 bilgileri (identification)" denilen dosyanın en kritik bilgilerini tutan kısmıdır. ELF dosyasının ilk dört byte'ında bir 
 "sihirli sayı (magic number)" bulundurulmuştur. Bu ilk 4 byte'ın ilk byte'ı 0x7F sonraki üç byte'ı da 'E', 'L', 'F' karakterlerinin 
@@ -2000,11 +2000,11 @@ Aşağıda da 32 bit ARM işlemcileri için oluşturulmuş bir ELF formatının 
 ELF Başlığı'nda kimlik bilgilerinden (ilk 16 byte) sonra yine dosya hakkında önemli bilgiler yer almaktadır. ELF Başlığı'nın 
 16'ıncı offset'indeki 2 byte'lık işaretsiz tamsayı alanda dosyanın türü belirtilmektedir. Tipik tür değerleri şunlardır:
 
-0 ---> Geçersiz
-1 ---> Amaç Dosya (Relocatable Object File)
-2 ---> Çalıştırılabilir Dosya (Executable File)
-3 ---> Dinamik Kütüphane Dosyası (Shared Object)
-4 ---> Çekirdek Dosyası (Core File)
+0 > Geçersiz
+1 > Amaç Dosya (Relocatable Object File)
+2 > Çalıştırılabilir Dosya (Executable File)
+3 > Dinamik Kütüphane Dosyası (Shared Object)
+4 > Çekirdek Dosyası (Core File)
 
 ELF Başlığı'nın 18'inci offset'indeki 2 byte'lık işaretsiz tamsayı dosyanın çalıştırılacağı hedef işlemcinin türünü belirtmektedir. 
 Buradaki 2 byte'lık çeşitli işaretsiz tamsayı değerler çeşitli işlemci türlerini belirtmektedir. Örneğin 0x28 "32 Bit ARM 
@@ -2091,13 +2091,13 @@ Elf64_Half e_shstrndx;  /* Section name string table index */
 } Elf64_Ehdr;
 ```
 ```
----
 
----
+
+
 # 13. Ders 25/04/2024 - Perşembe
----
 
----
+
+
 ELF formatını parse edip insanların anlayabileceği biçimde görüntüleyen çeşitli utility programlar bulunmaktadır. Bunların 
 en yaygın kullanılan ikisi "readelf" ve "objdump" programlarıdır. Bu programların ayrıntılı dokümantasyonu "man" sayfalarında 
 bulunmaktadır. "objdump" programı daha genel, "readelf" programı daha özel programlardır. Ancak "objdump" programı işlevsel 
@@ -2130,9 +2130,9 @@ Number of section headers:  31
 Section header string table index:  30
 
 "objdump" programı ile ELF formatının başlıkları "-x" ya da "--all-headers" seçeneği ile görüntülenebilir.
----
 
----
+
+
 ELF Formatı içerisinde pek çok "isim" belirten öğe bulunmaktadır. İsimler değişken uzunlukta olabileceği için hem isim 
 tekrarlarında kolaylık sağlamak hem de isimlerin sabit uzunlukta ifade edilmesini sağlamak amacıyla "string tabloları" 
 bulundurulmuştur. String tabloları sonu '\0' ile biten yazılardan oluşmaktadır. ELF formatı içerisinde ne zaman bir isim
@@ -2140,9 +2140,9 @@ belirtilecek olsa isim yerine o ismin bulunduğu string tablosundaki offset beli
 da aslında "bölümler (sections)" biçimindedir. ELF dosyasında tek bir string tablosu bulunmak zorunda değildir. Genellikle 
 derleyiciler normal sembolleri ".strtab" isimli bölümde, "bölüm başlıklarının isimlerini" ".shstrtab" isimli bölümde, dinamik
 kütüphanelerdeki sembollerin isimlerini de ".dynstr" isimli bölümde string tabloları biçiminde tutmaktadır.
----
 
----
+
+
 Daha önceden de belirttiğimiz gibi ELF formatı "bölümlerden (sections)" oluşmaktadır. Her bölümde belli bir konuya ilişkin
 bilgiler bulunmaktadır. ELF formatının derleyiciler tarafından kullanılan standart bazı bölümleri vardır. Ancak çeşitli 
 derleyiciler ve hatta sistem programcıları standart olmayan bölümler de oluşturabilmektedir. Bölümlerin birer ismi vardır.
@@ -2268,9 +2268,9 @@ CONTENTS, ALLOC, LOAD, DATA
 ALLOC
 26 .comment  0000002b  0000000000000000  0000000000000000  00003010  2**0
 CONTENTS, READONLY
----
 
----
+
+
 ELF formatının en önemli kısımlarından biri "sembol tablosu (symbol table)" denilen kısmıdır. Sembol (symbol) derleyici ve 
 bağlayıcı dünyasında "değişken (identifier)" anlamına gelen bir terimdir. Yani programlamada "değişken (variable/identifier)" 
 kavramı derleyici ve bağlayıcı dünyasında "sembol (symbol)" biçiminde ifade edilmektedir. Semboller fonksiyon isimleri biçiminde, 
@@ -2283,15 +2283,15 @@ derleyici ve bağlayıcılar iki ayrı sembol tablosu bulundurmaktadır. Program
 dinamik kütüphanelerden kullanılan semboller SHT_DYNSYM bölüm türüyle belirtilmektedir. Sembol tablolarının bulunduğu tipik 
 bölümler şunlardır:
 
-.symtab ---> Program içerisindeki sembollerin bulunduğu sembol tablosu
-.dynsym ---> Dinamik kütüphanelerden kullanılan sembolleri bulunduğu sembol tablosu
----
+.symtab > Program içerisindeki sembollerin bulunduğu sembol tablosu
+.dynsym > Dinamik kütüphanelerden kullanılan sembolleri bulunduğu sembol tablosu
 
----
+
+
 # 14. Ders 30/04/2024 - Salı
----
 
----
+
+
 Sembol tabloları sembollerden oluşmaktadır. Yani sembollerden oluşan bir dizi biçimindedir. Sembollerin bilgileri eşit 
 uzunluklu kayıtlar biçimindedir. 32 bit ELF formatındaki sembol tablosunun sembollerinin yapısal içeriği şöyledir:
 
@@ -2533,13 +2533,13 @@ bölümüne yerleştirirse bu bölüm yükleyici tarafından sıfırlanacağı i
 ".data" bölümüne yerleştirse amaç dosyada 999999 tane 0 olan byte bulunacaktır. Aslında burada ne olacağını dosyayı derleyip 
 amaç dosyanın uzunluğuna bakarak hemen anlayabilirsiniz. UNIX/Linux sistemlerinde derleyiciler tipik olarak böylesi bir 
 durumda ellerinden bir şey gelmediği için sembolü ".data" bölümüne yerleştirip amaç dosyayı mecburen büyütmektedir.
----
 
----
+
+
 # 15. Ders 02/05/2024 - Perşembe
----
 
----
+
+
 Derleyicilerin "amaç dosya (object file)" oluşturduğunu bu amaç dosyaların linker tarafından birleştirilerek çalıştırılabilir
 bir dosya haline getirildiğini anımsayınız. Peki derleyici üreteceği makine kodlarındaki nesne ve fonksiyon adreslerini nasıl 
 belirlemektedir? Çünkü derleme aşamasında henüz amaç dosyalar birleştirilmemiş ve program belleğe yüklenmemiştir. Örneğin 
@@ -2656,9 +2656,9 @@ içerisindeki relocation tablosu "linker" için, çalıştırılabilir dosyadaki
 bulundurmaktadır. Yukarıda da belirttiğimiz gibi genellikle çalıştırılabilir dosyaların sanal belleğin neresine yükleneceği 
 bilinmektedir. Ancak dinamik kütüphanelerin belleğin neresine yükleneceği önceden belirlenememektedir. Linker için relocation 
 tablosunun derleyici tarafından, yükleyici için relocation tablosunun ise linker tarafından oluşturulduğuna dikkat ediniz.
----
 
----
+
+
 Yukarıda da belirtildiği gibi yerel nesnelerin (yani fonksiyonlar içerisinde tanımlanmış nesnelerin) relocation işlemi ile 
 bir ilgisi yoktur. Yerel nesnelerin yerleri ismine "Stack Pointer (SP)" denilen bir yazmaca göreli bir biçimde tespit 
 edilmektedir. "Stack" oldukça zekice düşünülmüş çok pratik bir kullanıma sahip bir kavramdır. Aşağıdaki gibi bir C fonksiyonu 
@@ -2681,17 +2681,17 @@ c = a + b;
 Derleyici fonksiyonun başında makine komutuyla SP yazmacını fonksiyonun yerel değişkenlerinin toplam uzunluğu kadar yukarı çeker 
 (yani azaltır):
 
-Yeni SP'nin gösterdiği yer  ----->
+Yeni SP'nin gösterdiği yer  -->
 ...
-Eski SP'nin gösterdiği yer  ----->
+Eski SP'nin gösterdiği yer  -->
 
 Sonra yerel nesneleri SP'nin bulunduğu yere göreli bir biçimde konumlandırır:
 
-Yeni SP'nin gösterdiği yer  ----->
+Yeni SP'nin gösterdiği yer  -->
 # a
 # b
 # c
-Eski SP'nin gösterdiği yer  ----->
+Eski SP'nin gösterdiği yer  -->
 
 Artık makine kodlarını SP'nin bulunduğu yere göreli bir biçimde oluşturmaktadır. Örneğin 32 bit Intel işlemcileri için aşağıda
 sembolik bir kod örneği verilmiştir:
@@ -2724,9 +2724,9 @@ overflow" da denilmektedir. Bu tür durumlarda muhtemelen program çökecektir. 
 büyüklüğü 1 MB, Linux sistemlerinde ise 8 MB kadardır. Bu stack miktarları küçük değildir. Ancak programcı büyük dizileri 
 yerel dizi olarak yaratırken dikkat etmelidir. Büyük dizilerin yerel olarak yaratılması stack'i taşırabilir. Bunların static 
 yerel ya da global tanımlanması uygundur. Stack alanı ".data" ve ".bss" alanlarına göre çok küçük bir alandır.
----
 
----
+
+
 ELF formatının relocation tablosu SHT_REL ya da SHT_RELA bölüm türüyle belirtilen bölümler içerisinde bulunmaktadır. Tipik 
 olarak derleyiciler relocation işlemi hangi bölüm ile ilgiliyse relocation bilgilerini ".rel<isim>" ya da ".rela<isim>" 
 ismindeki bölümlere yerleştirmektedir. Örneğin yukarıdaki "a.c" dosyası derlendiğinde relocation tablosu da ".rela.text" 
@@ -2777,13 +2777,13 @@ kendi içerisinde iki parçaya ayrılmaktadır. Bu elemanın yüksek anlamlı 4 
 tablosundaki indeksini (byte offset'ini değil sembolün indeksini), düşük anlamlı 4 byte ise düzeltme türünü (relocation type) 
 belirtmektedir. Düzeltme türü platforma göre farklılıklar gösterebilmektedir. Yapılardaki r_addend elemanı ayrıntı içermektedir. 
 Burada ele almayacağız.
----
 
----
+
+
 # 16. Ders 07/05/2024 - Salı
----
 
----
+
+
 ELF formatının diğer önemli bir bölümü de "Program Başlık Tablosu (Program Header Table)" denilen bölümüdür. Program Başlık 
 Tablosu eşit uzunlukta Program Başlıkları'ndan (Program Header Table Entry) oluşmaktadır. Program Başlık Tablosu'nun ELF 
 dosyasında nereden başladığı ve hangi uzunlukta olduğu ELF Başlığı'nda belirtilmektedir. Program Başlık Tablosu amaç dosyalarda 
@@ -2863,22 +2863,22 @@ dosyasının içerisinden görülebilir.
 
 readelf programında ELF dosyasının Program Başlık Tablosu "-l" seçeneği ile objdump programı ile de "-p" ya da "--program-headers" 
 seçeneği ile görüntülenebilmektedir.
----
 
----
+
+
 Peki biz basit bir yükleyici program yazmak istesek bunu nasıl yazabiliriz? Aslında yükleyiciler burada henüz ele almadığımız
 bazı ayrıntılı işlemleri de yapmaktadır. Ancak kabaca bunu gerçekleştirebilmek için ELF dosya formatını parse edip Program 
 Başlık Tablosu'ndaki PT_LOAD ile belirtilen segment'leri belirtilen sanal bellek adresine mmap fonksiyonu ile yüklenmesi gerekir.
 Tabii yükleme işlemi bittikten sonra programın ELF dosyasının başlık kısmında belirtilen "entry point"den başlatılması gerekir.
----
 
----
+
+
 ELF formatının diğer önemli bir bölümü de ".dynamic" isimli bölümüdür. Bu bölüm ".dynsym" bölümüyle birlikte kullanılmaktadır. 
 Bu bölümün işlevini anlayabilmek için dinamik kütüphanelerin nasıl yüklendiğinin bilinmesi gerekir. Biz önce statik ve 
 dinamik kütüphaneleri ele alıp ondan sonra ELF formatının bu bölümlerini açıklayacağız.
----
 
----
+
+
 Kütüphane "hazır kodların bulunduğu topluluklar" için kullanılan bir terimdir. Ancak aşağı seviyeli dünyada kütüphane 
 kavramı daha farklı bir biçimde kullanılmaktadır. Aşağı seviyeli dünyada "içerisinde derlenmiş bir biçimde fonksiyonların 
 bulunduğu dosyalara kütüphane (library)" denilmektedir. Aslında kütüphaneler yalnızca fonksiyon değil, global nesneler 
@@ -2890,9 +2890,9 @@ uzantıları ise UNIX/Linux sistemlerinde ".so (shared object), Windows sistemle
 UNIX/Linux dünyasında kütüphane dosyaları geleneksel olarak başında "lib" öneki olacak biçimde isimlendirilmektedir. (Örneğin 
 "x" isimli bir statik kütüphane dosyası UNIX/Linux sistemlerinde genellikle "libx.a" biçiminde, "x" isimli bir dinamik kütüphane 
 dosyası ise UNIX/Linux sistemlerinde genellikle "libx.so" biçiminde isimlendirilmektedir.)
----
 
----
+
+
 Statik kütüphaneler aslında "object modülleri (yani .o dosyalarını)" tutan birer kap gibidir. Yani statik kütüphaneler object
 modüllerden oluşmaktadır. Statik kütüphanelere link aşamasında linker tarafından bakılır. Bir program statik kütüphane dosyasından 
 bir çağırma yaptıysa (ya da o kütüphaneden bir global değişkeni kullandıysa) linker o statik kütüphane içerisinde ilgili 
@@ -2921,9 +2921,9 @@ yapılabilmektedir.
 
 3. Statik kütüphane kullanan programların yüklenmesi dinamik kütüphane kullanan programların yüklenmesinden çoğu kez daha hızlı
 yapılmaktadır. Ancak bu durum çeşitli koşullara göre tam ters bir hale de gelebilmektedir.
----
 
----
+
+
 UNIX/Linux sistemlerinde statik kütüphane dosyaları üzerinde işlemler "ar" isimli utility program yoluyla yapılmaktadır. 
 ar programına önce bir seçenek, sonra statik kütüphane dosyasının ismi, sonra da bir ya da birden fazla object modül ismi komut
 satırı argümanı olarak verilir. Örneğin:
@@ -2979,9 +2979,9 @@ $ gcc -c y.c
 ```bash
 $ ar r libmyutil.a x.o y.o
 ```
----
 
----
+
+
 Statik kütüphane kullanan programları derlerken statik kütüphane dosyaları komut satırında belirtilebilir. Bu durumda gcc 
 ve clang derleyicileri o dosyayı bağlama (link) işleminde kullanmaktadır. Örneğin:
 
@@ -3052,9 +3052,9 @@ $ gcc -o sample sample.c -lmyutil -L. -L/home/csd
 ```
 
 Geleneksel olarak "-l" ve "-L" seçeneklerinden sonra boşluk bırakılmamaktadır. Ancak boşluk bırakılmasında bir sakınca yoktur.
----
 
----
+
+
 Bir statik kütüphane başka bir statik kütüphaneye bağımlı olabilir. Örneğin biz "liby.a" kütüphanesindeki kodda "libx.a" 
 kütüphanesindeki fonksiyonları kullanmış olabiliriz. Bu durumda "liby.a" kütüphanesini kullanan program "libx.a" kütüphanesini
 de komut satırında belirtmek zorundadır. Örneğin:
@@ -3062,13 +3062,13 @@ de komut satırında belirtmek zorundadır. Örneğin:
 ```bash
 $ gcc -o sample sample.c libx.a liby.a
 ```
----
 
----
+
+
 # 17. Ders 09/05/2024 - Perşembe
----
 
----
+
+
 Dinamik kütüphane dosyalarının UNIX/Linux sistemlerinde uzantıları ".so" (shared object'ten kısaltma), Windows sistemlerinde 
 ise ".dll" (Dynamic Link Library) biçimindedir.
 
@@ -3106,9 +3106,9 @@ kütüphanenin yeni bir versiyonunu oluşturduğumuzda bunu kullanan programlar�
 Örneğin bir dinamik kütüphaneden foo fonksiyonunu çağırmış olalım. Bu foo fonksiyonunun kodları bizim çalıştırılabilir dosyamızın
 içerisinde değil de dinamik kütüphanede olduğuna göre dinamik kütüphanedeki foo fonksiyonu değiştirildiğinde bizim programımız 
 artık değişmiş olan foo fonksiyonunu çağıracaktır.
----
 
----
+
+
 Dinamik kütüphanelerin gerçekleştiriminde ve kullanımında önemli bir sorun vardır. Dinamik kütüphanelerin tam olarak sanal 
 belleğin neresine yükleneceği baştan belli değildir. Halbuki çalıştırılabilen dosyanın sanal belleğin neresine yükleneceği 
 baştan bilinebilmektedir. Yani çalıştırılabilen dosyanın tüm kodları aslında derleyici ve bağlayıcı tarafından zaten "onun 
@@ -3130,9 +3130,9 @@ ve dezavantajları bulunmaktadır. Windows'taki teknikte "relocation" işlemi bi
 bir "relocation" işlemi yapıldığında kodlar daha hızlı çalışma eğilimindedir. Konumdan bağımsız kod tekniğinde ise
 "relocation" işlemine minimal düzeyde gereksinim duyulmaktadır. Ancak dinamik kütüphanelerdeki fonksiyonlar çağrılırken 
 göreli biçimde daha fazla zaman kaybedilmektedir. Aynı zamanda bu teknikte kodlar biraz daha fazla yer kaplamaktadır.
----
 
----
+
+
 Peki neden dinamik kütüphane dosyaları linker tarafından tıpkı çalıştırılabilir dosyalarda olduğu gibi sanal bellekte belli 
 bir yere yüklenince sorunsuz çalışacak biçimde oluşturulmuyor? Çalıştırılabilir dosyalar sanal bellek boşken yüklendiğinden 
 onların belli bir yere yüklenmesinde bir sorun oluşmamaktadır. Ancak bir program çok fazla dinamik kütüphane kullanabileceğine 
@@ -3176,9 +3176,9 @@ için mecburen "copy on write" mekanizması devreye sokulmaktadır. Bu da fiziks
 Bu noktada ek olarak işlemcilerde bazı makine komutlarının (MOV, LOAD, STORE gibi) mutlak adres kullandığını ancak CALL ve 
 JMP gibi bazı makine komutlarının hem mutlak hem de göreli adres kullanabildiğini belirtelim. Aslında işlemcileri tasarlayanlar 
 relocation işlemi gerekmesin diye CALL ve JMP komutlarının göreli (relative) versiyonlarını da oluşturmuşlardır.
----
 
----
+
+
 UNIX/Linux sistemlerinde bir dinamik kütüphaneler şöyle oluşturulmaktadır:
 
 1. Önce dinamik kütüphaneye yerleştirilecek amaç dosyaların (object files) -fPIC seçeneği ile "Konumdan Bağımsız Kod (Position 
@@ -3201,20 +3201,20 @@ gerekmektedir. Yukarıdaki işlem aslında tek hamlede de aşağıdaki gibi yap�
 ```bash
 $ gcc -shared -o libmyutil.so -fPIC a.c b.c c.c
 ```
----
 
----
+
+
 Peki biz -fPIC seçeneğini kullanmadan yani "konumdan bağımsız kod" üretmeden dinamik kütüphane oluşturmaya çalışırsak
 ne olur? Mevcut GNU linker programları "-shared" seçeneği kullanıldığında global değişkenler için relocation işlemi söz konusu
 ise bir mesaj vererek link işlemini yapmamaktadır. Yani bu durumda mevcut GNU linker programları kodun "-fPIC" seçeneği ile
 derlenmesini zorunlu tutmaktadır.
----
 
----
+
+
 # 18. Ders 14/05/2024 - Salı
----
 
----
+
+
 Biz yukarıda dinamik kütüphanelerin nasıl oluşturulduğunu gördük. Peki dinamik kütüphaneler nasıl kullanılmaktadır?
 
 Dinamik kütüphane kullanan bir program bağlanırken kullanılan dinamik kütüphanenin komut satırında belirtilmesi gerekir. 
@@ -3236,9 +3236,9 @@ bu programı yüklerken onun kullandığı dinamik kütüphaneleri de yükleyece
 dosyanın kullandığı dinamik kütüphanelerin yol ifadesini (yani tam olarak nerede olduğunu) yazmaz. Yalnızca isimlerini 
 yazmaktadır. İşte yükleyici (dinamik linkler) bu nedenle dinamik kütüphaneleri önceden belirlenen bazı yerlerde aramaktadır. 
 Bu yere çalıştırılabilir dosyanın yüklendiği dizin (current working directory) dahil değildir.
----
 
----
+
+
 İster statik kütüphane isterse dinamik kütüphane yazacak olalım yazdığımız kütüphaneler için bir başlık dosyası oluşturmak 
 iyi bir tekniktir. Örneğin içerisinde çeşitli fonksiyonların bulunduğu "libmyutil.so" dinamik kütüphanesini "libmyutil.c" 
 dosyasından hareketle oluşturmak isteyelim. İşte "libmyutil.c" dosyasındaki fonksiyonların prototipleri, gerekli olan sembolik 
@@ -3286,9 +3286,9 @@ void bar(void);
 
 #endif
 ```
----
 
----
+
+
 Standart C fonksiyonlarının ve POSIX fonksiyonlarının bulunduğu "libc" kütüphanesi gcc ve clang programlarıyla derleme yapıldığında 
 otomatik olarak bağlama aşamasında devreye sokulmaktadır. Yani biz standart fonksiyonları ve POSIX fonksiyonları için bağlama 
 aşamasında kütüphane belirtmek zorunda değiliz. Default durumda gcc ve clang programları standart C fonksiyonlarını ve POSIX 
@@ -3349,9 +3349,9 @@ $ gcc -static -o app app.c libmyutil.so
 
 Bu işlem başarısız olacaktır. Çünkü "-static" seçeneği zaten "tüm kütüphanelerin statik olarak bağlanacağı" anlamına 
 gelmektedir.
----
 
----
+
+
 Dinamik kütüphane kullanan programlarda bağlayıcı tarafından ELF formatında iki önemli bölüm oluşturulmaktadır. Bu bölümler 
 ".dynamic" ve ".dynsym" isimli bölümlerdir. ".dynamic" bölümü çalıştırılabilir dosyanın kullandığı dinamik kütüphaneler hakkında 
 bilgiler içermektedir. ".dynsym" bölümü ise dinamik kütüphanelerden kullanılan sembollerin tutulduğu sembol tablosudur. Programın 
@@ -3456,9 +3456,9 @@ linux-vdso.so.1 (0x0000ffffaf206000)
 libmyutil.so => not found
 libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffffaf03f000)
 /lib/ld-linux-aarch64.so.1 (0x0000ffffaf1d6000)
----
 
----
+
+
 Dinamik kütüphanelerden kullanılan semboller genellikle ELF formatının ".dynsym" isimli sembol tablosunda bulunmaktadır. 
 Aslında dinamik kütüphanedeki sembollerin hangi sembol tablosunda bulunacağı da ".dynamic" bölümündeki DT_SYMTAB tag'ında
 belirtilmektedir. ".dynsym" bölümü daha önce incelediğimiz sembol tablosu formatına sahiptir. Aşağıda örnek bir ".dynsym"
@@ -3477,9 +3477,9 @@ Symbol table '.dynsym' contains 11 entries:
 8: 0000000000000000 0 FUNCGLOBAL DEFAULT  UND abort@GLIBC_2.17 (2)
 9: 0000000000000000 0 FUNCGLOBAL DEFAULT  UND foo
 10: 00000000000000000 NOTYPE  WEAK   DEFAULT  UND _ITM_registerTMCloneTable
----
 
----
+
+
 Linux sistemlerinde dinamik kütüphane kullanan programların yüklenmesi süreci biraz ilginçtir. Anımsanacağı gibi aslında
 her türlü program exec fonksiyonları tarafından yüklenip çalıştırılmaktadır. Bu exec fonksiyonlarının taban olanı "execve"
 isimli fonksiyondur. (Yani diğer exec fonksiyonları bunu çağırmaktadır.) execve fonksiyonu da bir sistem fonksiyonu olarak 
@@ -3495,13 +3495,13 @@ tamamen user modda çalışmaktadır.
 Programın dinamik kütüphanelerinin yüklenmesinde kullanılacak olan dinamik linker'ın yol ifadesi ELF formatında Program Başlık 
 Tablosu'nda INTERP türüyle belirtilmektedir. INTERP türüne ilişkin Program Başlığı'nda dinamik bağlayıcının yol ifadesinin 
 bulunduğu dosya offset'i belirtilmektedir.
----
 
----
+
+
 # 19. Ders 21/05/2024 - Salı
----
 
----
+
+
 Peki bizim programımız örneğin "libmyutil.so" isimli bir dinamik kütüphaneden çağrı yapıyor olsun. Bu "libmyutil.so" 
 dosyasının program çalıştırılırken nerede bulundurulması gerekir? İşte program çalıştırılırken ilgili dinamik kütüphane 
 dosyasının özel bazı dizinlerde bulunuyor olması gerekmektedir. Dinamik kütüphanelerin dinamik bağlayıcı tarafından yüklendiğini
@@ -3545,9 +3545,9 @@ hangi dizinlerde olduğunu belirtmektedir. Bu konu izleyen paragraflarda ele al�
 
 5. Nihayet dinamik bağlayıcı dinamik kütüphaneleri sırasıyla "/lib", /usr/lib" dizinlerinde de aramaktadır. 64 bit Linux 
 sistemlerinin bir bölümünde 64 bit dinamik kütüphaneler için "/lib64" ve "/usr/lib64" dizinlerine de bakılabilmektedir.
----
 
----
+
+
 Yukarıdaki üçüncü maddede aranacak yol ifadesini çalıştırılabilir dosyanın DT_RUNPATH tag'ına yerleştirmek için ld bağlayıcısında
 "-rpath <yol ifadeleri>" bağlayıcı seçeneği kullanılmalıdır. Buradaki yol ifadelerinin mutlak olması zorunlu değilse de şiddetle
 tavsiye edilmektedir. gcc ve clang derleyicilerinde "-rpath" seçeneğini bağlayıcıya geçirebilmek için "-Wl" seçeneği kullanılabilir. 
@@ -3610,9 +3610,9 @@ kütüphaneler çalıştırılabilen dosyanın yerleştirildiği dizinde aranaca
 Yukarıda da belirttiğimiz gibi aslında arama sırası bakımından DT_RPATH tag'ının en yukarıda olması (LD_LIBRARY_PATH'in 
 yukarısında olması) yanlış bir tasarımdır. Geriye doğru uyumu koruyarak bu yanlış tasarım DT_RUNPATH tag'ı ile telafi 
 edilmiştir. DT_RUNPATH tag'ına LD_LIBRARY_PATH çevre değişkeninden sonra başvurulmaktadır.
----
 
----
+
+
 Dinamik kütüphanelerin aranması sırasında "/lib" ve "/usr/lib" dizinlerine bakılmadan önce özel bir dosyaya da bakılmaktadır. 
 Bu dosya "/etc/ld.so.cache" isimli dosyadır. "/etc/ld.so.cache" dosyası aslında binary bir dosyadır. Bu dosya hızlı aramanın 
 yapılabilmesi için "sözlük (dictionary)" tarzı yani algoritmik aramaya izin verecek biçimde bir içeriğe sahiptir. Bu dosya
@@ -3663,13 +3663,13 @@ Programcı "/lib" ya da "/usr/lib" dizinine bir ".so" dosyası eklediğinde "ldc
 iyi bir tekniktir. Çünkü o dosya da cache dosyasına yazılacak ve daha hızlı bulunacaktır.
 
 ldconfig programında "-p" seçeneği ile cache dosyası içerisindeki tüm dosyalar görüntülenebilmektedir.
----
 
----
+
+
 # 20. Ders 23/05/2024 - Perşembe
----
 
----
+
+
 Dinamik kütüphane dosyalarının "so" isimleri denilen bir isimleri de bulunabilmektedir. Dinamik kütüphane dosyalarının "so" 
 isimleri bağlayıcı tarafından kullanılan isimleridir. Dinamik kütüphane dosyası oluşturulurken "so" isimleri verilmeyebilir. 
 Yani bir dinamik kütüphane dosyasının "so" ismi olmak zorunda değildir. Dinamik kütüphane dosyalarına "so" isimlerini vermek 
@@ -3756,9 +3756,9 @@ bar
 
 Tabii burada tüm bunları neden yapmış olduğumuza bir anlam verememiş olabilirsiniz. İşte bunun anlamını izleyen paragraflarda 
 dinamik kütüphanelerin versiyonlanması konusunda açıklayacağız.
----
 
----
+
+
 UNIX/Linux sistemlerinde dinamik kütüphane dosyalarına isteğe bağlı olarak birer versiyon numarası verilebilmektedir. Bu 
 versiyon numarası dosya isminin bir parçası durumundadır. Linux sistemlerinde izlenen tipik numaralandırma (convention) 
 şöyledir:
@@ -3791,9 +3791,9 @@ numarasını kullanan programlar da onların düşük majör numaralarını kull
 
 - Kütüphanenin aynı majör fakat düşük minör numarasını kullanan programlar aynı majör yüksek minör numaralarını da kullanabilir. 
 Ancak aynı majör yüksek minör numarasını kullanan programlar aynı majör düşük minör numarasını kullanmamalıdır.
----
 
----
+
+
 Linux sistemlerinde versiyonlama bakımından bir dinamik kütüphanenin üç ismi bulunmaktadır:
 
 1. Gerçek ismi (real name)
@@ -3815,7 +3815,7 @@ libmyutil.so
 İşte tipik olarak bağlayıcı ismi en yüksek majör numaralı so ismine, so ismi de en yüksek numaralı gerçek isme sembolik bağlantı
 yapılmaktadır:
 
-bağlayıcı ismi ---> en yüksek majör numaralı so ismi ---> en yüksek minör numaralı isim
+bağlayıcı ismi > en yüksek majör numaralı so ismi > en yüksek minör numaralı isim
 
 Örneğin:
 
@@ -3834,9 +3834,9 @@ Burada oluşturulan üç dosyayı "ls -l" komutu ile görüntüleyelim:
 lrwxrwxrwx 1 kaan study14 Şub 25 15:45 libmyutil.so -> libmyutil.so.1
 lrwxrwxrwx 1 kaan study18 Şub 25 15:45 libmyutil.so.1 -> libmyutil.so.1.0.0
 -rwxr-xr-x 1 kaan study 15736 Şub 25 15:45 libmyutil.so.1.0.0
----
 
----
+
+
 Dinamik kütüphanelerin verisyonlanmasının ve yukarıdaki işlemlerin yapılmasının nedenlerini şöyle özetleyebiliriz:
 
 1. Bu sayede aynı kütüphanenin değişik versiyonları değişik isimlerle aynı dizinde birlikte bulunabilmektedir.
@@ -3944,9 +3944,9 @@ ona "so ismi" olarak artık "libmyutil.so.2" ismini vermeliyiz. Tabii bu durumda
 dosyasının "libmyutil.so.2.0.0" dosyasını göstermesini sağlamalıyız. Artık kütüphanenin 2'nci versiyonunu kullanan programlar
 için yüklenecek kütüphane "libmyutil.so.2" kütüphanesi olacaktır. Bu kütüphanede 2'nci versiyonunun gerçek kütüphane ismine 
 sembolik bağlantı yapılmış durumdadır.
----
 
----
+
+
 Dinamik kütüphanelerin bağlayıcı isimleri o kütüphaneyi kullanan programlar bağlama işlemine sokulurken bağlama aşamasında 
 kullanılan isimlerdir. Bu sayede bağlama işlemini yapan programcıların daha az tuşa basarak genel bir isim kullanması sağlanmıştır. 
 Bu durumda örneğin biz libmyutil.so isimli kütüphaneyi kullanan programı şöyle derleyip bağlayabiliriz:
@@ -3962,13 +3962,13 @@ $ gcc -o app app.c -lmyutil -L.
 ```
 
 Burada aslında "libmyutil.so" dosyası "so" ismine, "so" ismi de "gerçek isme" link yapılmış durumdadır.
----
 
----
+
+
 # 21. Ders 28/05/2024 - Salı
----
 
----
+
+
 "so ismine" ilişkin sembolik link çıkartma ve "/etc/ld.so.cache" dosyasının güncellenmesi işlemi "ldconfig" programı tarafından 
 otomatik olarak da yapılabilmektedir. Yani aslında örneğin biz kütüphanenin gerçek isimli dosyasını "/lib" ya da "/usr/lib" 
 içerisine yerleştirip "ldconfig" programını çalıştırdığımızda bu program zaten "so ismine" ilişkin sembolik linki de oluşturmaktadır. 
@@ -3994,9 +3994,9 @@ lrwxrwxrwx  1 root root   18 Mar  1 21:02 libmyutil.so.1 -> libmyutil.so.1.0.0
 - Kütüphane için "bağlayıcı ismi" ve "so ismini" sembolik link biçiminde oluşturmak
 - Kütüphane paylaşılacaksa onu "/lib" ya da tercihen "/usr/lib" dizinine yerleştirmek ve "ldconfig" programı çalıştırarak 
 /etc/ld.so.cache dosyasının güncellenmesini sağlamak
----
 
----
+
+
 Bazen bir dinamik kütüphane içerisindeki sembollerin o dinamik kütüphaneyi kullanan kodlar tarafından kullanılması istenmeyebilir. 
 Örneğin dinamik kütüphanede "bar" isimli bir fonksiyon vardır. Bu fonksiyon bu dinamik kütüphanenin kendi içerisinden başka 
 fonksiyonlar tarafından kullanılıyor olabilir. Ancak bu fonksiyonun dinamik kütüphanenin dışından kullanılması istenmeyebilir.
@@ -4022,16 +4022,16 @@ biçiminde verilmiştir.
 
 Aşağıdaki örnekte "libmyutil.so.1.0.0" kütüphanesindeki foo fonksiyonu dışarıdan çağrılabildiği halde bar fonksiyonu 
 dışarıdan çağrılamayacaktır. Tabii kütüphane içerisindeki foo fonksiyonu bar fonksiyonunu çağırabilmektedir.
----
 
----
+
+
 Dinamik kütüphanelerde son olarak "sembol versiyonlaması (symbol versioning)" konusu üzerinde duracağız. Sembol versiyonlaması 
 nispeten yeni bir özelliktir. Bu özelliği uygulayabilmek için ELF formatına üç ayrı bölüm (section) eklenmiştir. Biz bu problemle
 daha önce karşılaşmıştık. Host makinede çapraz derleme yapıp çalıştırılabilen dosyayı BBB'ye taşıdığımızda sembol versiyonlamasına
 ilişkin bir hata ortaya çıkmıştı.
----
 
----
+
+
 Sembol versiyonlamasının ana amacı bir fonksiyonun değişik versiyonlarının aynı dinamik kütüphane içerisinde bulundurulmasıdır.
 Böylece eski programlar fonksiyonun eski versiyonunu kullanırken yeni programlar fonksiyonun yeni versiyonunu kullanabilecektir.
 Aslında bu işlemlerin için biz dinamik kütüphanelerin versiyonlanması yoluyla yapıldığını yukarıda görmüştük. Örneğin foo
@@ -4044,9 +4044,9 @@ versiyonlamasını kullanabiliriz.
 
 Sembol versiyonlaması aynı isimli bir fonksiyonun değişik versiyonlarının aynı dinamik kütüphane içerisinde bulundurulmasının
 sağlanmasına yönelik mekanizmayı belirtmektedir.
----
 
----
+
+
 Sembol versiyonlamasının nasıl yapıldığını adım adım bir örnekle açıklayalım:
 
 1. Oluşturduğumuz kütüphanede foo, bar ve tar isimli üç fonksiyon bulunuyor olsun. Biz bu fonksiyonlara MYUTIL-1.0 versiyon
@@ -4428,13 +4428,13 @@ $ LD_LIBRARY_PATH=. ./app3
 foo: VERSION-3.0
 bar: VERSION-1.0
 tar: VERSION-1.0
----
 
----
+
+
 # 22. Ders 30/05/2024 - Perşembe
----
 
----
+
+
 Çok prosesli (multiprocessing) işletim sistemlerinin çalıştığı donanımlarda kullanılan mikroişlemcilerin "koruma mekanizması 
 (protection mechanism)" denilen bir özelliği vardır. Çok prosesleri sistemlerde bütün programlar o anda RAM'de bir biçimde 
 bulunmaktadır. Tabii işletim sisteminin kendisi de RAM'de bulunur. Bir programın göstericiler yoluyla kendi bellek alanının 
@@ -4518,9 +4518,9 @@ user0m0,185s
 sys0m0,005s
 
 Burada "sys" kernel modu, "user" user modu ve "real" da toplam zamanı vermektedir.
----
 
----
+
+
 Modern kapasiteli mikroişlemcilerde "sayfalama (paging)" denilen önemli bir mekanizma vardır. Örneğin Intel işlemcileri 
 bu sayfalama mekanizmasına 80386 modelleriyle birlikte sahip olmuştur. ARM Cortex A serisi ve Cortex M serisi işlemcilerin 
 de bu mekanizmaları vardır. Itanium, PowerPC gibi işlemciler"de de sayfalama mekanizması bulunmaktadır. Genellikle koruma 
@@ -4531,9 +4531,9 @@ mekanizması bulunmamaktadır. Ayrıca işlemcilerdeki bu sayfalama mekanizması
 Yani işlemci sayfalama mekanizmasına sahip olduğu halde sistem programcısı bu mekanizmayı açmayabilir ve kullanmayabilir. 
 İşlemciler reset edildiğinde sayfalama mekanizması pasif durumdadır. İşletim sistemleri bazı ön hazırlıkları yaptıktan sonra
 bu mekanizmayı açmaktadır.
----
 
----
+
+
 Sayfalama mekanizmasında fiziksel RAM aynı zamanda "sayfa (page)" denilen ardışıl bloklara ayrılır. Sayfa uzunluğu sistemden
 sisteme hatta aynı işlemcide işlemcinin modundan moduna değişebilir. Ancak en tipik kullanılan sayfa uzunluğu 4096 (4K) 
 byte'tır. Gerçekten de bugün Linux, Windows ve macOS sistemleri 4K'lık sayfalar kullanmaktadır. Sayfalama mekanizması etkin 
@@ -4610,9 +4610,9 @@ ikiye ayırır (hex olarak konuşacağız):
 
 Sonra sayfa tablosuna gider ve 06F146 sayfasının hangi fiziksel sayfaya yönlendirildiğini tespit eder. Bu fiziksel sayfanın 
 hex olarak 7C45 olduğuna düşünelim. O zaman işlemcinin erişeceği fiziksel adres 7C45000 + 678 hex adresi olacaktır.
----
 
----
+
+
 Buraya kadar şunları anladık:
 
 - Derleyici 32 bit bir sistemde sanki program 4 GB'lik bir RAM'de tek başına 4 MB'ye yüklenerek çalıştırılacakmış gibi bir kod
@@ -4638,9 +4638,9 @@ Her prosesin sayfa tablosu birbirinden farklı olduğu için iki farklı prosest
 fiziksel karşılıkları farklı olacaktır. Örneğin aynı programı iki kez çalıştıralım. Bu durumda bu iki proses için işletim 
 sistemi iki farklı sayfa tablosu kullanıp aynı sanal adresleri farklı fiziksel sayfalara yönlendirecektir. Böylece aslında 
 aynı sanal adreslere sahip olan programlar farklı fiziksel adreslere sahip olacaktır.
----
 
----
+
+
 Konu ile ilgili sorular ve kısa cevapları şöyledir:
 
 Soru: Bir programı debugger ile inceliyorum. Orada bir nesnenin adresini görüyorum. Bu adres nasıl bir adresitir?
@@ -4673,9 +4673,9 @@ hızlı erişim için işlemciler TLB (Translation Lookaside Buffer) denilen bir
 
 Soru: Sayfalama mekanizmasına ne gerek vardır?
 Yanı: Bu durum izleyen paragraflarda ele alınacaktır.
----
 
----
+
+
 İşletim sistemi her proses için ayrı bir sayfa tablosu oluşturduğuna göre ve bu sayfa tablosunda aynı sanal sayfa numaralarını 
 zaten farklı fiziksel sayfalara yönlendirdiğine göre aslında hiçbir proses diğerinin alanına erişemez. Yani proseslerin 
 birbirlerinin alanlarına erişmesi zaten sayfalama mekanizmasıyla engellenmiş olmaktadır. Bu duruma "sayfalama mekanizması 
@@ -4702,9 +4702,9 @@ Sanal Sayfa No  (decimal/hex)   Fiziksel Sayfa No (decimal/hex)
 
 İki prosesin sayfa tablosunda Fiziksel Sayfa Numaraları birbirinden ayrıldığında zaten bu iki proses asla birbirlerinin 
 alanlarına erişemeyecektir.
----
 
----
+
+
 
 Peki 32 bit bir mimaride işletim sisteminin sayfa tablosu yukarıdaki şekillere göre ne kadar yer kaplar? 32 bit mimaride
 fiziksel RAM en fazla 4 GB olabilir. Proseslerin sanal bellek alanları da 4 GB'dir. O halde toplam sayfa sayısı 
@@ -4714,9 +4714,9 @@ tasarlayanlar sayfa tablolarının kapladığı alanı küçültmek için sanal 
 ayırma yoluna gitmişlerdir. Gerçekten de örneğin Intel'in 32 bit mimarisinde bir sanal adres üç parçaya ayrılmaktadır. Bu 
 ayrıntı kursumuzun konusu dışındadır ve Derneğimizde "80X86 ve ARM Sembolik Makine Dilleri" kursunda ele alınmaktadır. 
 Biz bu kursumuzda çeşitli gösterimlerde sanal adresleri ikiye ayıracağız.
----
 
----
+
+
 Biz yukarıda 32 bit sistemlere göre örnekler verdik. Peki 64 bit sistemlerde durum nasıldır? 64 bit sistemlerde fiziksel 
 RAM'in teorik büyüklüğü 2^64 = 16 exabyte olmaktadır. Dolayısıyla prosesin sanal bellek alanı da bu kadar olacaktır. Burada 
 eğer sanal adres iki parçaya ayrılırsa sayfa tablolarının aşırı büyük yer kaplaması kaçınılmazdır. Bu nedenle 64 bit sistemlerde 
@@ -4729,18 +4729,18 @@ bile bugün için çok büyüktür.
 
 Sayfa tablolarının gerçek organizasyonu için kurs dokümanlarında /doc/ebooks klasöründe Intel'in AMD'nin ve ARM işlemcilerinin 
 orijinal dokümanları bulundurulmuştur.
----
 
----
+
+
 Peki sayfalama (paging) mekanizmasının ne faydası vardır? İşte sayfalama mekanizmasının iki önemli işlevi vardır:
 
 1. Sayfalama mekanizması programların fiziksel RAM'e ardışıl yüklenmesinin zorunluluğunu ortadan kaldırır. Böylece 
 "bölünme (fragmentation)" denilen olgunun olumsuz etkisini azaltır.
 
 2. Sayfalama mekanizması "sanal bellek (virtual memory)" denilen olgunun gerçekleştirimi için gerekmektedir.
----
 
----
+
+
 Bölünme (fragmentation) bellek yönetimi konusunda önemli bir problemdir. Bir nesnenin belleğe yüklenmesi ardışıl bir biçimde 
 yapılırsa zamanla yükleme boşaltma işlemlerinin sonucunda bellekte çok sayıda küçük alan oluşmaktadır. Bu küçük alanlar ardışıl 
 olmadığı için genellikle bir işe yaramamaktadır. Küçük alanların toplamı oldukça büyük miktarlara varabilmekte ve toplam 
@@ -4751,13 +4751,13 @@ kaydedilir. Bu teknik hem RAM yönetiminde hem de disk yönetiminde benzer biçi
 bölünme ortadan kaldırılmaya çalışıldığında bu sefer başka bir problem ortaya çıkmaktadır. Nesnelerin son bloklarında 
 kullanılmayan alanlar kalabilmektedir. Bu da bir çeşit bölünmedir. Bu bölünme durumuna "içsel bölünme (internal fragmentation)" 
 denilmektedir. İçsel bölünmede yapılabilecek bir şey yoktur. Ancak içsel bölünmenin etkisi diğerine göre daha az olmaktadır.
----
 
----
+
+
 # 23. Ders 04/06/2024 - Salı
----
 
----
+
+
 Sanal bellek (virtual memory) bir programın tamamının değil belli kısmının belleğe yüklenerek disk ile RAM arasında yer 
 değiştirmeli bir biçimde çalıştırılmasına yönelik bir mekanizmadır. Bu mekanizma sayesinde örneğin 100 MB'lık bir programın 
 başlangıçta yalnızca 64K'lık kısmı RAM'e yüklenebilir. Sonra program çalışmaya başlar. Çalışma sırasında programın bellekte 
@@ -4780,9 +4780,9 @@ Bugünkü SSD'ler hard disklere göre oldukça iyi performans göstermektedir. D
 varsa swap işlemleri daha hızlı yürütülecektir. Şüphesiz en önemli unsur aslında sayfaların yer değiştirilmesi konusunda 
 uygulanan algoritmalardır. Bunlara "page replacement" algoritmaları denilmektedir. Tabii bugünkü işletim sistemleri 
 bilinen en iyi algoritmaları zaten kullanmaktadır.
----
 
----
+
+
 Peki işletim sistemi programın RAM'de olmayan bir sayfasını yüklemek istediğinde RAM'den sayfa boşaltacağı zaman ya 
 boşaltılacak sayfa üzerinde daha önce yazma işlemleri (update) yapıldıysa ne olacaktır? İçeriği değiştirilmiş olan sayfanın 
 RAM'den atılırken mecburen diskte saklanması gerekir. İşte işletim sistemleri bu işlemler için diskte ismine "swap file" ya 
@@ -4794,15 +4794,15 @@ dosyasından elde edilebilir. Buradaki değer Kilo Byte cinsindendir. Ya da "swa
 
 Peki sistemin kullandığı swap alanı dolarsa ne olur? İşte bu durumda sistemin sanal bellek limiti dolmuş kabul edilir. 
 Yapılacak şey sisteme yeni swap alanları eklemektir. Bunun Linux'ta nasıl yapılacağını ilgili kaynaklardan öğrenebilirsiniz.
----
 
----
+
+
 Peki işletim sistemi programı belleğe yüklerken baştan kaç sayfayı yüklemektedir? İşte buna "minimum working set" 
 denilmektedir. İşletim sistemleri genel olarak bir program için en az yüklenecebilecek sayfa sayısını belirlemiş durumdadır. 
 Böylece yüklenmiş her programın en azından "minimum working set" kadar sayfası RAM'de bulunmak zorundadır.
----
 
----
+
+
 Peki sanal bellek mekanizması nasıl gerçekleştirilmektedir? İşte işlemciler sanal bellek mekanizmasını oluşturabilmek için özel 
 bir biçimde tasarlanmıştır. İşlemci ne zaman sanal adresi fiziksel adrese dönüştürmek için sayfa tablosuna başvursa, eğer sayfa tablosunda
 o sanal adrese bir fiziksel sayfa karşılık getirilmemişse ismine "page fault" denilen bir içsel kesme (interrupt) oluşturmaktadır. Örneğin:
@@ -4845,9 +4845,9 @@ bir adres olup olmadığına bakar. Eğer erişilmek istenen adres geçerli bir 
 bir adresse page fault kesme kodu "swap mekanizması" ile programın o kısmını RAM'e yükler, sayfa tablosunu günceller ve 
 kesme kodundan çıkar. Artık işlemci fault oluşturan makine komutuyla çalışmasına devam eder. Ancak sayfa tablosu düzeltildiği 
 için bu kez fault oluşmayacaktır.
----
 
----
+
+
 Peki işletim sisteminin "bellek yönetimi (memory management)" kısmını yazanlar hangi bilgileri tutmak zorundadır? İşte 
 işletim sistemleri tipik olarak bu mekanizma için şu bilgileri kernel alanı içerisinde oluşturmak zorundadır:
 
@@ -4858,17 +4858,17 @@ işletim sistemleri tipik olarak bu mekanizma için şu bilgileri kernel alanı 
 5. Diğer başka bilgiler
 
 Bellek yönetimi (memory management) bir işletim sisteminin en önemli ve en zor yazılan alt sistemlerden biridir.
----
 
----
+
+
 Peki sanal bellek toplamda bize ne sağlamaktadır? Şüphesiz sanal bellek mekanizmasının en önemli faydası RAM yeterli olmasa 
 bile çok sayıda büyük programın aynı anda çalışır durumda tutulabilmesidir. Bizim elimizde 8 GB RAM olsa bile biz onlarca büyük 
 programı çalışır durumda tutabiliriz. Ancak yukarıda da belirtildiği gibi işletim sistemi bir swap alanı bulundurmaktadır. 
 Eğer bu swap alanı dolarsa başka bir limit nedeniyle "out of memory" durumu oluşabilmektedir. Bu nedenle eğer programlar çok 
 fazla bellek kullanıyorsa bu swap alanlarının büyütülmesi de gerekebilir.
----
 
----
+
+
 Sayfalama ve sanal bellek mekanizmasında işletim sistemi de o anda sanal bellek alanı içerisinde bulunmak zorundadır. Peki 
 işletim sisteminin kodları sayfa tablosunda sanal belleğin neresindedir? İşte genellikle işletim sistemi tasarımcıları
 sanal bellek alanını "user space" ve "kernel space" olarak ikiye ayırmaktadır. "user space" genellikle sanal bellek alanının düşük 
@@ -4893,9 +4893,9 @@ izin vermektedir.
 
 Proseslerin sayfa tablolarında kernel alanının içeriği hep aynıdır. Yani context switch yapılsa bile kernel kodları hep aynı 
 sanal adreslerde bulunmaktadır.
----
 
----
+
+
 Biz bir program içerisinde yüksek miktarda dinamik tahsisat yaptığımızda ne olur? Linux sistemlerinde malloc fonksiyonu
 brk ya da sbrk denilen sistem fonksiyonunu çağırabilmektedir. Ancak arka planda sanal bellek bakımından şunlar gerçekleşir:
 
@@ -4916,7 +4916,7 @@ ve proses sonlandırılacaktır.
 O halde 64 bit Linux sistemlerinde biz teorik olarak her biri 128 TB olan onlarca programı bir arada çalıştırabiliriz. Ancak 
 bunun için swap alanımızın da yeterli büyüklükte diskte oluşturulmuş olması gerekir. Swap alanının yetersizliği durumunda 
 bir sinyal ile proses sonlandırılmaktadır.
----
+
 
 ```c
 #include <stdio.h>
@@ -4945,7 +4945,7 @@ free(pc);
 return 0;
 }
 
----
+
 Linux sistemlerinde free komutu (bu sistemlerde komutların çok büyük çoğunluğu aslında birer programdır) çalıştığımız sistemdeki
 fiziksel RAM ve swap alanı hakkında bilgi vermektedir. Örneğin çalıştığımız sanal makinede bu komutu uygulayalım:
 
@@ -4985,9 +4985,9 @@ FilenameTypeSizeUsedPriority
 /swapfile   file2097148668568-2
 
 Aslında swapon komutu da "/proc/swaps" dosyasına başvurmaktadır.
----
 
----
+
+
 Linux'ta swap alanları bir disk bölümü (partition) biçiminde de bir dosya biçiminde de oluşturulabilmektedir. Genellikle 
 sistemi kurarken kurulum sırasında kurulum programı swap alanı için bir disk bölümünün ayrılıp ayrılmayacağını sormaktadır. 
 Elinizdeki sistemde disk bölümlerine bakarak bir swap disk bölümünün sisteminiz için ayrılıp ayrılmadığını anlayabilirsiniz. 
@@ -5052,7 +5052,7 @@ $ sudo chmod 600 swapfile_ext
 ```bash
 $ ls -l swapfile_ext
 ```
--rw------- 1 root root 1073741824 Haz  4 22:10 swapfile_ext
+-rw- 1 root root 1073741824 Haz  4 22:10 swapfile_ext
 
 3. Oluşturulan bu dosyanın bir swap dosyası olarak kullanılabilmesi için içinin belli biçimde düzenlemesi gerekmektedir. Bu
 işlem de "mkswap" komutuyla yapılmaktadır. Örneğin:
@@ -5144,20 +5144,20 @@ işletim sistemi değişmiş (kirlenmiş) sayfalar için swap-out yapmaz. Tabii 
 out yapabilir. Fakat swap alanı olmadığı zaman yetersiz RAM'den dolayı bir tıkanma ortaya çıkabilir. Bu durumda da işletim 
 sistemi çalışmakta olan programlara sinyal göndererek onları sonlandırabilir. Özetle swap alanı kullanılmayacaksa RAM'in 
 miktarının artırılması uygun olmaktadır.
----
 
----
+
+
 # 24. Ders 06/06/2024 - Perşembe
----
 
----
+
+
 Gömülü sistemlerde disk yerine Flash EPROM'lar (genellikle NAND tipi flash EPROM'lar) kullanılmaktadır. Bu belleklere belli
 miktarda yazma yapılabilmektedir. Belli miktardan fazla yazma yapılması durumunda bellekte bozulma oluşabilmektedir. İşte bu 
 nedenle gömülü Linux sistemlerinde swap işlemlerinde doğrudan bu medyaların kullanımı genellikle tercih edilmez. Bu konuda
 ileride daha geniş açıklamalar yapacağız ve bazı alternatifler üzerinde duracağız.
----
 
----
+
+
 Anımsanacağı gibi işletim sistemi sayfa tabloları yoluyla proseslerin bellek alanlarını tam olarak birbirinden izole
 etmektedir. Dolayısıyla bir proses istese de başka bir prosesin bellek alanına erişememektedir. Ancak ismine "paylaşılan 
 bellek alanları (shared memory)" denilen bir teknik ile işletim sistemi farklı proseslerin aynı fiziksel sayfaya erişimini 
@@ -5165,7 +5165,7 @@ sağlayabilmektedir. Şöyle ki: İşletim sistemi iki prosesin sayfa tablosunda
 eşlerse bu iki proses farklı sanal adreslerle aslında aynı fiziksel sayfayı görüyor durumda olur. Örneğin:
 
 Proses-1 Sayfa Tablosu
----------------------------------------------------------
+
 Sanal Sayfa NumarasıFiziksel Sayfa Numarası
 ... ...
 987 1245
@@ -5174,7 +5174,7 @@ Sanal Sayfa NumarasıFiziksel Sayfa Numarası
 ... ...
 
 Proses-2 Sayfa Tablosu
-----------------------------------------------------------
+-
 Sanal Sayfa NumarasıFiziksel Sayfa Numarası
 ... ...
 356 7645
@@ -5184,9 +5184,9 @@ Sanal Sayfa NumarasıFiziksel Sayfa Numarası
 
 Görüldüğü gibi birinci prosesin 988'inci sanal sayfa numarası ikinci prosesin 357'nci sanal sayfa numarasıyla aynı fiziksel 
 adrese yönlendirilmiştir.
----
 
----
+
+
 Aslında sayfa tablolarında her bir sayfanın da ayrıca bir "özellik bilgisi (attribute)" vardır. Yani sayfa tablolarının formatı
 daha gerçekçi bir biçimde şöyledir:
 
@@ -5210,9 +5210,9 @@ sayfa tablosunda oluştururken bu sayfaların özelliklerini "read-only" yaparla
 koruma mekanizması yüzünden prosesimiz sonlandırılır. Zaten C'de string'lerin güncellenmesi "tanımsız davranış (undefined behavior)" 
 olarak belirtilmektedir. Benzer biçimde derleyiciler genellikle global const nesneleri de yine "read-only" bölümlere 
 (sections) yerleştirmektedir. (Ancak yerel const nesneler stack'te olduğu için read-only yerleştirilememektedir.)
----
 
----
+
+
 Aynı programın ikinci kez çalıştırıldığını düşünelim. Bu durumda her şeyi aynı olan iki program çalışıyor durumda olacaktır.
 Ancak bu iki proses birbirinden bağımsız olduğuna göre bu iki prosesin farklı sayfa tabloları vardır ve aslında bu iki prosesin
 bellek alanı tamamen izole edilmelidir. İşte işletim sistemleri bu tür durumlarda "copy on write" denilen bir mekanizma uygulamaktadır. 
@@ -5226,9 +5226,9 @@ Bu durumda iki kopyanın aynı fiziksel sayfayı görmesinde bir sakınca yoktur
 benzer tekniği kullanmaktadır. Bir dinamik kütüphane iki farklı proses tarafından kullanıldığında mümkün olduğunca bu proseslerin 
 sayfa tabloları aynı fiziksel sayfaları gösterir. Ancak proseslerden biri dinamik kütüphanedeki bir sayfada değişiklik 
 yaparsa o noktada bu sayfanın kopyasından oluşturulmaktadır.
----
 
----
+
+
 İşletim sisteminin nasıl devreye girip çalıştığını merak edebilirsiniz. Aslında işletim sistemini bir fonksiyon yığını olarak
 düşünebiliriz. İşletim sisteminin içerisinde kodlar tipik olarak aşağıdaki durumlarla çalışma fırsatı bulmaktadır:
 
@@ -5247,16 +5247,16 @@ sağlanmaktadır.
 mekanizmasında işletim sistemi diske erişimi azaltmak için çok erişilen disk bloklarını RAM'da tutmaktadır. Yazma sırasında da
 eğer bu bloklar RAM'de ise diske değil RAM'e yazmaktadır. Ancak bu bloklar çok bekletilmeden bir kernel thread yoluyla diske 
 flush edilmektedir.
----
 
----
+
+
 Kursumuzun bu bölümünde Linux sistemlerinin boot edilmesi süreci ele alınacaktır. İşletim sisteminin otomatik olarak yüklenerek 
 çalışır hale getirilmesi sürecine "boot" işlemi denilmektedir. (Boot terimi İngilizce "askeri bottan (çizmeden)" gelmektedir.) 
 Biz bilgisayar sistemine güç verdiğimizde bir süre sonra işletim sisteminin otomatik yüklendiğini görmekteyiz. Aslında 
 işletim sisteminin yüklenmesi biraz karmaşık bir süreçle gerçekleşmektedir.
----
 
----
+
+
 Mikroişlemciler güç uygulandığında (restart edildiğinde) belli bir adresten itibaren çalışacak biçimde tasarlanmıştır. Buna 
 işlemcilerin "reset vektörü" denilmektedir. İşlemcilerin reset vektörleri genellikle fiziksel belleğin başında ya da sonunda 
 bulunmaktadır. Örneğin Intel işlemcilerinde reset vektörü belleğin sonunda, ARM işlemcilerinde ise belleğin başında bulunmaktadır. 
@@ -5311,9 +5311,9 @@ sistemlerde tercih edilmektedir. Gömülü Linux sistemlerinde bugün en çok te
 
 O halde işletim sisteminin yüklenmesi pek çok donanım ve platformda aşağıdaki aşamalardan geçilerek yapılmaktadır:
 
-Mikroişlemci RESET ediliyor ---> ROM'daki RESET vektöründe bulunan kodlar çalışıyor ---> ROM'daki kodlar diskteki önceden 
-belirlenmiş olan bloğu RAM'e yükleyerek çalıştırıyor ---> RAM'e yüklenen bu küçük program önyükleyici programı RAM'e yüklüyor
- ---> Önyükleyici program işletim Sistemini yükleyerek işletim sisteminin başlangıç kodlarını çalıştırıyor. 
+Mikroişlemci RESET ediliyor > ROM'daki RESET vektöründe bulunan kodlar çalışıyor > ROM'daki kodlar diskteki önceden 
+belirlenmiş olan bloğu RAM'e yükleyerek çalıştırıyor > RAM'e yüklenen bu küçük program önyükleyici programı RAM'e yüklüyor
+ > Önyükleyici program işletim Sistemini yükleyerek işletim sisteminin başlangıç kodlarını çalıştırıyor. 
 
 Burada birkaç soru aklınıza gelebilir. Bunlardan biri ROM'daki RESET vektöründe bulunan kodların oraya kimin tarafından 
 yerleştirilmiş olduğudur. ROM'daki RESET vektöründe bulunan kodlar çok aşağı seviyeli kodlar olduğu için bunlar genellikle 
@@ -5349,13 +5349,13 @@ Bugün pek çok masaüstü Linux dağıtımında GRUB isimli yönyükleyici prog
 çekirdek imajını bellek yükleyerek çalıştırmaktadır. Linux'un çekirdek parametreleri de bu önyükleyici tarafından kullanıcıdan 
 alınıp Linux'a verilmektedir. Biz kursumuzda çekirdek derlemesi yaparken ve sistemi çekirdekle boot ederken önyükleyicinin 
 GRUB olduğunu varsayacağız.
----
 
----
+
+
 # 25. Ders 11/06/2024 - Salı
----
 
----
+
+
 Bugün kullandığımız X86 tabanlı masaüstü bilgisayarlara tarihsel bakımdan "PC (Personal Computer)" da denilmektedir. 
 (2000'lerin başında Apple Intel tabanlı PC mimarisine geçtiyse de kullandığı PC donanımında bazı farklılıklar da oluşturmuştur. 
 Sonra Apple'ın Intel mimarisini de bırakıp ARM mimarisine geçtiğini biliyorsunuz. Ancak PC denldiğinde Intel ve ARM tabanlı 
@@ -5384,16 +5384,16 @@ bir önyükleyici programını da yükleyebilmektedir. Bu durumda hangi işletim
 tarafından bir menü yoluyla kullanıcıya da sorulabilmektedir. UEFI BIOS öncesindeki eski BIOS sistemini kullanan (legacy 
 BIOS) PC sistemlerindeki boot sürecini aşağıdaki gibi özetleyebiliriz:
 
-PC'ye güç veriliyor ve mikroişlemci RESET ediliyor ---> EEPROM'daki BIOS kodları temel hazırlık işlemlerini yapıyor ---> 
-EEPROM'daki BIOS kodları diskin ilk sektörünü (MBR) RAM'e yüklüyor ve akışı ona devrediyor ---> MBR'deki program önyükleyiciyi 
-RAM'e yüklüyor ---> Önyükleyici seçilen disk bölümünün boot sektörünü RAM'e yüklüyor ---> Seçilen disk bölümünün boot sektörü 
-işletim sistemini yüklüyor ---> Akış işletim sistemi kodlarına devrediliyor.
+PC'ye güç veriliyor ve mikroişlemci RESET ediliyor > EEPROM'daki BIOS kodları temel hazırlık işlemlerini yapıyor > 
+EEPROM'daki BIOS kodları diskin ilk sektörünü (MBR) RAM'e yüklüyor ve akışı ona devrediyor > MBR'deki program önyükleyiciyi 
+RAM'e yüklüyor > Önyükleyici seçilen disk bölümünün boot sektörünü RAM'e yüklüyor > Seçilen disk bölümünün boot sektörü 
+işletim sistemini yüklüyor > Akış işletim sistemi kodlarına devrediliyor.
 
 Yukarıda da belirttiğimiz gibi bugünkü Linux yüklü olan Intel X86 tabanlı PC sistemlerinde genellikle önyükleyici olarak 
 GRUB tercih edilmektedir.
----
 
----
+
+
 Şimdi Raspberry Pi donanımındaki boot süreci üzerinde duralım. Raspberry Pi donanımlarındaki boot süreci şu aşamalardan geçilerek 
 yürütülmektedir:
 
@@ -5425,10 +5425,10 @@ daha sonra SD kartın kök dizininden "start.elf" isimli dosyayı DRAM belleğe 
 dosyasının başındaki program tarafından yapılmaktadır.) Buradaki "start.elf" dosyası "ikinci aşama boot loader (stage-2 / second 
 stage boot loader) görevindedir. Sürecin işleyişini şekille şöyle gösterebiliriz:
 
-CPU reset ediliyor ---> ROM'daki kod çalışıyor (CPU --> GPU) --> ROM'daki kod "bootcode.bin" dosyasını içsel SRAM'e yüklüyor (GPU) 
----> "bootcode.bin" dosyası DRAM belleği kullanıma hazır hale getiriyor ve "start.elf" dosyasını DRAM belleğe yüklüyor (GPU) 
----> "start.elf" dosyası donanım bileşenlerini ayarlıyor, Linux çekirdeğini ve diğer bileşenleri DRAM belleğe yüklüyor (GPU) ---> 
-Akış çekirdek Dosyasının başına devrediliyor (CPU) ---> Çekirdek kodları kendi kendini açıyor ve çekirdeği kullanıma hazır hale 
+CPU reset ediliyor > ROM'daki kod çalışıyor (CPU --> GPU) --> ROM'daki kod "bootcode.bin" dosyasını içsel SRAM'e yüklüyor (GPU) 
+> "bootcode.bin" dosyası DRAM belleği kullanıma hazır hale getiriyor ve "start.elf" dosyasını DRAM belleğe yüklüyor (GPU) 
+> "start.elf" dosyası donanım bileşenlerini ayarlıyor, Linux çekirdeğini ve diğer bileşenleri DRAM belleğe yüklüyor (GPU) > 
+Akış çekirdek Dosyasının başına devrediliyor (CPU) > Çekirdek kodları kendi kendini açıyor ve çekirdeği kullanıma hazır hale 
 getiriyor (CPU)
 
 "start.elf" programı çeşitli firmware kodlarını içermektedir. Bu kod FAT dosya sistemindeki kök dizinde bulunan "config.txt" 
@@ -5458,13 +5458,13 @@ bileşenleri de DRAM'a yüklemektedir. Bu bileşenler tipik olarak şunlardır:
 Raspberry Pi'da bu bileşenlerin FAT dosya sistemindeki dosya isimleri yukarıda sözünü ettiğimiz "config.txt" dosyası içerisinde 
 belirtilebilmektedir. Ancak bu belirlemeler bu dosya içerisinde yapılmadıysa FAT dosya sistemindeki kök dizinde 
 bulunan default bazı dosyalar kullanılmaktadır.
----
 
----
+
+
 # 26. Ders 13/06/2024 - Perşembe
----
 
----
+
+
 Yukarıda da belirttiğimiz gibi FAT dosya sistemi içerisindeki "config.txt" dosyası ikinci aşama boot loader görevinde olan 
 "start.elf" programı tarafından okunmaktadır. Bu dosyanın konfigürasyon parametrelerine ilişkin bilgilere aşağıdaki bağlantıdan 
 erişebilirsiniz:
@@ -5494,9 +5494,9 @@ Bu belirleme yapılmazsa çekirdek parametreleri "cmdline.txt" isimli dosyadan o
 - total_mem=megabyte_değeri satırı işletim sisteminin sanki burada belirtilen kadar RAM varmış gibi çalışmasını sağlamaktadır. 
 Örneğin düşük RAM ile test işlemlerinde biz bu değeri küçülterek sistemi boot edebiliriz. Böylece Linux sanki kendisine bu 
 kadar RAM bağlıymış gibi çalışacaktır.
----
 
----
+
+
 Linux çekirdeğinin kodlarına dokunmadan onunla ilgili bazı davranış değişikliklerinin yapılması temelde beş biçimde 
 sağlanabilmektedir:
 
@@ -5536,9 +5536,9 @@ değiştirebiliriz:
 ```bash
 $ echo 2048 | sudo tee /proc/sys/fs/file-max
 ```
----
 
----
+
+
 Linux'ta çekirdek komut satırı parametreleri birbirinden boşluklarla ayrılmış yazılardan oluşmaktadır. Bazı parametrelerin 
 argümanları yoktur, bazılarının vardır. Eğer parametrenin bir argümanı varsa "parametre=değer" biçiminde ('=' karakteri 
 boşluksuz olarak kullanılmalıdır) yoksa yalnızca "parametre" biçiminde belirtilmektedir. Çekirdek komut satırı parametreleri 
@@ -5568,9 +5568,9 @@ splash plymouth.ignore-serial-consoles cfg80211.ieee80211_regdom=TR
 
 Örneğin biz bu satırın sonuna "maxcpus=2" parametresini ekleyip sistemi reboot edersek artık Linux çekirdeği yalnızca iki
 CPU kullanacak biçimde açılacaktır. maxcpus parametresi çekirdeğin kaç CPU kullanacağını belirtmektedir.
----
 
----
+
+
 RAM'in belli kısmının disk gibi kullanılmasına "ramdisk" denilmektedir. Ramdisk kullanımı çok eskiden beri işletim sistemlerinde 
 bulunmaktadır. Linux'ta da bazı dosya sistemleri diskte değil tamamen RAM'de yani ramdisk üzerinde oluşturulmaktadır. 
 Örneğin "proc dosya sistemi" işletim sistemi ve aygıt sürücüler tarafından dış dünyaya bilgi vermek için kullanılmaktadır. 
@@ -5629,13 +5629,13 @@ $ sudo mkdir ramdisk
 ```bash
 $ sudo mount /dev/ram0 ramdisk
 ```
----
 
----
+
+
 # 27. Ders 25/06/2024 - Salı
----
 
----
+
+
 Beaglebone Black'teki boot süreci de aslında Raspberry Pi'a benzemektedir. İşlemci reset edildiğinde yine reset vektöründen
 çalışmaya başlar. Orada ROM bellek bulunmaktadır. Bu ROM bellekteki program minimal bazı ön işlemleri yaparak boot aygıtını 
 belirlemeye çalışır. Eğer SD kart yuvasında SD kart varsa ve güç verilirken BOOT düğmesine basılıysa boot işlemi SD karttan 
@@ -5675,9 +5675,9 @@ terimdi. Bugün genellikle x-loader denildiğinde TI firmasının eskiden ürett
 ise U-Boot tarafından üretilen birinci düzey boot loader'lar anlaşılmaktadır. BBB'ye ilişkin herhangi bir dokümanda "x-loader"
 ya da "MLO" terimlerini görürseniz bunların işlev olarak aynı anlama geldiğini düşünebilirsiniz. BBB'de bu terimlerle kastedilen 
 şey birinci düzey boot loader'lardır.
----
 
----
+
+
 Kalıcı bellek görevinde olan hard disklere, SSD belleklere ve micro SD kartlara genel olarak disk denilmektedir. Disk ile 
 DRAM arasında aktarımlar byte byte değil blok blok yapılmaktadır. Terminoloji ortamlara göre değişebilmektedir. Ancak 
 genel olarak disk ile RAM arasında transfer edilecek en küçük byte topluluğuna sektör denilmektedir. Bir sektör genellikle
@@ -5704,9 +5704,9 @@ tabanlı dosya sistemlerine benzemektedir. Tabii bir işletim sistemi başka bir
 destekleyebilmektedir. Örneğin biz Linux'ta FAT dosyası sistemi üzerinde NTFS dosya sistemi üzerinde işlemler yapabilmekteyiz.
 Ancak UNIX/Linux dünyasının asıl dosya sistemleri i-node tabanlı sistemlerdir. Bugün Linux sistemlerinde i-node tabanlı 
 dosya sistemi olarak Ext-2, Extg-3 ve Ext-4 dosya sistemleri yoğun kullanılmaktadır.
----
 
----
+
+
 Bir diske birden fazla bağımsız dosya sisteminin (ve belki de işletim sisteminin) yüklenebilmesi için diskin mantıksal 
 bakımdan parçalara ayrılması gerekmektedir. Diskin mantıksal bakımdan parçalara ayrılmasına ise "disk bölümlemesi" 
 denilmektedir. Disk bölümlemesi aslında disk bölümlerinin hangi sektörden başlayıp kaç sektör uzunluğunda olduğunun belirlenmesi
@@ -5722,13 +5722,13 @@ UEFI BIOS'lar GPT disk bölümleme tablosu kullanırken eski sistemler ve gömü
 tablosunu kullanmaktadır. Gömülü sistemler için oluşturduğumuz SD kartlar'daki disk bölümleme tablosu klasik (legacy) disk 
 bölümleme tablosudur. Ancak bugünkü büyük çaplı UEFI BIOS'lar önce GPT disk bölümleme tablosuna bakmakta eğer onu bulamazsa 
 klasik disk bölümleme tablosunu aramaktadır. Yani geçmişe doğru uyum korunmaya çalışılmıştır.
----
 
----
+
+
 # 28. Ders 27/06/2024 - Perşembe
----
 
----
+
+
 Gömülü Linux programcılarının disk sistemi üzerinde temel bazı bilgilere ve becerilere sahip olması gerekmektedir. UNIX/Linux 
 sistemlerinde diskler blok aygıt sürücüleri tarafından yönetilmektedir. Disklere ilişkin blok aygıt sürücüleri için "/dev" 
 dizini içerisinde aygıt dosyaları bulunmaktadır. Örneğin hard diskler ve SSD diskler için blok aygıt sürücülerinin isimleri 
@@ -5774,7 +5774,7 @@ ilgili diskten okuma yapmış oluruz. Örneğin programın ismi "sample" olmak �
 ./sample /dev/sda
 
 çalıştırmayı bu biçimde yapabilirsiniz.
----
+
 
 ```c
 #include <stdio.h>
@@ -5813,7 +5813,7 @@ fclose(f);
 return 0;
 }
 
----
+
 "hexdump" isimli utility program ile aynı diskin ilk 512 byte'ı şöyle görüntülenebilir:
 
 ```bash
@@ -5823,9 +5823,9 @@ $ sudo hexdump -C -n 512 -v /dev/sda
 "od" utility programı aynı şey şöyle de yapılabilir:
 
 $sudo od -t x1 -N 512 -v /dev/sda
----
 
----
+
+
 Disk işlemlerinde çok kullanılan diğer bir utility program da "dd" isimli programdır. Aslında bu program dosyalar üzerinde 
 blok transferi ile kopyalama işlemi yapan genel amaçlı bir programdır. Bu programın beş önemli komut satırı argümanı vardır:
 
@@ -5841,9 +5841,9 @@ birim yine bs cinsindendir.
 
 Eğer yalnızca "if" ve "of" argümanları belirtilirse ancak count değeri belirtilmezse bu durumda if dosyanının sonuna gelinene
 kadar of dosyasına kopyalama yapılmaktadır.
----
 
----
+
+
 "/dev" dizinin altında bazı ilginç karakter aygıt sürücülerine ilişkin aygıt dosyaları da bulunmaktadır. Bunlardan biri 
 "/dev/zero" aygıt dosyasıdır. Bu aygıt dosyasından okuma yapıldığında her zaman 0 değerleri okunmaktadır. Bu aygıt dosyasının 
 sonu yoktur. Yani okuma yapıldığında hiçbir zaman EOF oluşmamaktadır. Bu dosyaya yapılan yazma işlemleri ise atılmaktadır.
@@ -5863,9 +5863,9 @@ Burada stderr dosyasına yazılan tüm mesajlar atılmaktadır. Örneğin biz i�
 ```bash
 $ dd if=/dev/zero of=test.dat bs=512 count=10000
 ```
----
 
----
+
+
 Linux sistemlerinde bir dosyayı sanki blok aygıtı gibi gösteren hazır aygıt sürücüler bulunmaktadır. Bunlara "loop" aygıt 
 sürücüleri denilmektedir. Bu aygıt sürücülere ilişkin aygıt dosyaları "/dev" dizini içerisinde "loopN" ismiyle (burada N bir 
 sayı belirtiyor) bulunmaktadır. Örneğin:
@@ -5873,15 +5873,15 @@ sayı belirtiyor) bulunmaktadır. Örneğin:
 ```bash
 $ ls -l /dev/loop*
 ```
-brw-rw---- 1 root disk  7,   0 Haz  4 22:31 /dev/loop0
-brw-rw---- 1 root disk  7,   1 Haz  4 22:31 /dev/loop1
-brw-rw---- 1 root disk  7,   2 Haz  4 22:31 /dev/loop2
-brw-rw---- 1 root disk  7,   3 Haz  4 22:31 /dev/loop3
-brw-rw---- 1 root disk  7,   4 Haz  4 22:31 /dev/loop4
-brw-rw---- 1 root disk  7,   5 Haz  4 22:31 /dev/loop5
-brw-rw---- 1 root disk  7,   6 Haz  4 22:31 /dev/loop6
-brw-rw---- 1 root disk  7,   7 Haz  4 22:31 /dev/loop7
-crw-rw---- 1 root disk 10, 237 Haz  4 22:31 /dev/loop-control
+brw-rw- 1 root disk  7,   0 Haz  4 22:31 /dev/loop0
+brw-rw- 1 root disk  7,   1 Haz  4 22:31 /dev/loop1
+brw-rw- 1 root disk  7,   2 Haz  4 22:31 /dev/loop2
+brw-rw- 1 root disk  7,   3 Haz  4 22:31 /dev/loop3
+brw-rw- 1 root disk  7,   4 Haz  4 22:31 /dev/loop4
+brw-rw- 1 root disk  7,   5 Haz  4 22:31 /dev/loop5
+brw-rw- 1 root disk  7,   6 Haz  4 22:31 /dev/loop6
+brw-rw- 1 root disk  7,   7 Haz  4 22:31 /dev/loop7
+crw-rw- 1 root disk 10, 237 Haz  4 22:31 /dev/loop-control
 
 Bir dosyayı blok aygıt sürücüsü biçiminde kullanabilmek için önce "losetup" programı ile bir hazırlık işleminin yapılması 
 gerekir. Hazırlık işleminde "loop" aygıt sürücüsüne ilişkin aygıt dosyası ve blok aygıt sürücüsü olarak gösterilecek dosya 
@@ -5935,9 +5935,9 @@ $ sudo losetup -o 4194304 /dev/loop0 am335x-debian-11.7-iot-armhf-2023-09-02-4gb
 ```
 
 512 * 8192 = 4194304 olduğuna dikkat ediniz.
----
 
----
+
+
 Şimdi "loop" aygıt sürücüsü yoluyla BBB'nin siteden indirdiğimiz imajın üzerinde gezinelim. Siteden indirilen imaj bir disk 
 imajı olduğuna göre diskin içerisinde disk bölümleme tablosu ve U-Boot boot loader programları bulunmaktadır. O halde bizim 
 bu imaj içerisindeki Linux dosya sisteminin nereden başladığını belirlememiz gerekir. Bu belirlemeyi şöyle yapabiliriz:
@@ -6000,13 +6000,13 @@ Artık mount işlemi şöyle yapılabilir:
 ```bash
 $ sudo mount /dev/loop0p1 mydisk
 ```
----
 
----
+
+
 # 29. Ders 02/07/2024 - Salı
----
 
----
+
+
 Klasik MBR (legacy) disk bölümlendirmesinde diskin ilk sektörüne (0 numaralı sektörüne) MBR (Master Boot Record) sektörü 
 denilmektedir. MBR sektörünün sonundaki 2 byte MBR'nin bilinçli olarak oluşturulduğunu belirten sihirli bir sayıdan (magic 
 number) oluşmaktadır. Bu sihirli sayı hex olarak 55 AA biçimindedir. Aşağıda "loop0" aygıtı üzerinde oluşturulmuş bir MBR
@@ -6074,7 +6074,7 @@ ile bu durum mümkün hale getirilmiştir. Yukarıdaki Disk Bölümleme Tablosu'
 Disk Bölümleme Tablosu'ndaki 16 byte'lık disk bölümünün içeriği şöyledir:
 
 Offset (Hex)uzunluk Anlamı
--------------------------------------------------------------------------------------------------
+-
 0   1 BYTE  Disk Bölümünün Aktif Olup Olmadığı Bilgisi
 1   3 BYTE  Disk Bölümünün Eski Sistemdeki (CHS Sistemindeki) Başlangıç Sektörü
 4   1 BYTE  Sistem ID Değeri
@@ -6114,9 +6114,9 @@ LBA sistemine göre belirtilmektedir.
 Disk Bölümleme Tablosu en fazla 2^41 = 2TB diskleri destekleyebilmektedir. Gömülü sistemlerde henüz bu büyüklükte diskler 
 kullanılmadığı için klasik MBR Disk Bölümleme Tablosu iş görmektedir. Ancak masaüstü sistemlerde artık bu sınır aşılmaktadır. 
 İşte UEFI BIOS'lar tarafından kullanılan "GUID Disk Bölümlemesi (GPT)" bu sınırı çok daha ötelere taşımaktadır.
----
 
----
+
+
 MBR Disk Bölümleme Tablosu'nun 4 girişe sahip olması en fazla 4 tane disk bölümünün oluşturulabilmesine yol açmaktadır. 
 Ancak bazen 4'ten fazla disk bölümünün oluşturulması istenebilir. İşte bunun için "Genişletilmiş Disk Bölümü (Extended 
 Partition)" denilen bir yöntem oluşturulmuştur. Genişletilmiş bir disk bölümü ana 4 girişten bir tanesi olarak oluşturulur. 
@@ -6128,13 +6128,13 @@ Genişletilmiş Disk Bölümünü betimler.
 
 Ancak gömülü sistemlerde genellikle 4'ten fazla disk bölümünün kullanılması karşılaşılan bir durum değildir. Bu nedenle biz
 burada Genişletilmiş Disk Bölümlerinin formatı konusundaki ayrıntılar girmeyeceğiz.
----
 
----
+
+
 # 30. Ders 04/07/2024 - Perşembe
----
 
----
+
+
 Peki biz disk bölümlemesi nasıl yapabiliriz? Aslında mademki disk bölümleme tablosunun tüm formatı zaten biliniyor bu 
 durumda bir disk editörle (hex editörle) manuel olarak disk bölümleri üzerinde işlemler yapabiliriz. Tek yapılacak şey diskin 
 MBR bölümünü okuyup Disk Bölümleme Tablosu'nun yerini bulup onu değiştirmektir.
@@ -6143,9 +6143,9 @@ Diskteki sektörler üzerinde görüntüleme ve güncelleme işlemlerini yapan p
 sistemlerinde diskler de aygıt sürücüler sayesinde birer dosya gibi kullanılabildiği için disk editörler yerine GUI hex
 editörler de bu amaçla kullanılabilmektedir. Windows sistemlerinde "freeware (yani parasız kullanılabilen)" HxD isimli
 program oldukça iyi yazılmıştır. Maalesef UNIX/Linux sistemlerinde HxD kalitesinde bir disk editör programı bulunmamaktadır.
----
 
----
+
+
 Linux sistemlerinde disk bölündermesi için en yaygın kullanılan program "fdisk" isimli programdır. Microsoft'un da Windows
 sistemlerinde kullanılabilen aynı isimli bir programı vardır. fdisk konsol ekranında interaktif olarak kullanılabilen 
 bir programdır. Aslında doğrudan belli bir dosya üzerinde de disk gibi bölümlendirme işlemlerini yapabilmektedir. fdisk
@@ -6369,9 +6369,9 @@ Aslında yukarıda yapılan işlemlerin soucu olarak Disk Bölümleme Tablosu'nd
 5. fdisk programının başka komutları da vardır. Örneğin disk bölümlendirmesi yapıldıktan sonra bu bölümlendirme bilgileri 
 "O" komutu ile bir dosyaya aktarılabilir. Sonra "I" komutu ile bu dosyadan yükleme yapılabilir. Böylece farklı diskler için
 aynı işlemlerin daha kolay yapılması sağlanabilmektedir.
----
 
----
+
+
 Disk bölümlendirmesi GUI araçlarıyla da görsel bir biçimde yapılabilmektedir. Örneğin "gparted" bunun için en çok tercih
 edilen programdır. Ancak "gparted" pek çok dağıtımda default olarak bulunmamaktadır. Onu Debian tabanlı dağıtımlarda aşağıdaki 
 gibi kurabiliriz:
@@ -6389,9 +6389,9 @@ $ sudo gparted /dev/loop
 
 gparted GUI bir uygulama olduğu için kullanımı oldukça kolaydır. Kullanıcılar ilk kez karşılaştıklarında bile sezgisel 
 biçimde gerekli işlemleri yapabilmektedir.
----
 
----
+
+
 Son yıllarda sık kullanılmaya başlanan diğer bir disk bölümleme aracı da "sfdisk" isimli programdır. Bu program eskiden bazı 
 dağıtımlarda default olarak bulundurulmuyordu. Ancak bu program bir süredir "fdisk" paketinin içerisindedir. Dolayısıyla artık 
 pek çok dağıtımda default olarak bulunmaktadır.
@@ -6399,9 +6399,9 @@ pek çok dağıtımda default olarak bulunmaktadır.
 sfdisk programının fdisk programından temel farklılığı disk bölümlerinin "stdin" dosyasından okuma yapılarak basit bir biçimde
 oluşturulabilmesidir. Bu nedenle tek hamlede disk bölümlerini komut satırından oluşturmak isteyenler sfdisk programını tercih
 edebilmektedir.
----
 
----
+
+
 Disk bölümlendirmesi yapıldıktan sonra disk bölümlerinin formatlanması gerekmektedir. Burada formatlama demekle disk bölümüne
 yerleştirilecek dosya sistemi için metadata alanların oluşturulması kastedilmektedir. (Formatlama terimi Microsoft tarafından
 sıkça kullanılan eski bir terimdir.)
@@ -6424,9 +6424,9 @@ Diğer disk bölümünü ext2 dosya sistemi ile aşağıdaki gibi formatlayabili
 ```bash
 $ sudo mkfs.ext2 /dev/loop0p2
 ```
----
 
----
+
+
 Bir dosya sistemi belli bir dizin altına mount edilebilmektedir. Mount etmek "bir dosya sistemini ana dizin ağacının herhangi
 bir yerine takmak" anlamına gelmektedir. Mount işleminde disk bölümüne ilişkin aygıt dosyası ve mount edilecek dizin belirtilmektedir. 
 Mount işlemi sonrasında mount edilen dosya sisteminin kökü o dizinde olacak biçimde bir durum oluşturulur. Linux sistemlerinde
@@ -6469,9 +6469,9 @@ Bazen sistem yöneticileri mount işleminin boot süreci sırasında otomatik ya
 boot işlemi sırasında init prosesi tarafından okunup işletilmektedir. Tabii loop aygıtları üzerinde otomatik mount işlemi
 yapmak istiyorsanız "losetup" işlemini de bu boot işlemi sırasında yapmanız gerekir. Bunun da birkaç yolu vardır. Ancak bu 
 işlemler "systemd" paketinin anlatıldığı bölümde ele alınacaktır.
----
 
----
+
+
 Biz daha önce kök dosya sistemini henüz oluşturamadığımız için BBB'nin sitesinden indirdiğimiz imajın içerisindeki kök 
 dosya sistemini kullanmıştık. Ancak bu imajın içerisindeki Linux disk bölümü 3.5 GB kadardır. Dosya sisteminin büyüklüğü
 yalnızca onun yer aldığı disk bölümünün büyüklüğü ile ilgili değildir. Dosya sisteminin kendi büyüklüğü o dosya sisteminin 
@@ -6502,13 +6502,13 @@ $ sudo resize2fs -M /dev/sdc2
 
 Tabii aslında dosya sistemini ve disk bölümlerini büyütmek başka utility programlarla da yapılabilmektedir. Örneğin "gparted"
 programı ile GUI ortamında görerek büyütme işlemi kolaylıkla yapılabilmektedir. 
----
 
----
+
+
 # 31. Ders 11/07/2024 - Perşembe
----
 
----
+
+
 Şimdi de gömülü Linux sistemlerinde çokça kullanılan U-Boot isimli boot loader'ın kullanımı üzerinde duracağız. Bu boot 
 loader'ı kendi projelerinizde sıfırdan kullanacaksanız öncelikle kaynak kodlarını indirip hedef makine için derlemeniz 
 gerekir. Örneğin biz U-Boot'u BBB'de ya da Raspberry Pi'da kullanmak istiyorsak önce onun kaynak kodlarını sitesinden indirip 
@@ -6516,15 +6516,15 @@ ARM işlemcileri için ARM araç zincirlerini kullanarak derlememiz gerekir. Bu 
 boot loader dosyaları elde edilir. Bu dosyalar da hedef sistemde uygun yerlere yerleştirilir. Yapılacak işlemleri şöyle 
 özetleyebiliriz:
 
-U-Boot Kaynak Kodları İndirilir ---> Kaynak Kodlar Hedef Araç Zinciri Kullanarak Derlenir ---> Oluşturulan Birinci ve İkinci 
+U-Boot Kaynak Kodları İndirilir > Kaynak Kodlar Hedef Araç Zinciri Kullanarak Derlenir > Oluşturulan Birinci ve İkinci 
 Düzey Boot Loader Dosyaları Hedef Sistemde Uygun Yerlere Yerleştirilir
 
 U-Boot'un dokümanlarına aşağıdaki bağlantıdan erişebilirsiniz:
 
 https://docs.u-boot.org/en/latest/
----
 
----
+
+
 U-Boot derlemesi aşağıdaki adımlardan geçilerek gerçekleştirilmektedir:
 
 1. Öncelikle U-Boot'un kaynak kodları sitesinden indirilir. Bunun için aşağıdaki git komutunu kullanabilirsiniz:
@@ -6642,9 +6642,9 @@ $ make distclean
 ```
 
 distclean işleminden sonra artık default konfigürasyon dosyası da (".config" dosyasını kastediyoruz) silinmiş olacaktır.
----
 
----
+
+
 Peki U-Boot hedef aygıt için derlendikten sonra elde edilen dosyaların konuşlandırılması nasıl yapılacaktır? Burada iki
 yöntem izlenebilir. Birincisi micro SD kartımızda bir FAT bölümü oluşturup "MLO" ve "u-boot.img" dosyalarını bu FAT 
 dosya sisteminin kök dizinine kopyalamaktır. Bu gömülü Linux sistemlerinde izlenen klasik yoldur. Anımsayacağınız gibi bu 
@@ -6785,13 +6785,13 @@ $ sudo mount /dev/sdc1 bootfs
 ```bash
 $ sudo cp u-boot/MLO u-boot/u-boot.img bootfs
 ```
----
 
----
+
+
 # 32. Ders 16/07/2024 - Salı
----
 
----
+
+
 5. Şimdi biz SD kartımızın FAT disk bölümüne "MLO" ve "u-boot.img" dosyalarını kopyaladık. Ancak SD kartımızın Linux disk 
 bölümü boştur. Biz sistemi reboot etmeye çalışırsak bunu başaramayız. Çünkü u-boot'un yükleyeceği bir çekirdek imajı, aygıt 
 ağacı dosyası ve kök dosya sistemi yoktur. Bunları biz manuel bir biçimde Linux disk bölümünün boot dizini içerisine kopyalasak 
@@ -6877,9 +6877,9 @@ $ sudo dd if=/dev/loop0 of=/dev/sdc2 skip=8192 bs=512 status=progress
 6. Bu biçimde oluşturduğumuz SD kartımızı BBB'nin SD kart slotuna takıp Boot düğmesine basılı biçimde BBB'ye güç verdiğimizde
 boot işlemi henüz otomatik biçimde gerçekleşmeyecektir. Bu aşamadan sonra bu boot işleminin nasıl yapılacağı izleyen 
 paragraflarda ele alınmaktadır.
----
 
----
+
+
 Yukarıdaki işlemlerde bizim henüz incelemediğimiz şu konular vardır:
 
 - Sistem boot edilirken Linux disk bölümündeki boot dizininde şu dosyaların bulunuyor olması gerekir:
@@ -6902,9 +6902,9 @@ gerçekleştirilemeyecektir. Boot işleminin otomatik bir biçimde yapılabilmes
 gereksinim duyulmaktadır.
 
 Bu konular kursumuzda izleyen konularda tek tek ele alınacaktır.
----
 
----
+
+
 Anımsanacağı gibi artık BeagleBoard sitesinde BBB için indirilen imajda bir FAT dosya sistemi bulunmamaktadır. Peki bu 
 durumda bu imaj ile boot işlemi nasıl yapılmaktadır? İşte BBB reset edildiğinde BBB içerisindeki ROM kodu önce SD karttaki 
 FAT disk bölümünü aramakta eğer onu bulursa MLO programını oradan yüklemektedir. Ancak SD kartta bir FAT bölümünü bulamazsa 
@@ -6925,45 +6925,45 @@ Burada "dev/sdc" aygıt dosyası SD kartı belirtmektedir. Tabii bizim yine kök
 disk bölümümüzün olması gerekir. Tipik olarak bu Linux disk bölümünü SD kartımızın 8192'nci sektöründen oluşturabiliriz.
 Anımsayacağınız gibi dd komutunda kopyalama kaynak dosyanın skip * bs offsetinden hedef dosyanın seek * bs offset'inden 
 itibaren yapılmaktadır.
----
 
----
+
+
 # 33. Ders 18/07/2024 - Perşembe
----
 
----
+
+
 Bugünkü masaüstü bilgisayarlarda artık klasik seri port'lar bulundurulmamaktadır. Seri port bağlantısı gereken yerlerde 
 "seri port-USB" dönüştürücüleri kullanılmaktadır. Biz kursumuzun başında üç uçlu böyle bir dönüştürücüyü (CP2102 modülü) 
 malzeme listesine eklemiştik. Kursumuzda kullandığımız CP2102 modülünde seri port için üç uç bulunmaktadır. Modül üzerindeki
 Pinler şöyledir:
 
-3V  ----- (1)
-TxD ----- (2)
-RxD ----- (3)
-GND ----- (4)
-+5V ----- (5)
+3V  -- (1)
+TxD -- (2)
+RxD -- (3)
+GND -- (4)
++5V -- (5)
 
 Bu uçlar RxD, TxD ve GND uçlarıdır. Seri port bağlantısında bir tarafın RxD ucu karşı tarafın TxD ucuna, TxD ucu ise karşı 
 tarafın RxD ucuna bağlanır. GND uçları da karşılıklı bağlanmaktadır. Yani bağlantı şöyle yapılmaktadır.
 
-RxD <------ TxD
-TxD ------> RxD
-GND ------- GND
+RxD < TxD
+TxD > RxD
+GND - GND
 
 Bu durumda biz kullandığımız CP2102 modülünün RxD ucunun BBB'nin TxD ucuna, TxD ucunun ise BBB'nin RxD ucuna bağlanması 
 gerekir. GNC uçları da karşılıklı bağlanmalıdır. BBB'nin yeni modellerinde seri port için GPIO soketlerinin yanında 6 
 tane erkek pin bulunmaktadır. Bu pinlerin bizim için önemli olan üç tanesi şöyledir:
 
-PIN-1 ---> GND
-PIN-4 ---> RxD
-PIN-5 ---> TxD
+PIN-1 > GND
+PIN-4 > RxD
+PIN-5 > TxD
 
 Bu durumda BBB ile CP2102 bağlantısı şöyle yapılmalıdır:
 
 CP2102   BBB
-RxD (3) <------ TxD (2)
-TxD (2) ------> RxD (3)
-GND (4) ------- GND (4)
+RxD (3) < TxD (2)
+TxD (2) > RxD (3)
+GND (4) - GND (4)
 
 Seri port haberleşmesi aslında oldukça basittir. Gönderici taraf bir byte'ı bitlerine ayrıştırır ve TxD ucundan bu bitleri 
 belli bir periyotta gönderir. Karşı taraf da RxD ucunu aynı periyotta örnekler ve bitleri alır. Bu haberleşmede byte'lar 
@@ -6997,9 +6997,9 @@ durumda 1 stop bir kullanılmaktadır. Eskiden haberleşmeyi yavaşlatmak için 
 
 Asenkron seri haberleşme aslında 3 uçtan daha fazla uçla da yapılabilmektedir. Diğer uçlar genellikle "akış kontrolü 
 (flow control)" için kullanılmaktadır.
----
 
----
+
+
 Seri port üzerinde işlem yapmak için kullanılan çeşitli yardımcı programlar vardır. En çok tercih edilenlerden biri 
 PuTTY isimli programdır. Bu program hem Windows sistemleri hem de Linux sistemleri için bulunmaktadır. Siz de Linux sisteminize
 programı aşağıdaki gibi kurabilirsiniz:
@@ -7051,9 +7051,9 @@ $ sudo apt-get install screen
 ```bash
 $ screen /dev/ttyUSB0 115200
 ```
----
 
----
+
+
 BBB cihazımızla bilgisayarımızı CP2102 modülü ile bağladıktan sonra artık U-Boot boot sürecinde olan biteni gözlemleyebiliriz
 ve boot süreci üzerinde etkili olabiliriz. U-Boot boot loader'ı bir komut satırı eşliğinde kullanıcıdan komutlar alabilmektedir. 
 Tabii bunun için önce U-Boot'un komut satırına düşmek gerekir. Bunun için yapılması gereken şeyler şunlardır:
@@ -7067,9 +7067,9 @@ Bu nedenle reset işlemi sırasında klavyeden herhangi bir tuşa basarak bekley
 
 U-Boot'un komut satırı imleci => biçimindedir. U-Boot komut satırına düşmekteki amacımız manuel biçimde bazı ayaralamaları
 yapıp boot sürecini manuel yürütebilmektir.
----
 
----
+
+
 U-Boot komut satırında bizim girebileceğimiz çeşitli komutlar vardır. Bu komutların listesi için "U-Boot Reference Manual"
 isimli dokümandan ya da kendi sitesindeki dokümanlardan faydalanabilirsiniz. Bunun için doğrudan U-Boot komut satırındaki 
 "help" komutunu da kullanabilirsiniz. Aşağıda önemli U-Boot kabuk komutları hakkında kısa açıklamalar yapıyoruz:
@@ -7157,20 +7157,20 @@ env save
 env select [target]
 env set [-f] name [value]
 env set -e [-nv][-bs][-rt][-at][-a][-i addr:size][-v] name [value]
----
 
----
+
+
 # 34. Ders 23/07/2024 - Salı
----
 
----
+
+
 U-Boot komut satırında aygıtlara birer isim verilmektedir. Bu isimler flash bellekler için mm0, mmc1, ... biçiminde, USB 
 aygıtı için "usb" biçimindedir. O anda hangi disk aygıtlarına erişilebileceği bilgisi "lsblk" komutuyla elde edilebilir. 
 (Bu "lsblk" komutu Linux'un "lsblk" komutu değildir. U-Boot isim benzerliği oluşturmuştur.) Örneğin:
 
 => lsblk
 Block Driver  Devices
------------------------------
+--
 efi_blk : <none>
 mmc_blk : mmc 0, mmc 1
 usb_storage_blk : <none>
@@ -7184,9 +7184,9 @@ mmc 1:1
 
 Burada ':' karakterinin solundaki sayı aygıtın numarasını sağındaki sayı ise onun disk bölümünü belirtmektedir. Genel 
 olarak bootSD kart yuvasına takılan SD kartın aygıt ismi "mmc 0", internal eMMC'nin ise "mmc 1" biçimindedir.
----
 
----
+
+
 - Belli bir dosya sisteminin içerisindeki dosyaları görebilmek için "ext2ls", "fatls" gibi komutlar bulunmaktadır. Bu 
 komutlar birinci argüman olarak disk bölümünü almaktadır. Bu disk bölümü yukarıda açıkladığımız kalıpta mmc x:y biçiminde 
 belirtilmelidir. Örneğin:
@@ -7227,9 +7227,9 @@ kendisi belirleyip o dosya sistemine göre görüntüleme yapar. Örneğin:
 ext4
 => fstype mmc 0:1
 fat
----
 
----
+
+
 - "mmc list" komutu bağlı olan disklerin listesini ve numaralarını elde etmek için kullanılmaktadır. Örneğin:
 
 => mmc list
@@ -7272,9 +7272,9 @@ Bu komutların dosya sisteminden dosya okuyup yazmadığına sektör temelinde i
 disk üzerinde işlem yapmaktadır. Diskin bir disk bölümü üzerinde işlem yapmamaktadır.
 
 - "mmc rescan" komutu ile hangi disklerin ve disklerdeki hangi disk bölümlerinin mevcut olduğu bilgisi güncellenmektedir.
----
 
----
+
+
 - U-Boot komut satırında diskteki dosyaları belleğe yüklemek için bir grup komut bulunmaktadır. Komutlar dosya sistemlerine 
 göre "xxxload" biçiminde isimlendirilmiştir. Örneğin ext4 dosya sistemindeki bir dosyayı belleğe yüklemek için "ext4load", 
 ext2 dosya sistemindeki bir dosyayı belleğe yüklemek için "ext2load", FAT dosya sistemindeki bir dosyayı belleğe yüklemek 
@@ -7306,9 +7306,9 @@ Aslında "ext4load" gibi "fatload" gibi "xxxload" komutlarının yanı sıra do�
 önce ilgili aygıttaki dosya sistemini kendisi tespit etmekte ve o dosya sistemine göre otomatik yükleme yapmaktadır. load 
 komutları kullanıldıktan sonra son load edilen dosyaya ilişkin yükleme adresi (bu adresi zaten biz veriyoruz) "fileaddr" 
 isimli çevre değişkeninden, yüklenen dosyanın uzunluğu da "filesize" isimli çevre değişkeninden elde edilebilir.
----
 
----
+
+
 Örneğin biz ext4 dosya sistemi içerisindeki "/boot" dizininde bulunan "vmlinuz-5.10.168-ti-r71" isimli çekirdek imajını 
 bellekte 0x82000000 fiziksel adresine şöyle yükleyebiliriz:
 
@@ -7346,13 +7346,13 @@ Eğer komutta başlangıçtaki ramdisk (geçici kök dosya sistemi) belirtilmeye
 O halde biz boot işlemini şöyle gerçekleştirebiliriz:
 
 => bootz 0x82000000 - 0x88000000
----
 
----
+
+
 # 35. Ders 25/07/2024 - Perşembe
----
 
----
+
+
 - U-Boot'ta script çalıştırma işlemi için iki temel komut kullanılmaktadır: "run" ve "source" komutları. "run" komutu bir 
 çevre değişkeninin içerisindeki komutları çalıştırmaktadır. Örneğin biz bir çevre değişkenine noktalı virgüller ile komutlar
 girebiliriz. Sonra o komutları "run" komutuyla çalıştırabiliriz. "run" komutunun genel biçimi şöyledir:
@@ -7413,9 +7413,9 @@ Peki bizim bir script dosyasını derleyip yukarıdaki gibi çalıştırabilmemi
 aslında kullanıcının oluşturduğu bir dosyadakilerin boot zamanı sırasında devreye sokulabilmesidir. Yani amaç U-Boot'un
 komut satırına düşmeden tamamen Linux'ta bir dosyanın içerisine komutları yazarak U-Boot'un bunları otomatik olarak 
 çalıştırmasını sağlamaktır. İzleyen paragraflarda bunun başka bir yolunun da olduğunu göreceksiniz.
----
 
----
+
+
 Daha önceden de belirttiğimiz gibi default durumda boot işlemi "bootcmd" isimli bir çevre değişkenindeki script'in çalıştırılması 
 ile yapılmaktadır. "boot" komutu ile "run bootcmd" komutunun aynı anlama geldiğini anımsayınız. O halde biz "bootcmd" çevre 
 değişkenini kalıcı bir biçimde değiştirirsek boot işleminde istediğimiz etkiyi yaratabiliriz. Bunun için komut satırına düşmemiz 
@@ -7424,24 +7424,24 @@ satırında değiştirilip "saveenv" komutu uygulanırsa disk üzerinde çevre d
 işleminde değişiklikler devreye girebilmektedir. Diğer bir yol default durumda (bu konfigürasyon sırasında değiştirilebilir) 
 U-Boot'un çevre değişkenlerini bir dosyadan okumasıdır. Böylece bu dosya üzerinde değişiklik yapılarak uygulamacı boot süreci 
 üzerinde etkili olabilmektedir.
----
 
----
+
+
 # 36. Ders 01/08/2024 - Perşembe
----
 
----
+
+
 - Normal olarak çevre değişkenleri saveenv komutu ile boot edilen medyada saklanabilmektedir. Böylece U-Boot yeniden açılırken
 bu yeni evre değişkenlerini dikkate alacaktır. Ancak çevre değişkenlerinin save edilmesi konusunda bazı problemlerle karşılaşılabilir.
 Örneğin U-Boot konfigüre edilirken bu save özelliği devre dışı bırakılmış olabilir. Ancak default durumda bu save işleminin 
 yapılabilmesi gerekir. Save işleminin hangi dosya sistemine yapılabileceği de yine U-Boot konfigüre edilirken belirlenebilmektedir.
----
 
----
+
+
 # 37. Ders 06/08/2024 - Salı
----
 
----
+
+
 U-Boot'ta reset işlemi yapıldığında U-Boot default durumda "botcmd" isimli bir çevre değişkenindeki script'i çalıştırdığına
 göre biz bu çevre değişkenine kendi script'imizi girip "bootargs" çevre değişkenini de istediğimiz gibi oluşturup "saveenv" 
 işlemini yaparsak boot işleminin otomatik olarak bizim istediğimiz gibi yapılmasını sağlayabiliriz. Örneğin:
@@ -7453,18 +7453,18 @@ işlemini yaparsak boot işleminin otomatik olarak bizim istediğimiz gibi yapı
 Saving Environments to FAT... OK
 
 Artık boot komutunu uyguladığımızda ya da yeniden reset işlemi yaptığımızda bizim yönergelerimizle boot işlemi gerçekleşecektir.
----
 
----
+
+
 # 38. Ders 08/08/2024 - Perşembe
----
 
----
+
+
 U-Boot'u derlediğimizde "bootcmd" çevre değişkeni default bir değere sahip olmaktadır. Böylece boot işlemi bu default "bootcmd"
 değişkenindeki script ile yapılmaktadır. Peki bu default "bootcmd" script'i nasıl belirlenmektedir? İşte aslında U-Boot 
 derlenirken bu script ilgili hedef platforma göre default değerini almaktadır. Ancak U-Boot'un belli bir versiyonundan sonra
 hiç kaynak kodlarda değişiklik yapmadan bu "bootcmd" script'i konfigürasyon parametreleriyle değiştirilebilir hale getirilmiştir. 
-"make menuconfig" yaptığımızda "Boot options ---> Enable a default value for bootcmd" girişinden bu default "bootcmd" 
+"make menuconfig" yaptığımızda "Boot options > Enable a default value for bootcmd" girişinden bu default "bootcmd" 
 script'i elle değiştirilebilmektedir. BBB için default "bootcmd" script'i şöyledir:
 
 "run findfdt; run init_console; run finduuid; run distro_bootcmd"
@@ -7552,13 +7552,13 @@ for distro_bootpart in ${devplist}; do if fstype ${devtype} ${devnum}:${distro_b
 then run scan_dev_for_boot; fi; done; setenv devplist
 
 ******************************************************
----
 
----
+
+
 # 39. Ders 13/08/2024 - Salı
----
 
----
+
+
 U-Boot'ta diskteki bir text script dosyasını load komutlarıyla belleğe yükleyip doğrudan çalıştırma mümkün değildir. Ancak 
 script dosyasını önce ".scr" ya da ".fit" formatına dönüştürüp dönüştürülmüş dosyayı yükleyerek "source" komutu ile çalıştırma 
 olanağımız vardır. Fakat U-Boot'ta ayrıca "değişken=değer" biçiminde satırların bulunduğu bir text dosya yüklenerek "import env"
@@ -7576,9 +7576,9 @@ bir çevre değişkeni zaten U-Boot çevre değişkeni olarak varsa default duru
 
 Ayrıca anımsanacağı gibi eğer bir çevre değişkeni bir script içeriyorsa "run" komutuyla o çevre değişkeninin içerisindeki 
 script çalıştırılabiliyordu.
----
 
----
+
+
 Şimdi de boot sürecini bir dosyadan hareketle gerçekleştirmek için kendimiz "bootcmd" script'ini oluşturalım. Bu işlemi yine 
 iki biçimde yapabiliriz:
 
@@ -7590,9 +7590,9 @@ ekleyip oradaki bir script'i çalıştırabiliriz. Burada da uyumluluk bakımın
 Çalıştırılacak çevre değişkenini ise uyumluluk bakımından "uenvcmd" olarak alabiliriz.
 
 Aslında siteden indirdiğimiz imajdaki "bootcmd" script'i zaten yukarıdaki işlemleri yapmaktadır.
----
 
----
+
+
 "bootcmd" script'inin ""xxx.scr" dosyasını yükleyerek "source" komutuyla o script'i çalıştırmasını adım adım şöyle 
 sağlayabiliriz:
 
@@ -7623,9 +7623,9 @@ Ancak burada dikkat edilmesi gereken bir nokta vardır. Default durumda "am335x_
 enable edilmesi "make menuconfig" menüsünde "Boot options / Boot images / Enable support for the legacy image format" 
 girişiyle saplanabilir. Ya da doğrudan ".config" dosyasında "CONFIG_LEGACY_IMAGE_FORMAT=y" yapılabilir. (Siteden indirilen 
 orijinal BBB imajındaki U-Boot'ta bu seçenek zaten enable edilmiş durumdadır.)
----
 
----
+
+
 Şimdi de çevre değişkenlerinin bulunduğu bir text dosyadan hareketle boot işlemini otomatize etmeye çalışalım. Burada text
 dosya herhangi bir isimde olabilir. Ancak orijinal imajdaki "uEnv.txt" ismini kullanabiliriz. O halde işlemler şöyle 
 yürütülebilir:
@@ -7653,9 +7653,9 @@ Burada "bootcmd" script'i önce "uEnv.txt" dosyasındaki çevre değişkenlerini
 
 Bu biçimdeki otomatik boot yaklaşımı kullanıcılar için biraz daha kolaydır. Çünkü önceki yaklaşımda olduğu gibi bir derleme 
 işlemi yapılmamaktadır.
----
 
----
+
+
 Aslında daha önce de belirttiğimiz gibi siteden indirdiğimiz orijinal imajdaki "bootcmd" script'i yukarıdakilere benzer işlemler 
 yapmaktadır. Orijinal imajdaki "bootcmd" script'inin yaptığı işlemi kabaca şöyle özetleyebiliriz:
 
@@ -7668,20 +7668,20 @@ Bu durumda internal eMMC içerisindeki "/boot/uEnv.txt" dosyası da işleme soku
 
 Orijinal "bootcmd" script'inin bazı ayrıntıları vardır. Biz bu ayrıntıların üzerinde durmayacağız Ancak bu script'in ayrıntılarını 
 U-Boot komut satırında gözle inceleyebilirsiniz.
----
 
----
+
+
 # 40. Ders 15/08/2024 - Perşembe
----
 
----
+
+
 U-Boot'taki komut satırındaki komutların bir bölümü bash komutlarına benzemektedir. U-Boot'un script dili de bash'in script
 diline benzemektedir. Ancak bu iki komut satırı ortamının benzerlik dışında birbiriyle bir ilgisi yoktur. U-Boot'taki 
 script dili bash'in küçük bir alt kümesi biçimindedir. Bu tür bash benzeri basit script dillerine genel olarak "hush" 
 denilmektedir.
----
 
----
+
+
 Peki U-Boot'u derlemeden önce "make menuconfig" yaptığımızda karşımıza çıkan menülerdeki seçenekler ne anlama gelmektedir?
 Anımsanacağı gibi biz "make menuconfig" yapıp seçenekleri değiştirdiğimizde aslında ".config" isimli dosya üzerinde değişiklikler
 yapılmaktadır. Yani aslında "make menuconfig" yapmak yerine doğrudan bu ".config" dosyası üzerinde de değişiklikler yapabiliriz.
@@ -7733,9 +7733,9 @@ bir U-Boot imajının oluşturulacağına ilişkin seçenekler bulunmaktadır.
 - Örneğin U-Boot tarafından kullanılan seri port'un baud rate'i burada set edilebilir. Bunun default değeri 115200'dür.
 - Örneğin eğer U-Boot'ta USB kullanılacaksa buradan USB sürücüsü seçilmelidir. Aksi takdirde U-Boot komut satırına 
 düştüğümüzde U-Boot USB'ye erişemeyecektir.
----
 
----
+
+
 Şimdi de U-Boot'u Raspberry Pi'ya kurmaya çalışalım. Bunun için öncelikle Raspberry'ın GPIO seri port uçlarına USB seri 
 port modülümüzü bağlamamız gerekir. Yine bağlantı BBB'de olduğu gibi üç uçla yapılmaktadır. Raspberry'ın seri port uçları
 şöyledir:
@@ -7748,9 +7748,9 @@ Burada GPIO uçlarının fiziksel numaralandırılmasına dikkat ediniz. Düşü
 USB ve Ethernet portlarının ters tarafından başlamaktadır.) Yukarıdaki üç pin SD kart tarafında ikili sütunların dışa bakan 
 sütunlarında iki satır boşluktan sonraki 3 pindir. Yine bağlantı RxD ile TxD uçlarının karşılıklı bağlanması ile yapılmaktadır:
 
-GND (6) --- Ground
-TxD (8) ---> RxD
-RxD (10) <--- TxD
+GND (6)  Ground
+TxD (8) > RxD
+RxD (10) < TxD
 
 Kablo bağlantısı yapıldıktan sonra Raspberry Pi'ın ilgili uçlarının seri port olarak kullanmasının sağlanması gerekmektedir. 
 Bunun için Raspberry Pi OS'de Ana Menüde "Preferences / Raspberry Pi Configuration" diyalog penceresi açılır. Burada 
@@ -7763,9 +7763,9 @@ Test işlemi için Raspberry Pi'ın kendisini kullanabilirsiniz. GPIO uçların�
 USB ucunu Raspberry Pi'ın USB soketlerinin birine takabilirsiniz. Raspberry Pi'ın GPIO seri uçları "dev/ttyAMA0" aygıt 
 dosyası ile kullanılmaktadır. USB sokete taktınız seri porta ise yine "/dev/ttyUSB0" aygıt ismiyle erişilmektedir. Tabii 
 test işlemi Raspberry Pi ile Windows arasında ya da Raspberry Pi ile Linux arasına da yapılabilir.
----
 
----
+
+
 Maalesef yukarıda açıkladığımız GPIO seri port'ları Raspberry Pi 4 ve önceki modellerde U-Boot'ta sorun oluşturmazken 
 Rapsberry Pi 5 modelinde sorun oluşturmaktadır. Muhtemelen U-Boot ekibi Raspberry Pi 5'teki GPIO seri port uçlarını kullanırken
 birtakım böcekler (bugs) oluşmuştur. Bunun için birkaç patch yayınlanmışsa da kursun yapıldığı zamanda bu patch'ler de 
@@ -7784,12 +7784,12 @@ Bu seri prot'un Raspberry Pi OS'deki aygıt dosyası "/dev/ttyAMA10" biçiminded
 "/dev/ttyAMA0" olduğunu anımsayınız.)
 
 Burada da kablo bağlantısını yine test etmelisiniz.
----
 
----
+
+
 Anımsanacağı gibi Raspberry Pi reset edildiğinde aşağıdaki kodlar otomatik olarak çalıştırılmaktadır:
 
-ROM Kod ---> boot.bin (FAT) ---> start.elf (FAT) ---> İşletim sistemi Dosyaları yükleniyor
+ROM Kod > boot.bin (FAT) > start.elf (FAT) > İşletim sistemi Dosyaları yükleniyor
 
 start.elf programının "config.txt" isimli bir dosyaya baktığını ve çekirdek imajını o dosyadaki "kernel=xxxxxx" satırından 
 elde ettiğini belirtmiştik. İşte Raspberry Pi'a U-Boot kurarken biz yukarıdaki akış üzerinde bir değişiklik yapmayız. 
@@ -7818,9 +7818,9 @@ Raspberry Pi'daki "start.elf" dosyasının ele aldığı "config.txt" dosyasına
 edilmiştir:
 
 https://www.raspberrypi.com/documentation/computers/config_txt.html
----
 
----
+
+
 Peki U-Boot boot loader'ını Raspberry Pi'ya nasıl yükleyebiliriz?
 
 1. Raspberry Pi'ya uygun bir araç zincirinin elde edilmesi gerekir. Raspberry Pi 4 ve 5'te biz genellikle 64 bit Linux 
@@ -7874,9 +7874,9 @@ $ make
 
 U-Boot'un derlenmesi sonucunda elde edilen dosyaları Raspberry Pi'yın SD kartına nasıl yerleştireceğimizi izleyen paragraflarda
 ele alacağız.
----
 
----
+
+
 Biz daha önce BBB'de U-Boot'ta çekirdek imajını yüklerken genellikle 0x82000000 adresini, aygıt ağacını yüklerken de 
 0x88000000 adresini kullanmıştık. Çünkü BBB'de fiziksel DRAM bellek 0x80000000 adresinden başlamaktadır. Oysa Raspberry Pi'da
 fiziksel DRAM bellek 0x00000000 adresinden başlamaktadır. Dolayısıyla bizim bu dosyaları bu orijini temel alarak belleğe 
@@ -7916,13 +7916,13 @@ kendini açabilme yeteneğine sahiptir. Halbuki Raspberry Pi'daki çekirdek imaj
 dosyası yine sıkıştırılmıştır ancak dosyanın kendi kendini açabilme yeteneği yoktur. Dosyanın açılması bootloader tarafından 
 yapılmaktadır. Raspberry Pi'daki FAT disk bölümünde bulunan "kernel8.img" dosyası uImage formatındadır. Yani sıkıştırılmış 
 ancak kendi kendini açamayan imaj formatı türündendir.
----
 
----
+
+
 # 42. Ders 22/08/2024 - Perşembe
----
 
----
+
+
  Biz BBB'yi boot ederken U-Boot komut satırında "bootz" komutunu kullanmıştık. Halbuki Raspberry Pi'yı U-Boot ile boot ederken
 "booti" komutunu kullanacağız. "booti" komutu sıkıştırılmış ancak kendi kendini açamayan çekirdek imajları ile boot işlemi
 için kullanılmaktadır. Ancak "booti" komutunda önce komut sıkıştırılmış çekirdek imajını açıp sonra o imaja dallanmaktadır. 
@@ -7945,9 +7945,9 @@ Peki neden biz FAT dosya sistemindeki aygıt ağaçlarından birini ya da u-boot
 ağaçlarından birini yüklemedik de "start.elf" tarafından zaten yüklenmiş olan aygıt ağacını kullandık? Aslında biz kendi
 aygıt ağacımızı da yükleyebiliriz. Ancak bu bağlamda bazı noktaların bilinmesi gerekmektedir. Biz burada şimdilik pratik 
 bir yola saptık.
----
 
----
+
+
 Yukarıdaki boot işlemini kalıcı hale getirmek için yine "bootcmd" çevre değişkenini ve ilgili çevre değişkenlerini oluşturup
 "saveenv" komutunu kullanabiliriz. Örneğin:
 
@@ -7961,9 +7961,9 @@ Saving Environment to FAT... OK
 Artık Raspberry Pi'ımızı reset ettiğimizde otomatik boot işlemi gerçekleşecektir. Tabii buradaki otomatik boot işlemi 
 dışarıdan müdahaleye açık değildir. Bunu sağlayabilmek için BBB'de yaptığımız işlemlerin benzerlerini yapabiliriz. Örneğin 
 burada yine FAT dizininde bir çevre değişkeni script'i yazıp bu script'i "bootcmd" içerisinde yükleyip çalıştırabiliriz.
----
 
----
+
+
 Şimdi boot işlemini FAT dosya bölümündeki bir dosyayı temel alarak gerçekleştirelim. Yine bu dosyanın ismini "uEnv.txt" 
 biçiminde verelim. (Tabii böyle bir zorunluluğumuz yok.) Dosyanın içeriği dışarıdan sistem yöneticisi tarafından değiştirilebileceği
 için bu sayede boot işlemi customize edilebilecektir. Örnek "uEnv.txt" dosyamız aşağıdaki gibi olabilir:
@@ -7981,9 +7981,9 @@ U-Boot> saveenv
 Saving Environment to FAT... OK
 
 Artık sistemi reset ettiğimizde boot işlemi yine otomatik biçimde u_boot tarafından gerçekleştirilecektir.
----
 
----
+
+
 Biz şimdiye kadar zaten kurulu olan bir Linux dosya sistemini kullanarak boot işlemini gerçekleştirdik. Örneğin BBB'de biz 
 zaten BBB'nin kök dosya sistemini hiç değiştirmeden kullandık. Benzer biçimde Raspberry Pi'da da onun oluşturulmuş kök dosya
 sistemini doğrudan kullandık. Şimdi sıfır bir disk üzerinde Linux üzerinde çalışma için gerekebilecek dosyaları içeren kök 
@@ -7999,9 +7999,9 @@ programların da uygun yerlerde bulunuyor olması gerekir. Yine birtakım konfig
 uygun yerlere konuşlandırılması gerekmektedir. İşte biz "kök dosya sisteminin (root file system)" oluşturulması demekle 
 tüm bu hazırlıkların yapılmasını kastetmekteyiz. Şüphesiz hedef diske kurulacak olan tüm programların hedef makine için 
 "çapraz derleyicilerle" derlenmiş olması gerekir.
----
 
----
+
+
 Peki sıfırdan kök dosya sistemi nasıl oluşturulabilir? Bu işlem tamamen manuel sıfırdan yapılabilir. Yani uygulamacı 
 kök dizin içerisindeki gerekli dizinleri elle yaratır. Sonra gerekli programları kaynak kodlarından hareketle hedef makine 
 için derler ve onları konuşlandırır. Sonra yine gerekli birtakım konfigürasyon dosyalarını elle oluşturur. Ancak bu manuel 
@@ -8012,9 +8012,9 @@ vardır. Örneğin "debootstrap" programı Debian tabanlı kök dosya sistemini 
 bu araçların bazıları esnek değildir. Özellikle gömülü sistemlerde düşük bir sistem kaynağı olduğu dikkate alındığında bu 
 araçların bazıları minimalist bir kurulum sağlayamamaktadır. Biz kursumuzda bu işi yapan temel araçları çeşitli konularda 
 göreceğiz. Önce çok kullanılan ve basit bir kullanıma sahip olan "busybox" ile başlayacağız.
----
 
----
+
+
 Busybox minimalist biçimde kök dosya sistemini kolay bir biçimde oluşturabilmek için esnek ve yaygın kullanılan bir araçtır. 
 Projenin orijinal bağlantısı şöyledir:
 
@@ -8116,10 +8116,10 @@ $ chmod 666 x.txt
 
 Burada aslında "busybox" programı çalıştırılacaktır. Ancak "busybox" programının komut satırı argümanları şöyle olacaktır:
 
-argv[0] ---> "chmod"
-argv[1] ---> "666"
-argv[2] ---> "x.txt"
-argv[3] ---> NULL
+argv[0] > "chmod"
+argv[1] > "666"
+argv[2] > "x.txt"
+argv[3] > NULL
 
 BusyBox'ta kabuk komutları için çalıştırılan kodlara "applet" denilmektedir. BusyBox konfigüre edilirken applet seçimi
 yapılabilmektedir. BusyBox applet'leri aslında "busybox" programıyla da çalıştırılabilmektedir. Örneğin:
@@ -8130,21 +8130,21 @@ $ busybox chmod 666 x.txt
 
 Bu biçimde çalıştırmada komut satırı argümanları aşağıdaki gibi olacaktır:
 
-argv[0] ---> "busybox"
-argv[1] ---> "chmod"
-argv[2] ---> "666"
-argv[3] ---> "x.txt"
-argv[4] ---> NULL
+argv[0] > "busybox"
+argv[1] > "chmod"
+argv[2] > "666"
+argv[3] > "x.txt"
+argv[4] > NULL
 
 "busybox" programı argv[0] argümanına bakarak kendisinin bir sembolik bağlantıyla mı yoksa doğrudan mı çalıştırıldığını 
 anlamakta ve diğer komut satırı argümanlarını bu biçimde belirleyebilmektedir.
----
 
----
+
+
 # 43. Ders 12/09/2024 - Perşembe
----
 
----
+
+
 Anımsayacağınız gibi BusyBox'ı "make install" yaptığımızda default kurulum "_install" isimli dizine yapılıyordu. Kurulum 
 sonrasındai "_install" dizininin görünümü şöyledir:
 
@@ -8467,22 +8467,22 @@ Sonra U-Boot'un komut satırında aşağıdaki komutu girip çevre değişkenler
 => setenv bootcmd "load mmc 0:1 0x8A000000 /uEnv.txt;env import -t 0x8A000000;run uenvcmd"
 => saveenv
 Saving Environment to FAT... OK
----
 
----
+
+
 # 45. Ders 19/09/2024 - Perşembe
----
 
----
+
+
 Biz yukarıdaki örnekte BusyBox ile minimalist bir kök dosya sistemi oluşturduk. Oluşturduğumuz kök dosya sisteminde bir masaüstü
 Linux sisteminde hazır kurulu olarak bulunan pek araç yoktur. Örneğin sistemimizde bir "paket yönetici (package manager)" 
 program da yoktur. Aygıtımız henüz internete de girememektedir. Çünkü henüz Linux'ta bir ağ yapılandırması da yapmadık. 
 Dolayısıyla örneğin aygıtımıza "ssh" ile de henüz bağlanamayız. Çünkü ne kök dosya sistemimizde ağ konfigürasyonu yapılmıştır 
 ne de "ssh sunucu" programı kök dosya sisteminde yüklü durumdadır. Bu araçların kurulması ve işletilmesi aslında başka bir 
 konudur. Biz bu konu üzerinde de izleyen bölümlerde duracağız.
----
 
----
+
+
 BusyBox sisteminin en önemli özelliği minimalist olması ve küçük bir disk alanı kullanmasıdır. Bu nedenle gömülü sistemlerde
 tercih edilen bir kök dosya sistemi oluşturma aracıdır. Ancak bu bağlamda BusyBox'ın da alternatifleri bulunmaktadır. 
 Bunlardan biri "toybox" denilen araçtır. Toybox'ın genel kullanımı BusyBox'a oldukça benzemektedir. Toybox'ta da yine tek 
@@ -8495,9 +8495,9 @@ BusyBox ile toybox arasındaki farklar şunlardır:
 - Toybox daha yeni bir projedir. Zaten BusyBox'tan ilham alınarak geliştirilmiştir. Kaynak kodları daha sade ve daha anlaşılabilir
 biçimde organize edilmiştir.
 - Toybox daha minimalist olduğu için biraz daha aşağı seviyeli bir görünümdedir. Yani BusyBox kullanımda daha pratiktir.
----
 
----
+
+
 Toybox ile kök dosya sistemi şu aşamalardan geçilerek oluşturulmaktadır:
 
 1. Toybox kaynak kodları indirilir. Tıpkı BusyBox'ta olduğu gibi CROSS_COMPILE ve PATH çevre değişkenleri hedef makineye 
@@ -8539,9 +8539,9 @@ sembolik bağlantı dosyaları ilgili dizinlerin içerisine yerleştirilmektedir
 
 Toybox'taki init sistemi de BusyBox'takine çok benzemektedir. Yani yukarıda BusyBox için açıkladığımız diğer adımlar tamamen
 toybox için de geçerlidir.
----
 
----
+
+
 Yukarıda incelemiş olduğumuz BusyBox ve toybox araçları dar kapasiteli gömülü Linux sistemlerinde oldukça tercih edilmektedir. 
 Ancak bu araçların dışında bazı ana dağıtımlar sıfırdan kök dosya sistemi oluşturmak için çeşitli araçlar da sunmaktadır. 
 Örneğin Debian tabanlı bir kök dosya sistemini internetten indirip sıfırdan oluşturmak için yaygın kullanılan ismine 
@@ -8623,13 +8623,13 @@ $ sudo mount /dev/mmcblk0p2 ext
 ```bash
 $ sudo cp -a bbb-debian-rootfs/* ext
 ```
----
 
----
+
+
 # 46. Ders 24/09/2024 - Salı
----
 
----
+
+
 Çalışmakta olan programlara işletim sistemleri dünyasında "proses (process)" denilmektedir. Program terimi bazen "çalıştırılabilir
 program dosyaları" için bazen de "kaynak kodlar" için kullanılan bir terimdir. Bir program çalıştırıldığında artık işletim 
 sistemi için o bir prosestir. İşletim sistemleri çalışmakta olan programları (yani prosesleri) sürekli izlemektedir. İşletim 
@@ -8647,9 +8647,9 @@ yapısı da büyümüş, dallı budaklı hale gelmiştir. task_struct yapısın�
 göstericiler başka yapıları göstermektedir. Onların gösterdiği yapılarda da başka yapıları gösteren göstericiler vardır. 
 Biz bir bilginin proses kontrol bloğunda olduğunu söylediğimiz zaman bunun task_struct yapısının doğrudan içinde olduğunu 
 kastetmeyeceğiz. task_struct yoluyla erişilebilen tüm bilgiler bizim için task_struct yapısı içerisindedir.
----
 
----
+
+
 Göreli yol ifadelerinin proses kontrol blok içerisindeki "çalışma dizini (current working directory)" temel alınarak çözüldüğünü
 belirtmiştik. Örneğin biz "a/b/c.txt" biçiminde bir yol ifadesi belirtsek Linux burada "a" dizinini proses kontrol blokta
 belirtilen prosesin çalışma dizininde arayacaktır. Mutlak yol ifadelerinin her zaman kök dizinden itibaren çözüldüğünü biliyorsunuz.
@@ -8692,7 +8692,7 @@ Fonksiyon yeni köke ilişkin dizinin yol ifadesini parametre olarak alır. Baş
 
 Aşağıda chroot fonksiyonun kullanımına bir örnek verilmiştir. Bu programda chroot yapıldıktan sonra kök dizindeki dosyaların 
 listesi yazdırılmıştır. Artık bu dizin gerçek kök dizin değil chroot ile belirtilen dizin olacaktır.
----
+
 
 ```c
 #include <stdio.h>
@@ -8733,7 +8733,7 @@ perror(msg);
 exit(EXIT_FAILURE);
 }
 
----
+
 Aslında prosesin çalışma kök dizinini değiştirmek için "chroot" isimli bir kabuk komutu da bulundurulmuştur. Tabii bu komut
 aslında chroot fonksiyonu kullanılarak yazılmıştır. Bu kabuk komutunun kullanım biçimi şöyledir:
 
@@ -8748,9 +8748,9 @@ $ sudo chroot . /sample
 ```
 
 Burada "/sample" programı çalıştırılacak ancak bu çalıştırmadan önce prosesin kök dizini o andaki dizin olarak değiştirilecektir.
----
 
----
+
+
 "chroot" komutunu biz de chroot fonksiyonunu kullanarak yazabiliriz. Aşağıda böyle bir örnek verilmiştir. Burada örnekte 
 önce komut satırı argümanlarının sayısını kontrol ettik:
 
@@ -8819,7 +8819,7 @@ $ gcc -o mychroot mychroot.c
 ```
 
 Programları bir bütün olarak aşağıda veriyoruz.
----
+
 
 ```c
 /* mychroot.c */
@@ -8907,7 +8907,7 @@ perror(msg);
 exit(EXIT_FAILURE);
 }
 
----
+
 Örneğin biz kendi mimarimiz için "debootstrap" programı ile aşağıdaki gibi bir kök dosya sistemini oluşturmuş olalım:
 
 ```bash
@@ -8942,13 +8942,13 @@ $ root@kaan-virtual-machine:/# apt-get install vim
 ```
 
 Bu örnekte "vim" programı yeni kök dosya sistemine kurulacaktır.
----
 
----
+
+
 # 47. Ders 26/09/2024 - Perşembe
----
 
----
+
+
 Peki chroot yaptıktan sonra yeni kök dosya sisteminden eski kök dosya sistemine hiçbir biçimde erişim yok mudur? Aslında 
 Linux'ta bunun iki yolu vardır. Bunlardan birisi eski kök dosya sistemini "--bind" seçeneği ile yeni kök dosya sistemine 
 mount etmektir. Tabii biz eski kök dosya sistemindeki herhangi dizinleri (örneğin "/bin" dizini, "/lib" dizini gibi) de 
@@ -8971,9 +8971,9 @@ $ sudo chroot rootfs-amd64
 root@kaan-virtual-machine:/#
 
 İkinci yöntem "pivot_chroot" işlemi uygulamaktır. Bunu burada açıklamayacağız.
----
 
----
+
+
 Şimdi de boot loader'dan sonraki aşamalar üzerinde duralım. Boot loader'ın işi ne zaman bitmektedir ve sonra neler olmaktadır?
 Anımsayacağınız gibi biz U-Boot'ta çekirdek imajını ve aygıt ağacı dosyasını belleğe yükledikten sonra bu adresleri kullanarak 
 "bootz" komutu ile boot işlemini başlatıyorduk. "bootz" komutunda geçici kök dosya sistemi için kullanılan imajın (initial 
@@ -8984,7 +8984,7 @@ dosya sistemini" belleğe yükledikten sonra çekirdek kodu içerisindeki bir no
 burada atlanılan kod imajı aynı zamanda açmaktadır.) Bu işlemden sonra Linux kaynak kodlarındaki start_kernel isimli fonksiyon
 çalıştırılmaktadır. Bunu şekilsel olarak şöyle gösterebiliriz:
 
-boot loader çekirdek imajını, aygıt ağacını ve geçici kök dosya sistemini yüklüyor ---> çekirdek imajı içerisindeki start_kernel
+boot loader çekirdek imajını, aygıt ağacını ve geçici kök dosya sistemini yüklüyor > çekirdek imajı içerisindeki start_kernel
 fonksiyonu çalıştırılıyor.
 
 start_kernel fonksiyonu ve bu fonksiyonun çağırdığı fonksiyonların önemli bölümü Linux kaynak kodlarında "init/main.c" dosyası 
@@ -8998,7 +8998,7 @@ içerisinde önce geçici kök dosya sisteminin olup olmadığında bakılmaktad
 bir deyişle bu proses önce geçici kök dosya sistemi varsa onu mount etmekte, yoksa "root" çekirdek parametresi ile belirtilen 
 kök dosya sistemini mount etmektedir.
 
-start_kernel ---> rest_init ---> kernel_init ---> Geçici dosya sistemi varsa onu mount et yoksa "root" çekirdek parametresiyle 
+start_kernel > rest_init > kernel_init > Geçici dosya sistemi varsa onu mount et yoksa "root" çekirdek parametresiyle 
 belirtilen dosya sistemini mount et.
 
 Eğer sistemde geçici kök dosya sistemi varsa (bu konunun bazı ayrıntıları izleyen paragraflarda açıklanacaktır) bu proses
@@ -9041,9 +9041,9 @@ Burada "init" programının dahi bir applet olarak "busybox" programın içerisi
 kök içerisinde "linuxrc" isimli bir dosya da vardır. Bu dosya da aşağıdaki gibi bir sembolik link içermektedir:
 
 lrwxrwxrwx 1 root root 11 Eyl 17 20:04 linuxrc -> bin/busybox
----
 
----
+
+
 Peki biz kök dosya sistemindeki "/sbin/init" dosyasını bir mesaj çıkartan basit bir program dosyası ile değiştirirsek ne 
 olur? Bunu bir deney olarak yapabiliriz. Tabii böyle bir deneyde orijinal "/sbin/init" dosyasının ismini değiştirmemiz uygun 
 olacaktır. Böylece eski duruma daha kolay dönebiliriz:
@@ -9061,9 +9061,9 @@ yapacaksınız bu programı da çapraz derleyiciyle derlemelisiniz.) İşte Linu
 "init" programının çalışmasıyla gerçekleşen bir dizi olay sonucunda sağlanmaktadır. Başka bir deyişle Linux sistemini çalışan 
 bir sistem haline getiren "init" programı ve sonrasında bu programın çalıştırdığı programlardır. Ancak yukarıda da belirttiğimiz 
 gibi bu programların çekirdek kodlarıyla bir ilgisi yoktur.
----
 
----
+
+
 Kursumuzun çeşitli yerlerinde "bir geçici kök dosya sisteminin" bulunabileceğini bu dosya sisteminin gerçek kök dosya 
 sistemini mount ettiğini belirtmiştik. Peki bu geçici kök dosya sistemi ne amaçla kullanılmaktadır? İşte geçici kök dosya 
 sisteminin önemli kullanım nedenlerinden bazıları şunlardır:
@@ -9092,13 +9092,13 @@ geçici kök sistemine de mutlak anlamda gereksinim duyulmamaktadır. Zaten şim
 geçici kök dosya sistemi kullanmadık.
 
 Geçici kök dosya sistemi terimi yerine halk arasında "initial ramdisk", "initrd", "initramfs" gibi terimler de kullanılmaktadır.
----
 
----
+
+
 # 48. Ders 1/10/2024 - Salı
----
 
----
+
+
 Geçici kök dosya sisteminin RAM'de oluşturulması için Linux'ta iki yöntem kullanılmaktadır. Bunlardan birine "initrd" 
 denilmektedir. Bu eski yöntemdir. Bu yöntemde arka planda ramdiskin oluşturulması için "/dev/ramN" aygıtları mount edilmektedir. 
 Modern sisteme "initramfs" denilmektedir. Bu sistemde ramdisk "tmpfs" dosya sistemi yardımıyla oluşturulmaktadır. Eski "initrd"
@@ -9263,13 +9263,13 @@ ya da "rdinit" çekirdek parametresi ile belirtilen program çalıştırılmadan
 "init" isimli çekirdek parametresi de benzer amaçla kullanılmaktadır. Ancak bu parametre geçici kök dosya sistemi için değil 
 "root" parametresi ile mount edilen dosya sistemindeki çalıştırılacak ilk programı belirtir. Anımsanacağı default durumda 
 önce "/sbin/init" dosyası çalıştırılmaya çalışılıyordu.
----
 
----
+
+
 # 49. Ders 03/10/2024 - Perşembe
----
 
----
+
+
 6. Peki biz geçici kök dosya sistemine düşüp birtakım işlemleri yaptıktan sonra gerçek kök dosya sistemine nasıl geçeceğiz?
 Geçici kök dosya sisteminde kök dizin ramdisk biçiminde RAM'de bulunmaktadır. Bizim bir biçimde diskteki gerçek dosya sistemine
 geçmemiz gerekir. Biz daha önce bir prosesin kök dizinini chroot fonksiyonuyla ya da "chroot" komutuyla değiştirmiştik. Ancak
@@ -9328,13 +9328,13 @@ switch_root komutunu kullanırken bu komut prosesin proses id'sinin 1 olup olmad
 bizim geçici kök dosya sistemindeki "/init" programında exec ile switch_root uygulamamız gerekir. Çünkü exec yapmazsak 
 shell programı (örneğimizde "ash") switch_root komutu için önce fork yapacaktır. Bu durumda komutu uygulayan prosesin proses
 id değeri 1 olmayacaktır.
----
 
----
+
+
 # 50. Ders 08/10/2024 - Salı
----
 
----
+
+
 Bizim switch_root uygulayabilmemiz için önce gerçek kök dosya sistemini "mount" etmemiz gerekir. Örneğin geçmek istediğimiz
 gerçek kök dosya sistemi micro SD karttaki "/dev/mmcblk0p2" Ext4 dosya sistemi olsun. Bizim şöyle switch_root yapmamız gerekir:
 
@@ -9413,13 +9413,13 @@ sleep 1
 done
 
 exec switch_root /newroot /sbin/init
----
 
----
+
+
 # 51. Ders 10/10/2024 - Perşembe
----
 
----
+
+
 Daha önceden de belirttiğimiz gibi Linux sistemlerinde tarih boyunca üç init sistemi kullanılmıştır:
 
 1. Klasik System 5 init sistemi (Buna "SysVinit" de denilmektedir.)
@@ -9430,16 +9430,16 @@ BusyBox ve toybox kendi init sistemlerini kullanmaktadır. Burada kullanılan in
 SysVinit sistemine oldukça benzemektedir. Onun daraltılmış hafifletilmiş bir versiyonu gibidir. Bu nedenle biz kursumuzda
 SysVinit sistemini ve systemd init sistemlerini inceleyeceğiz. Klasik SysVinit sistemi artık Linux sistemlerinde kullanılmıyor 
 olsa da gömülü sistemlerde kullanılabilmektedir. Upstart arada kalmış bir sistemdir. Zaten çok kısa bir süre kullanılmıştır.
----
 
----
+
+
 Anımsanacağı gibi çekirdek boot işleminin son aşamasında kök dosya sisteminde "/init" ya da "/sbin/init" programlarını 
 çalıştırıyordu. ("/init" programının geçici kök dosya sistemi için "/sbin/init" programının geçici kök dosya sistemi olmayan
 sistemlerde gerçek kök dosya sistemi için çalıştırıldığını anımsayınız.) Peki çekirdek akışı bu "init" programlarına 
 devrettiğinde neler olmaktadır?
----
 
----
+
+
 Klasik "System 5 init" programı çalışmaya başladığında bu program önce "/etc/inittab" dosyasına başvurup oradaki yönergeleri
 elde edip gerekli ilk işlemleri yapmaktadır. Bu dosya aşağıdaki gibi formata sahip satırlardan oluşmaktadır:
 
@@ -9593,9 +9593,9 @@ Daha ayrıntılı bilgi için "man init 8" aramasını yapabilirsiniz. Projenin 
 doküman nispeten diğerlerinden daha iyidir:
 
 https://wiki.gentoo.org/wiki/Sysvinit
----
 
----
+
+
 Klasik SysVinit sistemi ve sonrasında oluşturulan yapının bir özetini yapmak istiyoruz:
 
 1. Sistem boot edildiğinde çekirdeğin kendisi ya da geçici kök dosya sistemindeki script "/sbin/init" programını çalıştırıyor.
@@ -9608,9 +9608,9 @@ Klasik SysVinit sistemi ve sonrasında oluşturulan yapının bir özetini yapma
 script'leri "start", "stop", "restart", "status" komut satırı argümanlarıyla çalıştırır.
 
 5. "/etc/rc.d/rcN.d" dizinindeki script'ler "/etc/init.d" dizinindeki script'lere sembolik link yapılmıştır.
----
 
----
+
+
 Peki BusyBox init sistemi nasıldır? Yukarıda da belirttiğimiz gibi BusyBox init programı SysVinit'teki init programına 
 benzemektedir. Ancak önemli bazı farklılıklar şunlardır:
 
@@ -9649,13 +9649,13 @@ Bu durumda minimalist bir "/etc/inittab" dosyasını şöyle oluşturabiliriz:
 Burada "/etc/init.d/rcS" dosyası içeriğini değiştirebileceğiniz bir script dosyasıdır. Şimdilik bu dosyayı içi boş olarak 
 yaratabilirsiniz. Bu script dosyası da isteğe bağlı olarak "/etc/rcS.d" dizinindeki script'leri çalıştırabilir. Tabii buradaki
 organizasyon tamamen sistem yöneticisinin isteğine göre oluşturulabilir. Burada SysVinit ile aynı işlemleri yapabilirsiniz.
----
 
----
+
+
 # 52. Ders 15/10/2024 - Salı
----
 
----
+
+
 Bu durumda BusyBox init sisteminin işleyişini şöyle özetleyebiliriz:
 
 1. Sistem boot edildiğinde çekirdeğin kendisi ya da geçici kök dosya sistemindeki script "/sbin/init" programını çalıştırıyor.
@@ -9667,9 +9667,9 @@ Bu durumda BusyBox init sisteminin işleyişini şöyle özetleyebiliriz:
 4. "/etc/inittab" dosyasında genellikle genellikle "/etc/init.d/rcS" isimli bir script çalıştırılır. Bu script de "/etc/rcS.d" 
 dizinindeki diğer script'leri çalıştırır. Tabii bunların hiçbiri zorunlu değildir. Yani "/etc/inittab" içerisinde "rcS" script'i 
 çalıştırılmayabilir. "rcS" script'i de"/etc/rcS.d" dizinindeki scriptleri çalıştırmayabilir.
----
 
----
+
+
 Biz yukarıda kök dosya sistemindeki "/etc/inittab" dosyasını minimal biçimde şöyle hazırlamıştık:
 
 ::sysinit:/etc/init.d/rcS
@@ -9692,12 +9692,12 @@ Bu program da genellikle (ama her zaman değil) kabuk programıdır. Kabuk progr
 programları genellikle aynı silsileyi yeniden başlatmaktadır. (SysVinit sisteminde "respawn" eyleminin bu işi yaptığını 
 anımsayınız.)
 
-init (fork/exec)---> getty (exec)---> login (exec)---> shell
+init (fork/exec)> getty (exec)> login (exec)> shell
 
 Burada kullanıcı isminin "getty" programı tarafından parolanın ise "login" programı tarafından sorulduğuna dikkat ediniz.
----
 
----
+
+
 Bilindiği gibi UNIX/Linux sistemlerinde her prosesin (yani çalışmakta olan programın) Proses Kontrol Bloğunda saklanan 
 "gerçek kullanıcı id'si (real user id)", "etkin kullanıcı id'si (effective user id)", "gerçek grup id'si (real group id)"
 ve "etkin grup id'si (effective group id)" vardır. Genellikle "gerçek id'lerle etkin id'ler aynı değerdedir. Dosya erişim 
@@ -9738,9 +9738,9 @@ study::1000:
 
 Burada grup ismi "study" biçimindedir. Grup parolası kullanılmamıştır. Grup id'si 1000'dir. Bu gruba ek grup olarak üye olan 
 kullanıcı yoktur.
----
 
----
+
+
 Aslında UNIX/Linux sistemlerinde yeni kullanıcı oluşturmak için tek yapılacak şey "/etc/passwd" ve "/etc/group" dosyalarına 
 satır eklemektir. Bu sistemlerde her kullanıcı için "/home" dizini altında bir dizin oluşturmak gelenekselleşmiştir. Bu 
 sistemlerde kullanıcı yaratmak için kullanılan "adduser" gibi "useradd" gibi komutlar da aslında "/etc/passwd" ve gerekirse
@@ -9749,9 +9749,9 @@ sistemlerde kullanıcı yaratmak için kullanılan "adduser" gibi "useradd" gibi
 İşte "login" programı önce kullanıcıdan parola ister. Eğer parolu doğru ise prosesin gerçek ve etkin kullanıcı ve group 
 id'lerini setuid ve setgid fonksiyonlarıyla "/etc/passwd" dosyasında belirtildiği gibi değiştirir. Sonra yine 
 "/etc/passwd" dosyasında belirtilen programı exec fonksiyonlarıyla çalıştırır.
----
 
----
+
+
 Şimdi de BusyBox init sistemi için "getty" programının nasıl devreye sokulacağını açıklayalım. (burada kabukta BusyBox için 
 hazırladığımız kök dosya sisteminin kök dizininde bulunduğunu varsayıyoruz) Bunun için tek yapılacak şey aslında "etc/inittab" 
 dosyasında "getty" çalıştırılmasına yönelik bir satır eklemektir. Tabii biz böyle bir satırı ekleyeceksek artık getty bizi 
@@ -9812,13 +9812,13 @@ $ sudo chmod u+s bin/busybox
 ```
 
 Tabii bu komutu uyguladığımız kullanıcıya göre sudo ile çalıştırmak durumunda kalabiliriz.
----
 
----
+
+
 # 53. Ders 22/10/2024 - Salı
----
 
----
+
+
 Bugün UNIX/Linux sistemlerinde en yaygın kullanılan init sistemi "systemd" isimli init sistemidir. Bu sistem klasik SysVinit
 ve Upstart init sistemlerinin bazı eksiklerini ve dezavantajlarını ortadan kaldırmak için geliştirilmiştir. Anımsanacağı gibi 
 Raspberry Pi'da en fazla kullanılan Linux dağıtımı olan "Raspberry Pi OS" ve BBB'deki default Debian imajı init sistemi 
@@ -9857,9 +9857,9 @@ belli bir etkinlikte belli bir soketin otomatik yaratılmasını sağlamaktadır
 yöneticisi açısından daha kolaydır. Çünkü sistem yöneticisi script yazmak zorunda kalmaz. systemd yalnızca Linux sistemlerinde 
 değil BSD ve diğer UNIX türevi sistemlerde de aynı biçimde kullanılabilmektedir. systemd init sistemi yerine getirdiği ya da 
 getiremedi faaliyetler için log kayıtlarını kendisi tutmaktadır.
----
 
----
+
+
 Sistemimizde hangi init sisteminin yüklü olduğunu anlamanın birkaç yolu vardır. En basit yol "/sbin/init" dosyasına bakmaktır:
 
 ```bash
@@ -9877,9 +9877,9 @@ PID TTY  TIME CMD
 1 ?00:00:11 systemd
 
 Buradan systemd init sisteminin çalışmakta olduğu anlaşılmaktadır.
- ---
+ 
 
----
+
 systemd init sisteminde "birim dosyaları (unit files)" en önemli unsurlardır. Sistem yöneticisi istediği işlem için bir 
 "birim dosyası" oluşturur. Onu belli bir dizine yerleştirir. Sonra da onun işleme sokulmasını ister. Birim dosyaları çeşitli 
 sınıflara ayrılmaktadır. En çok kullanılan birim dosyaları şunlardır:
@@ -9909,9 +9909,9 @@ default olan "--system" seçeneği ile uygulanan sıradır.
 Bu amaçla en fazla kullanılan dizin "/lib/systemd/system" dizinidir. Bu dizin genellikle sistemin kurulumu sırasında oluşturulan 
 temel birim dosyalarını barındırır. Kullanıcılar genellikle birim dosyalarını "/etc/systemd/system" dizini içerisine 
 yerleştirirler.
----
 
----
+
+
 Bir birim dosyası (unit file) bölümlerden (sections) bölümler de "direktif=değer" satırlarından oluşmaktadır. ('=' karakterinin 
 iki tarafında boşluk bırakılmamaktadır.) Bölümler köşeli parantezler içerisinde belirtilmektedir. Formatın Windows sistemlerinde 
 eskiden kullanılan ".ini" dosya formatına benzediğine dikkat ediniz. Örneğin bir birim dosyası şöyle olabilir:
@@ -9944,9 +9944,9 @@ farklılık gösterebilmektedir. Bazı bölümler geneldir ve her türden birim 
 dosyasında hangi bölümlerin olduğu dokümanlardan öğrenilmelidir. Benzer biçimde bölümler içerisindeki direktifler de o birim 
 dosyasına ve bölüme özgüdür. Yani biz istediğimiz gibi bölüm ve direktif oluşturamayız. Bu nedenle birim dosyalarının yazımı 
 ve işlevi tür tür ele alınarak incelenmelidir.
----
 
----
+
+
 En temel birim dosyalarından biri "hedef birim (target unit)" dosyalarıdır. Bu birim dosyalarının uzantıları ".target" biçimindedir.
 Genellikle bu birim dosyası ile aynı isimli sonu ".wants" ile biten dizinler de bulundurulmaktadır. Örneğin "/lib/systemd/system"
 dizini içerisinde aşağıdaki gibi iki "hedef birim (target unit) dosyası" ve dizini bulunmaktadır:
@@ -9982,9 +9982,9 @@ Bu dosya da asıl hedef birim dosyasına sembolik link yapılmıştır:
 $ ls -l default.target
 ```
 lrwxrwxrwx 1 root root 16 Kas 21  2023 default.target -> graphical.target
----
 
----
+
+
 systemd init sistemi yalnızca "systemd" init programından oluşmamaktadır. Bu sistemde sistem yöneticileri için bazı yardımcı
 (utility) programlar da bulundurulmuştur. Bu programların en önemlisi "systemctl" isimli programdır. Biz bu yardımcı programlar 
 için "komut" terimini de kullanacağız. Sistem yöneticisi pek çok işlemi manuel olarak değil bu "systemctl" komutunu kullanarak 
@@ -9997,9 +9997,9 @@ hostnamectl
 nmcli
 
 Ancak en önemli işlemler yukarıda da belirttiğimiz gibi "systemctl" komutu ile yapılmaktadır.
----
 
----
+
+
 Sistemin default hedef birimi "systemctl get-default" komutu ile öğrenilebilir. Örneğin:
 
 ```bash
@@ -10074,9 +10074,9 @@ lrwxrwxrwx 1 root root 14 Kas 21  2023 /usr/sbin/reboot -> /bin/systemctl
 $ ls -l /usr/sbin/shutdown
 ```
 lrwxrwxrwx 1 root root 14 Kas 21  2023 /usr/sbin/shutdown -> /bin/systemctl
----
 
----
+
+
 Girişte de belirttiğimiz gibi "systemd"" init sisteminde "bağımlılık yönetimi" olgusu vardır. Bağımlılık yönetimi "bu servis 
 çalıştırılırsa şu servis de çalıştırılsın", "bu servis şu servis çalıştırılıyorsa çalıştırılsın" demenin bir yöntemidir. 
 Bunu uygulamak için tipik olarak aşağıdaki direktifler kullanılmaktadır. (Direktifler ve bölümlerdeki isimlerin büyük harf 
@@ -10097,13 +10097,13 @@ ile belirtilmişse istek karşılanmasa bile ilgili birim çalıştırılır. Ö
 olsun. Bu durumda A çalıştırılırken eğer B bir nedenden dolayı çalıştırılamazsa A yine çalıştırılır. A birim dosyasında "Required" 
 ile B belirtilmişse bu durumda B çalıştırılamazsa A servisi de çalıştırılmaz. Aynı durum ters yönde "WantedBy" ve "RequiredBy" 
 için de geçerlidir.
----
 
----
+
+
 # 54. Ders 24/10/2024 - Perşembe
----
 
----
+
+
 Birimlerin çalıştırılmasında öncelik-sonralık ilişkisi de kurulabilmektedir. Eğer böyle bir ilişki belirtilmediyse "systemd"
 ilgili birimleri paralel bir biçimde çalıştırmaktadır. Öncelik sonralık ilişkisi için "Before" ve "After" biçiminde iki 
 direktif bulundurulmuştur. Before direktifi "içinde bulunulan birim direktifte belirtilen birimden önce", After direktifi 
@@ -10131,9 +10131,9 @@ ancak buradaki birimler için "require" ya da "want" ile bir bellirleme yapmadı
 İşte bu durumda yalnızca After ya da Before "eğer bu direktifte belirtilen birim çalıştırılırsa önce ya da sonra çalıştırılsın" 
 anlamına gelmektedir. Yani bu direktifte belirtilen birimler çalıştırılmazsa bu direktiflerin bir anlamı kalmamaktadır. İlgili 
 birim yine çalıştırılacaktır.
----
 
----
+
+
 Hedef birim dosyaları bir durum karşısında çalıştırılan dosyalardır. Diğer birim dosyaları hep hedef birim dosyaları 
 çalıştırıldığında bir biçimde çalıştırılmaktadır. Hedef birim dosyalarıyla aynı isimli ".wants" uzantılı dizinler olduğunu
 belirtmiştik. İşte bu dizinler içerisinde ilgili hedef çalıştırıldığında devreye girecek olan birimler belirtilmektedir. Örneğin
@@ -10143,7 +10143,7 @@ istiyorsa o birimi o hedefin ".wants" dizinine yerleştirmelidir. Ancak hemen he
 kendi birim dosyasını "/etc/systemd/system" ya da "/lib/systemd/system" dizinlerine yerleştirip ilgili ".wants" dizinininde 
 bu birim dosyasına ilişkin bir sembolik link oluşturmaktadır. Özetlersek sistemin işleyişinin aşamaları şöyledir:
 
-systemd belli bir hedefi çalıştırmak istiyor ----> hedefin ".wants" dizinine bakıp oradaki birimleri çalıştırıyor ---> 
+systemd belli bir hedefi çalıştırmak istiyor -> hedefin ".wants" dizinine bakıp oradaki birimleri çalıştırıyor > 
 ".wants" dizininde birim dosyalarının kendileri değil sembolik bağlantıları var, bunların kendileri "/etc/systemd/system" 
 ya da "/lib/systemd/system" içerisinde bulunuyor.
 
@@ -10171,19 +10171,19 @@ Enable işlemi servis birim dosyasını inceleyip sentaks hatalarını görünt�
 ".wants" dizinine yerleştirmektedir. Disable işlemi ise ".wants" dizinindeki sembolik bağlantıyı yok etmektedir. Tabii "enable 
 işleminde "systemctl" komutunun ilgili birim dosyasını inceleyip oradaki "want" ve "require" direktiflerini dikkate alarak 
 ilgili sembolik bağlantıları birim dosyasında belirtilen hedeflerin ".wants" dizinlerine yerleştirdiğine dikkat ediniz.
----
 
----
+
+
 Aslında hedef birimler (target units) birbirinden bağımsız değil, birbirini gerektirecek biçimde oluşturulmuştur. Örneğin 
 aslında sistemimiz "graphical.target" ile açıldığında bu durum "mult-user.target" hedefinin de çalıştırılmasını gerektirmektedir. 
 Buradaki temel "Requires" ilişkisi şöyledir:
 
-graphical.target ---> multi-user.target ---> basic.target ---> sysinit.target
+graphical.target > multi-user.target > basic.target > sysinit.target
 
 ilgili hedef birim dosyalarında bu "Requires" direktifinde belirtilen hedefler "After" olarak belirtilmiştir. Dolayısıyla 
 aslında bu hedeflerin çalıştırılması ters sırada şöyle yapılacaktır:
 
-sysinit.target ---> basic.target ---> multi-user.target ---> graphical.target
+sysinit.target > basic.target > multi-user.target > graphical.target
 
 Yukarıdaki vermiş olduğumuz örnek servis birim dosyasına bir kez daha dikkat ediniz:
 
@@ -10197,9 +10197,9 @@ WantedBy=multi-user.target
 
 Burada biz sistemi "graphical.target" ile de başlatsak, "multi-user.target" ile de başlatsak servisimiz devreye girecektir. 
 Ancak "basic-target" ile başlatırsak servisimiz devreye girmeyecektir.
----
 
----
+
+
 Şimdi biz bir servis birim dosyası oluşturup onun üzerinde birtakım işlemler yapalım. Servis birim dosyamız yine "myservice.service"
 biçiminde olsun. Yukarıdaki basit dosyanın aynısını kullanalım:
 
@@ -10325,13 +10325,13 @@ sırasında devreden çıkartmak için "systemctl disable <servis_birim_dosyası
 ```bash
 $ sudo systemctl disable myservice.service
 ```
----
 
----
+
+
 # 55. Ders 31/10/2024 - Perşembe
----
 
----
+
+
 Yukarıda da belirttiğimiz gibi birim dosyalarındaki bölümlerde kullanılan direktiflerle ilgili pek çok ayrıntı vardır. Biz 
 yukarıda servis birim dosyasını şöyle oluşturmuştuk:
 
@@ -10351,9 +10351,9 @@ edildiğinde de ayrıca bir programın çalıştırılması "ExecRestart" direkt
 "StandardOutput" ve "StandardError" direktifleri ile de servis programının stdin, stdout ve stderr dosyalarının nereye 
 yönlendirileceği belirtilebilmektedir. (Default olarak bu direktifler kullanılmazsa yönlendirme "journaling log" sistemine 
 yapılmaktadır.)
----
 
----
+
+
 Sistem açıldığında default hedeften (default target) hareketle işlemlerin yapıldığını belirtmiştik. Hedeflerin de ayrık 
 değil birbirine bağlı biçimde oluşturulduğunu anımsayınız. İşte biz de istersek kendi hedeflerimizi oluşturturabiliriz. 
 Örneğin biz "mytarget.target" isimli bir hedef birim oluşturup bu hedefte "myservice.service" biriminin çalıştırılmasını 
@@ -10399,9 +10399,9 @@ $ sudo systemctl start mytarget.target
 ```
 
 Tabii artık reboot yapıldığında da "mytarget.target" dolayısıyla da "myservice.service" çalıştırılacaktır.
----
 
----
+
+
 Hedef ve servis birim dosyalarının dışında çok kullanılan bir birim dosyası da mount birim dosyasıdır. Bu mount birim dosyası 
 tipik olarak sistem açıldığında birtakım dosya sistemlerinin otomatik mount edilmesini sağlamak için kullanılmaktadır. Gerçi 
 daha önce de belirttiğimiz gibi "systemd" init sisteminde standart bazı hedeflerin çalıştırdığı programlar "mount -a" komutuyla
@@ -10443,13 +10443,13 @@ enable işlemini yapmamız gerekir. Örneğin:
 ```bash
 $ sudo systemctl enable mnt-externel.mount
 ```
----
 
----
+
+
 # 56. Ders 05/11/2024 - Salı
----
 
----
+
+
 Peki biz loop aygıtını kullanarak mount işleminin mount birimi tarafından yapılmasını nasıl sağlayabiliriz? Buradaki 
 sorun mount biriminin çalıştırılması öncesinde "losetup" gibi bir işlemin de yapılması zorunluluğudur. İşte bunu sağlayabilmek 
 için mount birimine ek olarak bir de servis birim dosyasının oluşturulması ve mount birimi çalıştırıldığında servis biriminin 
@@ -10510,9 +10510,9 @@ $ sudo systemctl enable mnt-fat16.mount
 ```bash
 $ sudo systemctl enable loop0.service
 ```
----
 
----
+
+
 Diğer çok kullanılan bir birim de "zamanlayıcı" birimidir. Zamanlayıcı birimi UNIX/Linux sistemlerinde kullanılan klasik 
 "cron" mekanizmasına benzer amaçlarla kullanılıyor olsa da daha fazla özellikleri ve kullanım yeri vardır.
 
@@ -10585,17 +10585,17 @@ $ sudo systemctl enable mytask.service
 ```
 
 O anda aktif olan (start edilmiş olan) timer birimlerinin listesini almak için "systemctl "list-timer" komutu kullanılabilir.
----
 
----
+
+
 # 57. Ders 07/11/2024 - Persembe
----
 
----
+
+
 Bu bölümde gömülü Linux sistemlerinde kullanılan sistemlerdeki aygıt ağaçları (device tree) konusunu ele alacağız.
----
 
----
+
+
 İşletim sistemlerinin o anda çalışılan donanımda hangi donanım birimlerinin bulunduğunu ve bunların kullandığı kaynakların 
 neler olduğunu bilmesi gerekir. Örneğin Linux işletim sisteminin söz konusu bilgisayar donanımında kaç tane CPU ya da çekirdek
 olduğunu, kullanılan RAM'in miktarını, network arayüzünün (network biriminin) donanımda olup olmadığını vs. bilmesi gerekir. 
@@ -10653,9 +10653,9 @@ ACPI yönteminin yerine "Aygıt Ağacı (Device Tree)" denilen yöntem kullanıl
 kişiler donanım birimlerini "aygıt ağacı denilen" bir sentaksla yazısal olarak belirtirler. Sonra bu yazısal bilgi derlenerek 
 binary bir formata dönüştürülür. Bu binary aygıt ağacı da işletim sisteminin çekirdeğine iletilir. İşletim sistemi bu aygıt 
 ağacı bilgilerini parse ederek gömülü aygıtın kullandığı donanım birimlerini tespit eder.
----
 
----
+
+
 Donanım birimlerini iki kısma ayırabiliriz:
 
 1. Kendini Tanıtabilen (Discoverable) Birimler
@@ -10677,17 +10677,17 @@ Kendini tanıtamayan aygıtların bazıları da şunlardır:
 - SoC içerisindeki birimler. Örneğin kesme denetleyicileri, zamanlayıcılar vs.
 - I2C, SPI ve 1-wire protokollerini kullanan aygıtlar
 - GPIO pinlerine bağlanarak kullanılan aygıtlar
----
 
----
+
+
 Aygıt ağaçları daha çok gömülü sistemler tarafından kullanılan bir yöntemdir. Aygıt ağaçları ilk kez Linux'ta PowerPC mimarisinde
 kullanılmaya başlanmıştır. Linux'un 2.6.20 çekirdeğinde PowerPC mimarisine özgü olarak aygıt ağacını ele alan kodlar eklenmiştir. 
 Aygıt ağaçları ARM mimarisin 2011 yılında çekirdeğin 3.0 sürümüyle birlikte ARM platformuna özgü bir biçimde eklenmiştir. 
 Ancak aygıt ağaçları platformdan bağımsız bir biçimde (yani platform ne olursa olsun çalışacak biçimde) Linux çekirdeğine 
 Linux çekirdeğinin 3.7 sürümüyle 2012 yılında eklenmiştir.
----
 
----
+
+
 Aygıt ağaçlarına olan gereksinimi (yani aygıt ağaçlarının neden kullanıldığını) şöyle açıklayabiliriz:
 
 1. Linux çekirdeğinin çalışması ve bazı işlevleri yerine getirmesi için o anda çalışılan donanımın kaynakları hakkında 
@@ -10710,9 +10710,9 @@ Bu iki versiyon için aygıt ağaçlarını değiştirerek onlar hakkındaki bil
 Peki aygıt ağaçlarıyla ilgili olmayan durumlar nelerdir? İşte erken yüklenmesi gerekmeyen, donanım birimleriyle bir ilgisi 
 olmayan aygıt sürücülerin aygıt ağaçlarıyla bir ilgisi yoktur. Aygıt bir donanım biriminin çekirdeğe tanıtılıp erken aşamada
 ona ilişkin sürücülerin yüklenmesi gerektiği durumlarda kullanılmaktadır.
----
 
----
+
+
 Peki aygıt ağaçları kimler tarafından oluşturulmaktadır? Gömülü sistemler birbirinden farklı donanım birimleri içerebildiğine 
 göre her gömülü sistem için o sistemi oluşturan ekibin aygıt ağacını oluşturması gerekir. Tabii gömülü sistem tasarımında
 donanımı tasarlayanlar zaten bilinen ve kullanılan donanım birimlerini kartlarına yerleştirebilmektedir. Bu birimler için 
@@ -10727,9 +10727,9 @@ içerisinde ilgili işlemci ailesine ilişkin dizine girildiğinde buradaki "boo
 SoC'lar için ve donanım birimleri için hazır aygıt ağacı dosyası bulunmaktadır. Örneğin BBB için hazır aygıt ağacı dosyası
 çekirdek kod dağıtımında "arch/arm/boot/dts/ti/omap" dizininde "am335x-boneblack.dts" ismiyle bulunmaktadır. Biz de eğer 
 bu SoC'u kullanıyorsak bu aygıt ağacı dosyasını temel alabiliriz.
----
 
----
+
+
 Aygıt ağaçları bir metin dosyası (text file) biçiminde belli sentaks kurallarına uyarak oluşturulmaktadır. Biz burada 
 bu kurallar üzerinde duracağız. Bu biçimde oluşturulmuş olan dosyalara ".dts (device tree source)" uzantısı verilmektedir. 
 Sonra bu aygıt ağacı kaynak dosyası "aygıt ağacı derleyicisi (device tree compiler)" denilen bir programla binary biçime 
@@ -10738,16 +10738,16 @@ olan bu dosyaya İngilizce "device tree blob" dosyası ya da "flatten device tre
 yapan aygıt ağacı derleyicisi Linux sistemlerinde "dtc" isminde temel araç biçiminde bulundurulmaktadır. (Yani pek çok 
 dağıtımda biz özellikle yüklemesek de bu program bulunuyor durumdadır.)
 
-.dts (device tree source file) ----> dtc (device tree compiler) ---> .dtb (device tree blob / flattened device tree)
+.dts (device tree source file) -> dtc (device tree compiler) > .dtb (device tree blob / flattened device tree)
 
 Biz kursumuzda "device tree blob" ya da "flattened device tree" terimleri yerine "binary aygıt ağacı dosyası" ya da ".dtb"
 dosyası terimlerini kullanacağız.
 
 Neden aygıt ağacı kaynak dosyasının binary biçime dönüştürüldüğünü merak edebilirsiniz. Bunun nedeni binary bilgilerin 
 daha etkin bir biçimde parse edilmesi ve daha az yer kaplamasıdır.
----
 
----
+
+
 Peki oluşturulan bu binary aygıt ağacı dosyası işletim sisteminin çekirdeğine nasıl iletilmektedir? İşte bu iletme işlemi
 tipik olarak boot loader program tarafından yapılmaktadır. Biz de daha önce U-Boot'ta bu işlemi yapmıştık. Önce bu ".dtb" 
 dosyasını belleğe "load" komutuyla yüklemiştik. Sonra "bootz" komutunda yüklediğimiz yerin adresini vermiştik. U-Boot'da 
@@ -10756,13 +10756,13 @@ seviyeli bazı ayrıntıları vardır. Biz burada bu ayrıntılar üzerinde durm
 seçenek "binary aygıt ağacı dosyasını" U-Boot programının içine gömmektir. Bu durumda u-Boot kendi içerisine gömülmüş olan 
 bu dosya içeriğini çekirdeğe iletir. Aslında binary aygıt ağacı dosyası tamamen işletim sisteminin çekirdeğine de gömülebilmektedir. 
 Ancak bunu yapabilmek için çekirdeğin yeniden derlenmesi gerekir.
----
 
----
+
+
 # 58. Ders 12/11/2024 - Salı
----
 
----
+
+
 Aygıt ağacı derleyicisi tipik olarak aşağıdaki komut satırı argümanlarıyla kullanılmaktadır:
 
 dtc -I <girdi_formatı> -O <çıktı_formatı> -o <hedef_dosyanın_yol_ifadesi> <girdi_dosyası>
@@ -10798,9 +10798,9 @@ $ dtc -I dts -O dtb mydt.dts > mydt.dtb
 dtc -I dtb -O dts -o decompiled.dts mydt.dtb
 
 Burada "mydt.dtb" dosyası "decompiled.dts" dosyasına geri dönüştürülmüştür.
----
 
----
+
+
 Aygıt ağaçlarının text ve binary formatını açıklayan "Devicetree Specification" dokümanı aşağıdaki bağlantıdan indirilebilir:
 
 https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.4
@@ -10812,9 +10812,9 @@ da faydalanabilirsiniz:
 https://docs.zephyrproject.org/latest/build/dts/index.html
 
 Bootlin sitesindeki "Devicetree 101" ve "petazzoni-device-tree-dummies" dokümanlarından da faydalanılabilir.
----
 
----
+
+
 Aygıt ağacı dosyalarının başında bir versiyon alanı bulundurulmaktadır. Bu alan şimdilik aşağıdaki gibi olmalıdır:
 
 /dts-v1/;
@@ -10869,9 +10869,9 @@ Bir düğüm isminin soluna isteğe bağlı olarak bir "etiket (label)" ismi de 
 bu etiket isimlerinden faydalanılır. Etiket isimleri tüm dosya genelinde tek olmak zorundadır. (Yani örneğin farklı düğümlerin
 alt düğümlerinde aynı düğüm isimleri bulunabilir. Bu nedenle referans işleminde düğümler "tek (unique)" olmadığından dolayı
 iş görmeyebilir. Ancak toplamda dosya genelinde her etiket "tek (unique)" olmak zorundadır.)
----
 
----
+
+
 Bir aygıt ağacı dosyası başka bir aygıt ağacı dosyasını include edebilir. include işlemi "Devicetree Specification" dokümanına 
 göre aşağıda gibi yapılmalıdır:
 
@@ -10951,9 +10951,9 @@ Artık biz tek dosya haline getirilmiş olan aygıt ağacı dosyasını derleyeb
 ```bash
 $ dtc -I dts -O dtb -o mydt.dtb preprocessed.dts
 ```
----
 
----
+
+
 Bir aygıt ağacı kaynak dosyasındaki düğümün en önemli özelliği "compatible" özelliğidir. Bu "compatible" özelliği ilgili 
 düğüm için yüklenecek aygıt sürücüyü belirtmektedir. Bu tür aygıt sürücülerin "platform aygıt sürücüleri" biçiminde yazılmış 
 olması gerekir. "compatible" özelliğinin değeri genellikle tek bir string olarak karşımıza çıkar. Ancak bunu değeri virgüllerle
@@ -11009,9 +11009,9 @@ reg = <0x1000 0x100>;
 status = "disabled";
 };
 ```
----
 
----
+
+
 Aygıt ağaçlarında "kaplama (overlay)" denilen bir kavram da vardır. Kaplama mevcut bir aygıt ağacını bozmadan oradaki bazı 
 özellikleri değiştirmek için ya da aygıt ağacına yeni düğümler ve özellikler eklemek için kullanılan bir yöntemdir. Örneğin
 elimizde BBB için oluşturulmuş olan bir ".dts" dosyası olsun. Biz BBB'deki bazı aygıtların bazı özelliklerini değiştirmek 
@@ -11031,9 +11031,9 @@ $ dtc -I dts -O dtb -@ -o myoverlay.dtbo myoverlay.dts
 
 Kaplama dosyası oluşturulduktan sonra bunun boot loader'a verilmesi gerekir. Bootloader'da bu kaplama dosyasını ana aygıt
 dosyası ile birleştirerek çekirdeğe iletecektir. U-Boot'ta bu işlemin nasıl yapıldığını izleyen paragraflarda göreceğiz.
----
 
----
+
+
 Kaplama dosyaları aslında "Devicetree Specification" dokümanında açıklanmamıştır. Bir çeşit uzantı gibidir. Bu nedenle 
 kaplama (overlay) sentaksını resmi (formal) biçimde açıklayan bir doküman yoktur. Kaplama dosyası oluştururken versiyon 
 direktifinin yanı sıra "plugin" direktifinin de yerleştirilmesi gerekir. Yani tipik olarak kaplama dosyasının başı şu 
@@ -11170,18 +11170,18 @@ status = "disabled";
 };
 };
 ```
----
 
----
+
+
 Şimdi basit bir uygulama yapalım. Amacımız BBB üzerindeki LED'lerin yanıp sönmesini engellemek yani o led'leri işlev olarak 
 devre dışı bırakmak olsun. Anımsanacağı gibi BBB'de bir tane güç kaynağı led'i d tane de "aktivasyon led'i" bulunmaktadır. 
 Kenara en yakın led 0 numaralı led'tir. Biz bu işlemi led'lere ilişkin düğümlerin "status" özelliklerini "disabled" biçime
 getirerek sağlayabiliriz. Bu işlem yukarıda da belirttiğimiz gibi iki biçimde yapılabilir. Birincisi ana aygıt ağacı dosyası
 üzerinde değişiklerin yapılmasıdır. İkincisi ana aygıt ağacı dosyasına hiç dokunmadan bir kaplama dosyası yoluyla değişikliğin 
 yapılmasıdır. Biz burada her iki yönteme de örnek vereceğiz.
----
 
----
+
+
 BBB'deki ana aygıt ağacı dosyasında değişiklik yapabilmemiz için bizim bu ağaca ilişkin ".dts" dosyasına sahip olmamız gerekir. 
 Daha önceden de belirttiğimiz gibi Linux'un çekirdek kodları içerisinde bu dosyalar vardır. Ancak bu dosyalar orada tek 
 parça halinde değil birkaç dosya halinde bulunmaktadır. Bu dosyaların oradan alınıp derlenmesi biraz zahmetlidir. Bu nedenle 
@@ -11253,9 +11253,9 @@ $ dtc -I dts -O dtb -o am335x-boneblack.dtb am335x-boneblack.dts
 4. Elde ettiğimiz ".dtb" dosyasını orijinal ".dtb" dosyasını ezerek oraya kopyalarız.
 
 Artık sistemi boot ettiğimizde BBB'nin aktivasyon led'lerinin yanmadığını göreceksiniz.
----
 
----
+
+
 Şimdi de yukarıdaki örneği ana ".dtb" dosyasına hiç dokunmadan kaplama dosyası oluşturarak gerçekleştirelim. Biz yukarıda 
 kaplama dosyalarının nasıl oluşturulduğunu temel düzeyde gördük. Ancak kaplama dosyalarının nasıl devreye girdiğini açıklamadık.
 Örneğin biz yukarıdaki led'leri devre dışı bırakmak için "userled-disable.dtbo" dosyasını oluşturrmuş olalım. Bu dosyanın 
@@ -11345,9 +11345,9 @@ bootcmd çevre değişkeni de şöyle oluşturulabilir:
 
 => setenv bootcmd "load mmc 0:1 0x8A000000 /uEnv.txt;env import -t 0x8A000000;run uenvcmd"
 => saveenv
----
 
----
+
+
 UNIX/Linux sistemlerinde kullanılan "tar" utlity programı sıkıştırma yapmamaktadır. Yalnızca dosyaları uç uca ekleyip onları 
 tek bir dosya haline getirmektedir. Bu sayede kullanılmayan dosyalar dosya sisteminde daha az yer kaplar hale getirilebilir. 
 Aynı zamanda onların iletilmesi ve kopyalanması da kolaylaştırılmış olur. Sıkışıtma programları ise aslında tek bir dosyayı 
@@ -11488,9 +11488,9 @@ Açım işlemi de şöyle yapılabilir:
 ```bash
 $ tar -xvJf test.tar.xz
 ```
----
 
----
+
+
 Dağıtımlar (Ubuntu, Mint, Fedora gibi) çekirdek kodlarında küçük değişiklikler ve kendilerine özgü özelleştirmeler ve 
 yamamalar da yapabilmektedir. Debian tabanlı sistemlerde o anda makinede yüklü olan mevcut çekirdeğin ilgili dağıtıma 
 ilişkin kaynak kodlarını indirmek için aşağıdaki komutu da kullanabilirisiniz:
@@ -11531,13 +11531,13 @@ daha uygun olur. İndirmeyi aşağıdaki bağlantıdan yapabilirsiniz:
 ```bash
 $ git clone --depth=1 https://github.com/raspberrypi/linux.git
 ```
----
 
----
+
+
 Kursumuzun bu bölümünde Linux çekirdeğinin derlenmesi üzerinde duracağız.
----
 
----
+
+
    Bazı durumlarda çekirdeğin sıfırdan derlenmesi gerekebilmektedir. Çekirdeğin yeniden derlenmesinin gerektiği tipik durumlar 
    şunlardır:
 
@@ -11549,9 +11549,9 @@ için.
 - Çekirdek kodlarında yapılan değişikliklerin etkin hale getirilmesi için.
 - Çekirdeğe yama (patch) yapılması için.
 - Yeni çıkan çekirdek kodlarının kullanılabilir hale getirilmesi için.
----
 
----
+
+
 Çekirdeğin derlenmesi için öncelikle çekirdek kaynak kodlarının derleme yapılacak bilgisayara indirilmesi gerekir. Bazı 
 dağıtımlar default durumda çekirdeğin kaynak kodlarını da kurulum sırasında makineye çekmektedir. Çekirdek kodları "kernel.org" 
 sitesinde bulundurulmaktadır. Tarayıcdan "kernel.org" sitesine girip "pub/linux/kernel" dizinine geçtiğinizde tüm yayınlanmış 
@@ -11566,13 +11566,13 @@ belirtmektedir. Örneğin biz çekirdeğin 6.9.2 versiyonunu şöyle indirebilir
 ```bash
 $ wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.9.2.tar.xz
 ```
----
 
----
+
+
 # 62. Ders 28/11/2024 - Perşembe
----
 
----
+
+
 Çekirdek kodları indirildikten sonra onun açılması gerekir. Açma işlemi tar komutuyla aşağıdaki gibi yapılabilir:
 
 ```bash
@@ -11611,9 +11611,9 @@ olur. İndirmeyi aşağıdaki bağlantıdan yapabilirsiniz:
 ```bash
 $ git clone --depth=1 https://github.com/raspberrypi/linux.git
 ```
----
 
----
+
+
 Linux kaynak kodlarının versiyonlanması eskiden daha farklıydı. Çekirdeğin 2.6 versiyonlarından sonra versiyon numaralandırma 
 sistemi değiştirildi. Eskiden (2.6 ve öncesinde) versiyon numaraları çok yavaş ilerletiliyordu. 2.6 sonrasındaki yeni versiyonlamada 
 versiyon numaraları daha hızlı ilerletilmeye başlanmıştır. Bugün kullanılan Linux versiyonları nokta ile ayrılmış üç sayıdan 
@@ -11674,22 +11674,22 @@ $ cat /proc/version
 ```
 Linux version 5.15.0-91-generic (buildd@lcy02-amd64-045) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld
 (GNU Binutils for Ubuntu) 2.38) #101-Ubuntu SMP Tue Nov 14 13:30:08 UTC 2023
----
 
----
+
+
 Bilindiği gibi büyük projelerin derlenmesi için "build otomasyon araçları" denilen araçlar kullanılmaktadır. Bunların 
 en yaygın kullanılanı "make" denilen araçtır. Linux çekirdeklerinin derlenmesi de "make" aracı ile yapılmaktadır. Ancak 
 Linux çekirdeklerinin derlenmesinde projeye özgü bazı yapılar ve yöntemler de kullanılmıştır. Buna "KConfig sistemi" ya da 
 "KBuild sistemi" denilmektedir. Biz önce çekirdek derleme işleminin hangi adımlardan geçilerek yapılacağını göreceğiz. Sonra 
 çekirdeğin önemli konfigürasyon parametreleri üzerinde biraz duracağız. Sonra da çekirdekte bazı değişiklikler yapıp 
 değiştirilmiş çekirdekle sistemin açılmasını sağlayacağız.
----
 
----
+
+
 # 63. Ders 03/12/2024 - Salı
----
 
----
+
+
    Linux'ta çekirdek derlemesi tipik olarak aşağıdaki aşamalardan geçilerek gerçekleştirilmektedir:
 
 1. Derleme öncesinde derlemenin yapılacağı makinede bazı programların yüklenmiş olması gerekmektedir. Çünkü KBuild 
@@ -11938,13 +11938,13 @@ $ sudo INSTALL_MOD_PATH=modules make modules_install
 
 Burada aygıt sürücü dosyaları "/lib/modules/<çekirdek_sürümü>" dizinine değil bulunulan yerdeki "modules" dizinine 
 kopyalanacaktır.
----
 
----
+
+
 # 65. Ders 10/12/2024 - Salı
----
 
----
+
+
 Peki "make modules_install" komutu yalnızca modül dosyalarını mı hedef dizine kopyalamaktadır? Hayır aslında bu komut 
 modül dosyalarının kopyalanması dışında bazı dosyaları da oluşturup onları da hedef dizine kopyalamaktadır. make modules_install 
 komutu sırasıyla şunları yapmaktadır:
@@ -12066,12 +12066,12 @@ total 655480
 -rw-r--r-- 1 root root287375 Haz  7  2024 config-6.8.0-38-generic
 -rw-r--r-- 1 root root287766 Ağu 15 11:57 config-6.9.2-custom
 -rw-r--r-- 1 root root287766 Ağu 15 11:55 config-6.9.2-custom.old
-drwx------ 3 root root  4096 Oca  1  1970 efi
+drwx 3 root root  4096 Oca  1  1970 efi
 drwxr-xr-x 6 root root  4096 Ağu 15 11:57 grub
 lrwxrwxrwx 1 root root23 Ağu 10 11:20 initrd.img -> initrd.img-6.9.2-custom
 -rw-r--r-- 1 root root  73052139 Kas 19  2024 initrd.img-6.8.0-38-generic
 -rw-r--r-- 1 root root 526888758 Ağu 15 11:57 initrd.img-6.9.2-custom
--rw------- 1 root root   9055262 Haz  7  2024 System.map-6.8.0-38-generic
+-rw- 1 root root   9055262 Haz  7  2024 System.map-6.8.0-38-generic
 -rw-r--r-- 1 root root   8365115 Ağu 15 11:57 System.map-6.9.2-custom
 -rw-r--r-- 1 root root   8365115 Ağu 15 11:55 System.map-6.9.2-custom.old
 lrwxrwxrwx 1 root root20 Ağu 15 11:57 vmlinuz -> vmlinuz-6.9.2-custom
@@ -12079,23 +12079,23 @@ lrwxrwxrwx 1 root root20 Ağu 15 11:57 vmlinuz -> vmlinuz-6.9.2-custom
 -rw-r--r-- 1 root root  14819840 Ağu 15 11:57 vmlinuz-6.9.2-custom
 -rw-r--r-- 1 root root  14819840 Ağu 15 11:55 vmlinuz-6.9.2-custom.old
 lrwxrwxrwx 1 root root24 Ağu 15 11:57 vmlinuz.old -> vmlinuz-6.9.2-custom.old 
----
 
----
+
+
 Biz "make install" komutu ile yapılan işlemleri manuel olarak da yapabiliriz. Yukarıda da belirttiğimiz gibi derleme işlemi 
 sonucunda elde edilmiş olan dosyaların hedef sistemde bazı dizinlerde bulunuyor olması gerekir. Aslında çekirdek imajı ve 
 geçici kök dosya sistemi dosyaları default yerlerin dışında başka yerlerde de bulundurulabilir. Önyükleyiciye bu konuda bilgi 
 verilebilir. Ancak yukarıdaki dosyaların hedef sistemde bulundurulduğu default yerler şöyledir:
 
-- Çekirdek İmajı ---> "/boot" dizini
-- Çekirdek Sembol Tablosu ---> "/boot" dizini
-- Modül Dosyaları ---> "/lib/modules/<çekirdek_sürümü>/kernel" dizini
-- Geçici Kök Dosya Sistemi Dosyası ---> "/boot" dizinine
+- Çekirdek İmajı > "/boot" dizini
+- Çekirdek Sembol Tablosu > "/boot" dizini
+- Modül Dosyaları > "/lib/modules/<çekirdek_sürümü>/kernel" dizini
+- Geçici Kök Dosya Sistemi Dosyası > "/boot" dizinine
 
 Ancak yukarıdaki dosyalar dışında isteğe bağlı olarak aşağıdaki dosyalar da hedef sisteme konuşlandırılabilir:
 
-- Konfigürasyon Dosyası ---> "/boot" dizini
-- Modüllere İlişkin Bazı Dosyalar ---> "/lib/modules/<çekirdek_sürümü>" dizinine
+- Konfigürasyon Dosyası > "/boot" dizini
+- Modüllere İlişkin Bazı Dosyalar > "/lib/modules/<çekirdek_sürümü>" dizinine
 
 Peki yukarıda belirttiğimiz dosyalar hedef sistemdeki ilgili dizinlere hangi isimlerle kopyalanmalıdır? İşte tipik 
 isimlendirme şöyle olmalıdır (buradaki <çekirdek_sürümü> "uname -r" komutuyla elde edilecek olan yazıdır):
@@ -12117,11 +12117,11 @@ default içeriğini görüyorsunuz:
 $ ls -l /boot
 ```
 -rw-r--r-- 1 root root287375 Haz  7  2024 config-6.8.0-38-generic
-drwx------ 3 root root  4096 Oca  1  1970 efi
+drwx 3 root root  4096 Oca  1  1970 efi
 drwxr-xr-x 6 root root  4096 Ağu 15 11:57 grub
 lrwxrwxrwx 1 root root23 Ağu 10 11:20 initrd.img -> initrd.img-6.8.0-38-generic
 -rw-r--r-- 1 root root  73052139 Kas 19  2024 initrd.img-6.8.0-38-generic
--rw------- 1 root root   9055262 Haz  7  2024 System.map-6.8.0-38-generic
+-rw- 1 root root   9055262 Haz  7  2024 System.map-6.8.0-38-generic
 lrwxrwxrwx 1 root root20 Ağu 15 11:57 vmlinuz -> vmlinuz-6.8.0-38-generic
 -rw-r--r-- 1 root root  14944648 Haz  7  2024 vmlinuz-6.8.0-38-generic
 
@@ -12135,9 +12135,9 @@ fayalanılabilirsiniz. unmkinitramfs programı ile açım şöyle yapılabilir:
 unmkinitramfs /boot/initrd.img-6.9.2-custom initrd
 
 Bu komutla geçici kök dosya sistemine ilişkin arşiv dosyası "initrd" isimli dizinin altına açılacaktır.
----
 
----
+
+
 Peki derleme sonucunda elde ettiğimiz dosyaları manuel isimlendirirken çekirdek sürüm yazısını nasıl bileceğiz? Bunun için 
 "uname -r" komutunu kullanamayız. Çünkü bu komut bize o anda çalışmakta olan çekirdeğin sürüm yazısını verir. Biz yukarıdaki 
 denemede Linux'un "6.9.2" sürümünü derledik. Bunun sonuna da "-custom" getirdik. Bu durumda sürüm yazısının da "6.9.2-custom" 
@@ -12183,9 +12183,9 @@ da "/boot" dizinine kopyalamamız gerekir. Çekirdek modüllerinin kopyalanması
 derlediğimiz çekirdekte farklı dizinlerde bulunmaktadır. Bu kopyalamanın en etkin yolu "make modules_install" komutunu 
 kullanmaktır. Benzer biçimde çekirdek dosyalarının ve gerekli diğer dosyaların uygun yerlere kopyalanması için de en etkin 
 yöntem "make install" komutudur.
----
 
----
+
+
 Normal olarak biz "make install" yaptığımızda eğer sistemimizde GRUB önyükleyicisi varsa komut GRUB konfigürasyon dosyalarında 
 da güncellemeler yaparak sistemin yeni çekirdekle açılmasını sağlamaktadır. Böylece kullanıcı bir menü yoluyla sistemin kendi 
 istediği çekirdekle açılmasını da sağlayabilmektedir. GRUB menüsü otomatik olarak görüntülenmemektedir. Boot işlemi sırasında 
@@ -12220,13 +12220,13 @@ $ sudo apt-get install grub-customizer
 ```
 
 Bu işlemden sonra kurulum yapılabilir.
----
 
----
+
+
 # 66. Ders 12/12/2024 - Perşembe
----
 
----
+
+
  Biz yukarıda çekirdek derleme ve yeni çekirdeği kurma sürecini maddeler halinde açıkladık. Şimdi yukarıdaki adımları özet 
  haline getirelim:
 
@@ -12246,9 +12246,9 @@ değişiklikler yapılır.
 7. Modüller ve ilgili dosyalar hedefe "sudo make modules_install" komutu ile konuşlandırılır.
 
 8. Çekirdek imajı ve ilgili dosyalar "sudo make install" komutu ile hedefe konuşlandırılır.
----
 
----
+
+
 Peki yeni çekirdeği derleyip sisteme dahil ettikten sonra nasıl onu sistemden tamamen çıkartabiliriz? Tabii yapılan 
 işlemlerin tersini yapmak gerekir. Kaldırma işlemi manuel biçimde şöyle yapılabilir:
 
@@ -12259,9 +12259,9 @@ Bu program "/boot" dizinini inceleyip otomatik olarak ilgili girişleri GRUB men
 konfigürasyon dosyaları üzerinde manuel değişiklik yapmaya gerek yoktur. GRUB işlemleri için diğer bir alternatif 
 ise "grub-customizer" programı ile görsel silme yapmaktır. Ancak bu program "/boot" dizini içerisindeki dosyaları 
 ve modül dosyalarını silmez. Yalnızca ilgili girişleri GRUB menüsünden çıkartmaktadır.
----
 
----
+
+
 Linux sistemleri ve diğer UNIX türevi sistemler belli bir zamandan sonra spesifik programların "root" önceliğinde çalışabilmesi
 için "sudo" komutunu ekledilir. (Böyle bir komut POSIX standartlarında bulunmamaktadır.). Ancak bu sistemlerde her kullanıcı
 "sudo" yapamamaktadır. "sudo" yapabilen kullanıcılara "sudoer"denilmektedir. Kurulum sırasında sistem yöneticisinin belirlediği 
@@ -12302,9 +12302,9 @@ satırını # ile yorumlama satırı haline getirebilirsiniz. Birinci satır aş
 kullanılmadan da çevre değişkenleri otomatik olarak yaratılan prosese aktarılacaktır:
 
 Defaultsenv_keep="*"
----
 
----
+
+
 Peki Raspberry Pi ve BBB için nasıl çekirdek derleyebiliriz? Raspberry Pi'ın ileri versiyonları zaten kişisel bilgisayarlar
 kadar hızlıdır. Dolayısıyla çekirdek derlemesi doğrudan bunların üzerinde yapılabilir. Ancak BBB gibi kısıtlı sistem kaynaklarına
 sahip donanımlar için çekirdek derlemesinin başka bir sistemde (muhtemelen Intel tabanlı bir masaüstü bilgisayarda) yapılması 
@@ -12476,13 +12476,13 @@ dizinine "config-<çekirdek_sürümü>" ismiyle kopyalayabilirsiniz. Örneğin �
 sürümleri gereksinim duymaktadır) sizin geçici kök dosya sistemini yukarıdaki öğeleri içerecek biçimde yeniden oluşturmanız
 gerekebilir. Geçici kök dosya sistemini daha önce yapmış olduğumuz oluşturduktan sonra onu mikro SD kartın "/boot" dizininin
 içerisine çekebilirsiniz. Geçici kök dosya sisteminin isminin de "initrd.img.<çekirdek_sürümü>" biçiminde verilmesi uygundur.
----
 
----
+
+
 # 68. Ders 19/12/2024 - Perşembe
----
 
----
+
+
 Çekirdeği yeniden derlemenin gerekçelerinden bahsetmiştik. Bunlardan biri de çekirdek kodları üzerinde değişikliklerin 
 yapılmış olmasıydı. Peki çekirdek kodları üzerinde değişiklikler nasıl yapılabilir? Çekirdek kodları üzerinde değişiklikler 
 tipik olarak dört yolla  yapılmaktadır:
@@ -12497,13 +12497,13 @@ Eğer biz birinci maddedeki ve ikinci maddedeki gibi çekirdek kodlarına yeni b
 sağlayan make dosyalarında bir değişiklik yapmamıza gerek yoktur. Ancak çekirdeğe yeni bir kaynak dosya ya da dizin 
 eklenmiş olacaktır. Eğer kaynak kod ağacında bir dizinin altına yeni bir dizin eklemek istiyorsak bu durumda o dizini 
 yine üst dizine ilişkin make dosyasında belirtmemiz ve o dizinde ayrı bir Makefile oluşturmamız gerekir.
----
 
----
+
+
 # 69. Ders 26/12/2024 - Perşembe
----
 
----
+
+
 GNU Make aracı oldukça ayrıntılı özelliklere sahip bir build aracıdır. Bu aracın ayrıntılarını öğrenmek ayrı bir çabayı 
 gerektirmektedir. Make dili aslında aldukça aşağı seviyeli bir build dilidir. Bu nedenle özellikle son yirmi yıldır programcılar 
 doğrudan GNU Make aracını kullanmak yerine daha üst düzey make araçlarını kullanmayı tercih etmektedir. Bunlardan en yaygın 
@@ -12528,9 +12528,9 @@ sokulmaktadır. Yukarıda da belirttiğimiz gibi Linux'taki bu build sistemine K
 
 Bizim Linux'ta Makefile dosyaları üzerinde gerekli güncellemeleri yapmak için çok fazla bilgiye sahip olmamız gerekmez.
 Bazı yönergeleri uygun bir biçimde yerine getirirsek hedefimize ulaşabiliriz. 
----
 
----
+
+
 Linux kaynak kod ağacında dizinlerin altında "Makefile" isimli make dosyaları bulunur. Eğer bir dizinin altına yeni bir 
 dosya eklenecekse o dizinin içerisinde bulunan Makefile dosyasının içerisine aşağıdaki gibi bir satırın eklenmesi gerekir:
 
@@ -12568,9 +12568,9 @@ dosyaları belirtiriz. Örneğin:
 obj-y += a.o
 obj-y += b.o
 obj-y += c.o
----
 
----
+
+
    "menuconfig" menüsünde seçenekler için birkaç seçme biçimi bulunmaktadır. Eğer seçenekte [] varsa bu seçenek "seçilebilir
 ya da seçilmeyebilir" anlamına gelmektedir. Eğer bu seçenek seçilirse köşeli parantez içerisinde bir * karakteri gösterilmektedir. 
 Eğer ilgili seçenekte <> varsa bu açısal parantezlerin içersinde M karakteri ya da * getirilebilmekte ya da bunun içi boş 
@@ -12578,13 +12578,13 @@ bırakılabilmektedir. Bu açısal parantezli seçeneklere "üç konumlu seçene
 varsa bu seçenek seçilememezlik yapılamaz. Yani mutlaka çekirdek kodlarında bu seçeneğin bulunması gerekir. Tabii menuconfig 
 menüsünde yapılan her şey aslında ".config" dosyasına yansıtılmaktadır. 
 
-[]  ---> seçilebilir ya da seçilmeyebilir
-<?> ---> üç konumlu, seçilebilir, seçilmeyebilir ya da 'M' olarak belirtilebilir
--*- ---> seçilememezlik yapılamaz
-değer   ---> ilgili özellik 
----
+[]  > seçilebilir ya da seçilmeyebilir
+<?> > üç konumlu, seçilebilir, seçilmeyebilir ya da 'M' olarak belirtilebilir
+-*- > seçilememezlik yapılamaz
+değer   > ilgili özellik 
 
----
+
+
  Peki çekirdeğin konfigüre edilmesi aşamasında "menuconfig" işleminde belirlediğimiz seçenekler kaynak kodlara nasıl 
 yansıtılmaktadır? Örneğin biz "menuconfig" işleminde bir modülün çekirdek kodlarına dahil edilmesini ilgili girişi "*" ile 
 seçerek sağlayabilmekteyiz. Benzer biçimde biz konfigürasyon aşamasında bazı çekirdek parametrelerini de değiştirebilmekteyiz. 
@@ -12636,9 +12636,9 @@ sembolik sabit hiç define edilmemiş hale gelir. Özetle aslında ".config" dos
 Tabii üretilen bu "autoconf.h" dosyası çekirdek kaynak kodlarındaki çeşitli include dosyalarında doğrudan ya da dolaylı 
 bir biçimde include edilmiş durumdadır. Linux kaynak kodları da bu sembolik sabitleri kullanacak biçimde yazılmıştır. Tabii 
 Linux'un kaynak kodlarında "autoconf.h" dosyasını bulamazsınız. Çünkü bu dosya make işlemi sırasında oluşturulmaktadır.
----
 
----
+
+
 Biz yukarıdaki paragrafta ".config" dosyasındaki konfigürasyon parametrelerinin nasıl C'ye sembolik sabitler biçiminde 
 yansıtıldığını gördük. Peki bu konfigürasyon seçenekleri "Makefile" dosyalarına nasıl yansıtılmaktadır? Aşağıda çekirdeğin 
 bir "Makefile" içeriğini görüyorsunuz:
@@ -12689,13 +12689,13 @@ endif
 
 Burada eğer konfigürasyon yapılırken ilgili seçenek "y" biçiminde (yani [0] ya da <*> biçiminde) geçilmişse bu durumda 
 biz de ilgili dosyayı derlemeye dahil etmiş olduk.
----
 
----
+
+
 # 70. Ders 02/01/2025 - Perşembe
----
 
----
+
+
 Bir C dosyasını ya da dizini çekirdek kodlarına ekledikten sonra onun konfigürasyon sırasında (örneğin "make menuconfig"
 işlemi sırasında) sırasında görünebilirliğini sağlamak için "Kconfig" dosyalarının kullanıldığını belirtmiştik. Yani "Kconfig" 
 dosyaları yaptığımız değişikliklerin konfigüre edilebilirliğini sağlamak için kullanılmaktadır. Kconfig" dosyalarının genel 
@@ -12761,9 +12761,9 @@ obj-$(CONFIG_MyDRIVER) += mydriver.o
 5. Üst dizindeki (yani "drivers" dizinindeki) "Makefile" içerisine aşağıdaki gibi bir satır eklemeliyiz:
 
 obj-$(CONFIG_MyDRIVER) += mydriver/
----
 
----
+
+
 Şimdi çekirdeğe bazı kodlar ekleyip onu yeniden derleyerek bir deneme yapalım. Örneğin çekirdeğe yeni bir çekirdek modülü 
 ekleyelim ve çekirdeğin o modül gömülü olarak başlatılmasını sağlayalım. Ancak burada biz aynı zamanda bu çekirdek modülünün 
 "make menuconfig" ile seçilebilmesini de sağlayalım. Çekirdek modüllerinin nasıl yazılacağını görmedik. Bu nedenle örneğimizde 
@@ -12887,9 +12887,9 @@ $ dmesg | grep  "Hello"
 Çekirdeğe gömülü olan modüller "/proc/modules" dosyasında görünmezler, dolayısıyla da "lsmod" komutu ile de bunları göremeyiz. 
 Bunlar için "/sys/module" dizininde de bir giriş oluşturulmamaktadır. "modinfo" komutu ise çekirdeğe ilişkin bazı dosyalara 
 da baktığı için bize bu konuda bilgi verebilmektedir.
----
 
----
+
+
 Şimdi de yeni bir sistem fonksiyonunu çekirdeğe eklemek isteyelim. Linux çekirdeğinde sistem fonksiyonlarının adresleri 
 bir fonksiyon gösterici dizisinde tutulmaktadır. Bu gösterici dizisinin her elemanı bir sistem fonksiyonun adresini içerir. 
 O halde çekirdeğe bir sistem fonksiyonu ekleyebilmek için sistem fonksiyonunu bir dosya içerisine yazmak ve bu tabloya 
@@ -13011,9 +13011,9 @@ $ sudo make modules_install
 ```bash
 $ sudo make install
 ```
----
 
----
+
+
    Peki çekirdek kodlarında küçük değişiklikler yaptıktan sonra yeniden "make modules_install" ve "make install" işlemlerine 
    gerek var mı? Aslında küçük değişiklikler için bu işlemler yapılmazsa genellikle bir sorun ortaya çıkmaz. Yeni oluşturulan 
    çekirdek imajı doğrudan eskisinin üzerine kopyalanabilir. Ancak değişikliğin yerine ve kapsamına göre çekirdeğin sembol 
@@ -13024,13 +13024,13 @@ $ sudo make install
    uygulnamalıdır. Çekirdeğin modüllerle ilgili olmayan kısımlarında yapılan değişikler için "make modules_install" yapılmasına 
    gerek olmadığını bir kez daha belirtmek istiyoruz. "make modules_install" işleminden önce eski "/lib/modules/<çekirdek_sürümü>" 
    dizinini de "rm -r" komutu ile silmek daha güvenli bir yaklaşımdır. 
----
 
----
+
+
 # 72. Ders 09/01/2025 - Perşembe
----
 
----
+
+
 Biz yukarıdaki çekirdek derlemesi sürecinde imzalama (signing) işlemlerini devre dışı bırakmıştık. Çekirdek kodları 
 ve özellikle de aygıt sürücüler belli imzalara sahip olacak biçimde derlenebilmektedir. Böylece onlar üzerinde birtakım 
 istenmeyen değişikliklerin yapılmış olduğu değiştirilmiş çekirdeklerib ya da aygıt sürücülerin yüklenmesi engellenmiş olur. 
@@ -13159,9 +13159,9 @@ Genellikle bu biçimde bir çekirdek imzalaması seyrek olarak yapılmaktadır. 
 dosyalarının imzalandığını belirtmiştik. Aynı makinede aygıt sürücüyü derlerken (build ederken) oluşturulan imza 
 bilgisi de kullanılmaktadır. Yani biz aynı makinede bir aygıt sürücü derlediğimizde aygıt sürücümüz de zaten imzalanmış 
 olacaktır.
----
 
----
+
+
 Biz yukarıdaki işlemleri yaptığımızda yalnızca aygıt sürücüleri imzalamış oluruz. Çekirdeğin kendisinin imzalanması ayrıca 
 yapılmalıdır. Yukarıda da belirttiğimiz gibi UEFI BIOS'lar ve GRUB gibi önyükleyiciler çekirdek imajını yüklemeden önce 
 ayarlar uygun biçime getirildiyse çekirdek imzasına bakmaktadır. Eğer çekirdek imzası yanlışsa çekirdek dışarıdan kasti 
@@ -13197,14 +13197,14 @@ Genellikle bu biçimde bir çekirdek imzalaması seyrek olarak yapılmaktadır. 
 dosyalarının imzalandığını belirtmiştik. Aynı makinede aygıt sürücüyü derlerken (build ederken) oluşturulan imza 
 bilgisi de kullanılmaktadır. Yani biz aynı makinede bir aygıt sürücü derlediğimizde aygıt sürücümüz de zaten imzalanmış 
 olacaktır.
----
 
 
----
+
+
 # 73. Ders 14/01/2025 - Salı
----
 
----
+
+
 Şimdi de daha ilginç bir deneme yapalım. Çekirdekteki sys_open ve sys_openat sistem fonksiyonlarını manipüle edelim. Bu 
 sistem fonksiyonlarının içine bazı kodlar yerleştirerek eğer prosesin etkin kullanıcı id'si 1000 ise bu proses sanki dosya 
 açım işlemini etkin kullanıcı id'si 0 imiş gibi yapsın. Linux'ta dosya açmak için iki temel sistem fonksiyonu bulunmaktadır: 
@@ -13273,9 +13273,9 @@ Bu değişiklikten sonra etkin kullanıcı id'si 1000 olan kullanıcı ne zaman 
 işlemi root imiş gibi yapacaktır. Tabii bu tür manipülasyonlarda dikkat etmek gerekir. Çünkü bu işlemden her türlü proses 
 etkilenecektir. Bu da mevcut programların çalışmasını bozabilir. Çekirdek kaynak kodlarında değişiklik yaparken çok dikkat
 etmek gerekir. Çok masum görünen değişiklikler bile sistemin stabil çalışmasını bozabilir.
----
 
----
+
+
 Özellikle gömülü sistemlerde en önemli çekirdek derleme nedenlerinden biri de çekirdeğin küçültülmesidir. Çekirdeğin küçültülmesi
 için bazı çekirdek modüllerinin derleme sırasında atılması gerekir. Çekirdek modüllerinin dahil edilmesi ve atılması için 
 "make menuconfig" menüsünde aşağıdaki seçeneklere dikkat etmek gerekir:
@@ -13300,13 +13300,13 @@ Bu seçeneğin konfigürasyon dosyasındaki karşılığı şöyle olacaktır:
 
 # xxx is not set
 
-Eğer [*] seçeneği bir üst menüye ilişkinse (yani satırın sonunda ---> sembolü varsa) bu durum bazı alt seçeneklerin de 
+Eğer [*] seçeneği bir üst menüye ilişkinse (yani satırın sonunda > sembolü varsa) bu durum bazı alt seçeneklerin de 
 (ama hepsinin değil) otomatik biçimde seçileceğini belirtir. Örneğin:
 
-[*] Thermal drivers --->
+[*] Thermal drivers >
 
 Burada eğer bu seçenek seçilmişse alt seçeneklerin bazıları de (ama hepsi değil) otomatik olarak seçilir. Ancak buradaki "*"
-kaldırılırsa alt seçeneklerin hiçbiri seçilmemiş olur. Buradaki "*" kaldırılırsa satırın sonundaki ---> sembolü ---- haline 
+kaldırılırsa alt seçeneklerin hiçbiri seçilmemiş olur. Buradaki "*" kaldırılırsa satırın sonundaki > sembolü - haline 
 gelmektedir.
 
 - <*> seçeneği ilgili aygıt sürücünün çekirdeğin içerisinde mi gömüleceğini yoksa modül olarak derlenip çekirdeğin yanına
@@ -13337,9 +13337,9 @@ Bu durumda bu aygıt sürücü ne çekirdeğin içerisine gömülecek ne de mod�
 satır da şöyle olacaktır:
 
 # CONFIG_xxx is not set
----
 
----
+
+
 Çekirdeğin bellekte az yer kaplaması kısıtlı miktarda RAM'e sahip sistemlerde uygulama programları için daha geniş bir alanın 
 var olmasını sağlayabilmektedir. Bazı gömülü sistemler özel bir amaç için oluşturulmaktadır ve bunların RAM miktarı oldukça 
 düşük olabilmektedir.
@@ -13350,7 +13350,7 @@ Gömülü sistemlerde çekirdeğin küçültülmesi için bazı çekirdek konfig
 Çekirdekten çıkartılabilecek tipik öğeler şunlar olabilir:
 
 - Ağ desteğine ilişkin çekirdek modülleri ve çekirdek kodları eğer hedef sistem bir ağ haberleşmesi kullanmıyorsa tamamen 
-çekirdekten çıkartılabilir. Bunun için "menuconfig" menüsünde ana menüdeki "[*] Networking support --->" seçeneği tamamen 
+çekirdekten çıkartılabilir. Bunun için "menuconfig" menüsünde ana menüdeki "[*] Networking support >" seçeneği tamamen 
 kaldırılabilir. Böylece tüm ağ özellikleri kaldırılacaktır. Tabii bu alt menüye girerek yalnızca belirli ağr öğelerini de 
 çekirdek kodlarından kaldırabilirsiniz. Ağ ile ilgili tipik konfigürasyon seçenekleri aşağıda verilmiştir:
 
@@ -13378,7 +13378,7 @@ CONFIG_BTRFS_FS
 CONFIG_SQUASHFS
 
 - Çekirdeğin debug edilebilmesi için gerekli olan öğeler de çekirdekten atılabilir. Debug işlemleriyle ilgili "menuconfig" 
-menüsünde "Kernel hacking --->" isimli ana bir giriş vardır. Bununla ilgili tipik konfigürasyon seçenekleri aşağıda 
+menüsünde "Kernel hacking >" isimli ana bir giriş vardır. Bununla ilgili tipik konfigürasyon seçenekleri aşağıda 
 verilmiştir:
 
 CONFIG_DEBUG_INFO
@@ -13415,7 +13415,7 @@ CONFIG_FB_OMAP2
 CONFIG_DRM
 
 - Çekirdeği küçültmek için gerekmeyen aygıt sürücüler çekirdekten çıkartılabilir. Bunun için "menuconfig" menüsünde ana giriş 
-olan "Device driver --->" alt menülerini inceleyebilirsiniz. Örneğin "PCI support" pek çok gömülü sistem için gerekmemektedir. 
+olan "Device driver >" alt menülerini inceleyebilirsiniz. Örneğin "PCI support" pek çok gömülü sistem için gerekmemektedir. 
 Yine bazı blok aygıt sürücülerine gömülü sistemlerd ehiç gereksinim duyulmayabilir. "Serial ATA", "Paralel ATA" gibi aygıt 
 sürücülere de genel olarak gömülü sistemlerde gereksinim duyulmamaktadır. Eğer gömülü aygıtta "ethernet arayüzü" kullanılmıyorsa 
 ethernet birimine ilişkin aygıt sürücü kodları da tamamen çekirdekten atılabilir. Örneğin seri port haberleşmesi kullanılmıyorsa
@@ -13444,13 +13444,13 @@ gerek yoktur.
 
 Her çekirdek öğesinin çekir imajındaki kod miktarı birbirinden farklıdır. Örneğin dosya sistemleri çekirdekte geniş bir 
 yer kaplamaktadır. Halbuki örneğin gerçek zaman saatiyle ilgili kodlar çekirdekte küçük yer kaplamaktadır.
----
 
----
+
+
 # 76. Ders 28/01/2025 - Salı
----
 
----
+
+
 BBB'de çekirdek yükseltirken dikkat edilmesi gerekir. Yeni çekirdeklerde uyumlandırma bakımından sorunlar ortaya çıkabilmektedir.
 Biz daha önce BBB için çekirdeğin kaynak kodlarının "https://github.com/beagleboard" sitesinden indirilmesini tavsiye 
 etmiştik. Buradaki kaynak kodlarda BBB için bazı patch'ler yapılmış durumdadır. Örneğin kursumuzda bu siteden "linux-6.1.80-ti-r34"
@@ -13470,13 +13470,13 @@ bootsys=bootz 0x82000000 0x90000000 0x88000000
 uenvcmd=run loadkernel;run loadfdt;run loadinitrd;run bootsys
 
 Buradaki "uinitrd" BusyBox'ta oluşturmuş olduğumuz kök dosya sistemidir.
----
 
----
+
+
 # 77. Ders 30/01/2025 - Perşembe
----
 
----
+
+
 Şimdi de daha önce görmüş olduğumuz "debootstrap" programı ile BBB için kök dosya sistemini oluşturalım. Bu işlem adım
 adım şöyle yapılabilir:
 
@@ -13584,9 +13584,9 @@ yüklü durumdadır.
 - Debian kök dosya sisteminde komutlar çok fazla seçeneklere sahip olduğu için ve farklı dosyalar biçiminde bulunduğu için 
 bu dosya sisteminin çalışma performansı BusyBox'a göre daha düşüktür. Yani BusyBox kök dosya sisteminin minimalist olduğu 
 için daha hızlı çalıştığını söyleyebiliriz.
----
 
----
+
+
 "debootstrap" programı ile biz Debian kök dosya sistemi için geçici kök dosya sistemi oluşturabiliriz. Bunun en pratik 
 yolu kök dosya sistemini kurduktan sonra "chroot" yapıp "update-initramfs" programı geçici kök dosya sistemini oluşturmaktır. 
 Ancak bunun için "/boot" dizinin ve "/lib/modules" dizinin uygun biçimde oluşturulmuş olması gerekir. "update-initramfs" 
@@ -13614,9 +13614,9 @@ $ sudo mkImage -A arm -O linux -T ramdisk -C gzip -d initrd.img-6.6.32-custom bo
 ```
 
 Bu biçimde oluşturduğumuz kök dosya sistemini doğrudan SD karta kopyalayabiliriz.
----
 
----
+
+
 Her ne kadar Debian kök dosya sistemini BBB için "debootstrap" programı ile kolay bir biçimde oluşturmuş olsak da bazı ayarların
 yine de yapılması gerekmektedir. Örneğin oluşturulan kök dosya sisteminde henüz ağ ayarları tam yapılandırılmış değildir. 
 Ağ işlemlerine yönelik tüm paketler kurulmuş durumdadır ancak yapılandırma tam olarak yapılmamıştır. Bu Ethernet kablosu
@@ -13693,13 +13693,13 @@ gerekir:
 ::1localhost ip6-localhost ip6-loopback
 ff02::1ip6-allnodes
 ff02::2ip6-allrouters
----
 
----
+
+
 # 78. Ders 04/02/2025 - Salı
----
 
----
+
+
 Linux sistemine ssh server kurmak oldukça basittir. apt paket yöneticiniz varsa kurulum şöyle yapılabilir:
 
 ```bash
@@ -13717,13 +13717,13 @@ Sistem açıldığında otomatik çalışmanın sağlanması için systemctl ena
 ```bash
 $ systemctl enable ssh
 ```
----
 
----
+
+
 # 78. Ders 06/02/2025 - Perşembe
----
 
----
+
+
 Gömülü Linux sisteminizin host makinenin internetini kullanmasını da sağlayabilirsiniz. Bu işlem için hem gömülü Linux 
 sistemminde hem de host sistemde birtakım ayarların yapılması gerekmektedir. Konu aslında ağ yapılandırılmasının bazı ayrıntıları
 ile ilgilidir. Biz burada ayrıntıya girmeden bunun nasıl yapılabileceğini açıklayacağız. Bu işlem biraz sıkıcıdır. İşlemler
@@ -13924,13 +13924,13 @@ gateway 192.168.7.1
 4. BBB'de DNS sunucusunun IP adresi belirtilmelidir. Bunun için "/etc/resolv.conf" dosyasına aşağıdaki satırı ekleyebilirsiniz:
 
 nameserver 8.8.8.8
----
 
----
+
+
 # 79. Ders 11/02/2025 - Salı
----
 
----
+
+
 Peki bu süreçleri host tarafında ve BBB tarafında nasıl otomatik hale getirebiliriz? Host tarafındaki temel sorun USB 
 ağ arayüzünün isminin BBB'de "g_ether" aygıt sürücüsünün her yüklenmesinde değişiyor olmasıdır. Bunun host tarafında otomatize 
 edilebilmesi için BBB'de g_ether aygıt sürücüsü install edildiğinde bir script'in stabil bir isimle çalıştırılması gerekir. 
@@ -13992,13 +13992,13 @@ $ sudo udevadm control --reload-rules
 ```bash
 $ sudo udevadm trigger
 ```
----
 
----
+
+
 # 80. Ders 13/02/2025 - Perşembe
----
 
----
+
+
 Şimdi de BBB'de yapılması gerekenleri otomatize edelim. BBB'deki sistemde "systemd" kullanılıyorsa (örneğin biz "debootstrap" 
 ile Debian sistemi kurmuşsak) otomatize etmek için bir "servis birim (service unit)" dosyası oluşturabiliriz. Bu dosya şöyle 
 olabilir:
@@ -14022,16 +14022,16 @@ WantedBy=multi-user.target
 
 Buradaki birim dosyasını "/etc/systemd/system" dizini içerisine herhangi bir isimle save edebilirsiniz. Örneğin bu ismi 
 "usb-internet.service" biçiminde vermiş olalım. Artık BBB reboot edildiğinde otomatik olarak yukarıdaki işlemler yapılacaktır.
----
 
----
+
+
 Şimdi de interneti BusyBox ile oluşturduğumuz minimal kök dosya sistemindeki Linux'a bağlamaya çalışalım. Ancak öncelikle
 BusyBox'ta oluşturduğunuz kök dosya sisteminin ağ komutlarını içerip içermediğinden emin olmalısınız. Eğer bu kök dosya 
 sisteminde bu komutlar yoksa kök dosya sistemi bu komutları içerecek biçimde yeniden derlenmelidir. Bu seçenekler BusyBox'ın
 menuconfig menüsünde "Network Utilities" girişinde bulunmaktadır.
----
 
----
+
+
 Önce BusyBox ile oluşturduğumuz kök dosya sisteminde Ethernet girişi ile internet bağlantısını yapalım. BBB'de zaten Ethernet
 girişinin olduğunu anımsayınız. Aygıt ağacından hareketle işletim sistemi zaten otomatik bu arayüzü görecektir. Dolayısıyla
 biz "ip a" komutunu uyguladığımızda "eth0" biçiminde bir ağ arayüzünü görmemiz gerekir. Örneğin:
@@ -14089,4 +14089,4 @@ ip route add default via 192.168.1.1
 
 Bu giriş eklendiğinde artık açılış sırasında rcS script'inin yanı sıra "network" script'i de çalıştırılacaktır. Bu dosyaların 
 "x" hakkına sahip olması gerektiğini anımsayınız. Yukarıdaki script içeriğini "network" isimli script dosyasına yazabiliriz:
----
+
