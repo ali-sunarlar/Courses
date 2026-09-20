@@ -1418,11 +1418,11 @@ Geldik 30 günlük SysAdmin maratonumuzun tam olarak son gününe! Bugüne kadar
 Yazılım ekibinin yazdığı o meşhur veri işleme script'ini (``/opt/data_processor.sh``) sunucuya kurdun. Ancak bu script'in sadece terminal açıkken çalışmasını istemiyorsun. Tıpkı Nginx veya SSH gibi, sunucu açıldığında arka planda otomatik başlayan, çöktüğünde kendi kendini yeniden başlatan gerçek bir Linux servisi (daemon) haline getirmek istiyorsun.
 Senden İstenen Adımlar:
 
-* 1. Modern Linux dağıtımlarında (Ubuntu, RedHat vb.) yeni bir servis oluşturmak için ``/etc/systemd/system/`` dizini altına yazmamız gereken o servis tanımlama dosyasının uzantısı ne olmalıdır? (Örn: ``dataprocessor.xxxx``)
+* ** 1. Modern Linux dağıtımlarında (Ubuntu, RedHat vb.) yeni bir servis oluşturmak için ``/etc/systemd/system/`` dizini altına yazmamız gereken o servis tanımlama dosyasının uzantısı ne olmalıdır? (Örn: ``dataprocessor.xxxx``)
 
-* 2. Bu servisi yazdın ve kaydettin. Servisin sunucu her reboot olduğunda (yeniden başladığında) arka planda otomatik olarak tetiklenip başlaması için hangi ``systemctl`` komutunu çalıştırmalısın? (İpucu: Servisi o an çalıştırmak için ``start`` kullanıyoruz, otomatik başlatmak için ne kullanırız?)
+* ** 2. Bu servisi yazdın ve kaydettin. Servisin sunucu her reboot olduğunda (yeniden başladığında) arka planda otomatik olarak tetiklenip başlaması için hangi ``systemctl`` komutunu çalıştırmalısın? (İpucu: Servisi o an çalıştırmak için ``start`` kullanıyoruz, otomatik başlatmak için ne kullanırız?)
 
-* 3. Servisin çalışırken ürettiği tüm canlı çıktıları ve logları, Systemd'nin yerleşik log yönetim aracı olan ``journalctl`` ile canlı olarak (akan ekran modunda - tail mantığıyla) izlemek için hangi parametreyi kullanırsın?
+* ** 3. Servisin çalışırken ürettiği tüm canlı çıktıları ve logları, Systemd'nin yerleşik log yönetim aracı olan ``journalctl`` ile canlı olarak (akan ekran modunda - tail mantığıyla) izlemek için hangi parametreyi kullanırsın?
 
 
 #### 1. Adım
