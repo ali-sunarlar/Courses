@@ -1433,7 +1433,24 @@ Otomatik Başlatma: ``sudo systemctl enable dataprocessor`` (Servisi o an başla
 Canlı Log Takibi: ``sudo journalctl -u dataprocessor -f`` (`-u` servisi belirtir, `-f` tıpkı tail `-f` gibi akan ekran modunda izletir).
 
 
+## 31: "Docker Container İnternete Çıkamıyor ve DNS Çözemiyor!"
 
+
+Şirket içinde Ubuntu 24.04 sunucu üzerine bir Docker altyapısı kurdun. Sunucunun kendisi (``Host``) internete sorunsuz çıkıyor, ``ping 8.8.8.8`` veya ``curl google.com`` attığında yanıt alabiliyorsun.
+
+Ancak sunucu içinde çalışan bir Docker container'ının içine girdiğinde (``docker exec -it web_app bash``):
+
+* ** 1.``ping 8.8.8.8`` attığında paketler timeout'a düşüyor (Dış ağ erişimi yok).
+
+* ** 2.``curl google.com`` attığında ``Could not resolve host`` hatası alıyorsun (DNS çalışmıyor).
+
+### Senden İstenen Adımlar:
+
+* ** 1. Docker container'larının dış dünyaya çıkarken kullandığı paket yönlendirme (IP Forwarding) özelliğinin Linux Kernel seviyesinde açık olup olmadığını kontrol etmek ve geçici/kalıcı olarak aktif etmek için hangi ``sysctl`` parametresini kontrol edersin?
+
+* ** 2. Sunucuda aktif olan bir güvenlik duvarı (UFW veya iptables) Docker'ın sanal ağ arayüzünden (``docker0``) gelen trafiği blokluyor olabilir. UFW aktifken Docker paket geçişlerine izin vermek için varsayılan yönlendirme politikasını (``DEFAULT_FORWARD_POLICY``) hangi dosyada (``/etc/default/...``) `DROP` yerine `ACCEPT` yapmalısın?
+
+* ** 3. Container'ın DNS sunucusu olarak sunucunun kendi ``127.0.0.53`` (``systemd-resolved``) adresini görmesini engelleyip, Docker engine seviyesinde tüm container'lara varsayılan olarak Google (``8.8.8.8``) veya Cloudflare (``1.1.1.1``) DNS'i tanımlamak için hangi Docker yapılandırma dosyasını (``/etc/docker/...``) düzenlersin?
 
 
 
