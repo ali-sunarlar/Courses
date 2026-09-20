@@ -625,6 +625,276 @@ Bu sihirli zincir nasıl çalışıyor?
 
 Bu komutun çıktısına baktığında en üstte 150000 91.93.x.x görüyorsan, o IP adresini doğrudan firewall üzerinden engelleyerek (Drop) sunucuyu rahatlatırsın.
 
+---
+
+## 11. Gün: Süreçlerin Arka Planda Çalıştırılması ve Oturum Yönetimi (Screen, Tmux ve Nohup)
+
+### Senaryo: "SSH Bağlantısı Koptu, Script Yarıda Kaldı!"
+Sunucuda veri tabanını optimize eden bir bash script'i (`optimize.sh`) çalıştırdın. Bu işlemin yaklaşık **4 saat** süreceğini biliyorsun. Script çalışmaya başladıktan 30 dakika sonra bağlantın düştü (`Disconnect`). SSH bağlantın kapandığı için yürütülen işlem yarıda kaldı ve veri bozulması riski oluştu.
+
+### Soru & Cevaplar
+
+1. **Neden `&` (Background) İşlemi Tek Başına Yetmez?**
+   * **Açıklama:** Bir komutun sonuna `&` koymak işlemi arka plana atar ancak oturum bağını koparmaz. SSH oturumu kapandığında işletim sistemi ana sürece `SIGHUP` (Hangup) sinyali gönderir. Bu sinyal oturuma bağlı tüm süreçleri öldürür. SSH bağlantısından bağımsız, sunucu hafızasında yaşayan sanal terminallere (`tmux`, `screen`) ihtiyaç vardır.
+
+2. **Tmux İle Yeni Oturum Açma ve Ayrılma (`Detach`):**
+   * **Oturum Başlatma:** 
+     ```bash
+     tmux new -s yedekleme
+     ```
+   * **Arka Planda Bırakıp Çıkma (`Detach`):**
+     * Klavye kısayolu: Önce `Ctrl + B`, ardından elini çekip `D` tuşuna basılır.
+     * Ekranda `[detached (from session yedekleme)]` mesajı görülür. İşlem arka planda çalışmaya devam eder.
+
+3. **Oturumları Listeleme ve Geri Bağlanma (`Attach`):**
+   * **Canlı Oturumları Listeleme:**
+     ```bash
+     tmux ls
+     ```
+   * **Oturuma Geri Bağlanma:**
+     ```bash
+     tmux attach -t yedekleme
+     ```
+
+---
+
+## 12. Gün: Bağımlılıklar ve Kütüphane Sorunları (Shared Libraries & ldd)
+
+### Senaryo: "Kütüphane Bulunamadı Hatası!"
+Yazılım ekibinin C diliyle geliştirdiği `data_processor` isimli uygulama çalıştırılmak istendiğinde şu hatayı veriyor:
+`./data_processor: error while loading shared libraries: libcrypto.so.1.1: cannot open shared object file: No such file or directory`
+
+### Soru & Cevaplar
+
+1. **`.so` Dosyaları Nedir?**
+   * **Açıklama:** `.so` (Shared Object) dosyaları, Windows dünyasındaki **`.dll` (Dynamic Link Library)** dosyalarının Linux'taki tam karşılığıdır. Programların ortak kullandığı dinamik kütüphanelerdir.
+
+2. **Eksik Kütüphaneleri Tespit Etme Komutu (`ldd`):**
+   * **Komut:**
+     ```bash
+     ldd data_processor
+     ```
+   * **Çıktı Analizi:** Komut uygulamanın bağımlı olduğu kütüphaneleri listeler. Çıktıda `libcrypto.so.1.1 => not found` ifadesi görülerek eksik bileşen teşhis edilir.
+
+---
+
+## 13. Gün: SSH Güvenliği ve Anahtar Tabanlı Kimlik Doğrulama (SSH Hardening & Key-Auth)
+
+### Senaryo: "Sunucuyu Dış Dünyaya Kapatmak"
+`auth.log` kayıtlarında yurt dışı kaynaklı IP adreslerinin `root` kullanıcısı ile brute-force şifre denemeleri yaptığı tespit edildi. Şifre ile girişlerin kapatılması ve sadece SSH Anahtarı ile girişe izin verilmesi istendi.
+
+### Soru & Cevaplar
+
+1. **SSH Anahtar İkilisi Üretme Komutu:**
+   * **Komut:**
+     ```bash
+     ssh-keygen
+     ```
+   * **Oluşan Dosyalar:** `id_rsa` (Private Key - Gizli) ve `id_rsa.pub` (Public Key - Açık).
+
+2. **Anahtarın Sunucuya Aktarılması:**
+   * **Aktarılacak Dosya:** `id_rsa.pub` (Public Key).
+   * **Hedef Dosya Yolu:** `/home/kullanici_adi/.ssh/authorized_keys`
+   * **İzinler:** `.ssh` klasörü `700`, `authorized_keys` dosyası `600` izinlerine sahip olmalıdır.
+
+3. **`/etc/ssh/sshd_config` Sıkılaştırma Parametreleri:**
+   * `PermitRootLogin no` (Root erişimini kapatır)
+   * `PasswordAuthentication no` (Şifreli girişi tamamen engeller)
+   * **Uygulama:** `sudo systemctl restart ssh`
+
+---
+
+## 14. Gün: Web Sunucu Yönetimi ve Tersine Vekil (Nginx Reverse Proxy & HTTP Status Codes)
+
+### Senaryo: "Uygulamayı Dünyaya Açmak"
+Sunucuda `127.0.0.1:8080` portunda çalışan uygulama, Nginx kurulup Reverse Proxy yapılarak standart HTTP (80) portundan dış dünyaya açılacaktır.
+
+### Soru & Cevaplar
+
+1. **Nginx Reverse Proxy Direktifi:**
+   * **Yapılandırma (`/etc/nginx/sites-available/default`):**
+     ```nginx
+     location / {
+         proxy_pass [http://127.0.0.1:8080](http://127.0.0.1:8080);
+         proxy_set_header Host $host;
+         proxy_set_header X-Real-IP $remote_addr;
+     }
+     ```
+
+2. **"502 Bad Gateway" Hatasının Anlamı:**
+   * **Teşhis:** Nginx web sunucusu çalışmaktadır ve isteği karşılamıştır; ancak arkada yönlendirildiği `8080` portundaki uygulama kapalıdır veya yanıt vermiyordur.
+
+3. **Nginx Hata Log Dosyası Yolu:**
+   * **Yol:** `/var/log/nginx/error.log`
+
+---
+
+## 15. Gün: Linux Dosya Sistemi Hiyerarşisi ve Önemli Dizinler (FHS)
+
+### Senaryo: "Kayıp Dosyaları Bulmak"
+Linux dosya hiyerarşisinde sistem dosyalarının ve geçici verilerin yönetimi.
+
+### Soru & Cevaplar
+
+1. **Konfigürasyon (Yapılandırma) Dosyaları Dizin:**
+   * **Dizin:** `/etc`
+2. **Servis ve Sistem Log Dosyaları Dizini:**
+   * **Dizin:** `/var/log`
+3. **Reboot Sonrası Silinen Geçici Veri Dizini:**
+   * **Dizin:** `/tmp`
+4. **Kernel ve İşlemci/Bellek Bilgilerini Barındıran Sanal Dizin:**
+   * **Dizin:** `/proc` (Diskte yer kaplamaz, RAM üzerinde yaşar. Örn: `/proc/cpuinfo`, `/proc/meminfo`).
+
+---
+
+## 16. Gün: Zamanlanmış Görev Sorun Giderme ve Çevre Değişkenleri (Cron & Environment Variables)
+
+### Senaryo: "Terminalde Çalışan Script, Cron'da Çalışmıyor!"
+Elle çalıştırıldığında sorunsuz işleyen `/scripts/upload.sh` script'i `crontab` içerisine eklendiğinde `command not found` hatası veriyor.
+
+### Soru & Cevaplar
+
+1. **Hatanın Sebebi (PATH Ayrımı):**
+   * **Neden:** SSH oturumu kullanıcının tüm çevre değişkenlerini (`$PATH`) yükler. Cron ise arka planda oldukça kısıtlı bir `$PATH` değişkeni ile çalışır (sadece `/bin` ve `/usr/bin`).
+
+2. **Çözüm (Mutlak Yol - Absolute Path Kullanımı):**
+   * **Uygulama:** Script içerisindeki veya crontab satırındaki komutlar yalın (`rclone`) değil, tam yoluyla (`/usr/local/bin/rclone`) yazılmalıdır.
+
+3. **Komutların Tam Yolunu Bulma Komutu:**
+   * **Komut:**
+     ```bash
+     which rclone
+     # veya
+     whereis rclone
+     ```
+
+---
+
+## 17. Gün: Güvenli Dosya Paylaşımı ve Ağ Dosya Sistemleri (NFS - Network File System)
+
+### Senaryo: "Ortak Depolama Alanı Kurulumu"
+Uzak NFS sunucusundaki (`10.0.5.20:/data/shared_pool`) paylaşım alanının yerel `/var/www/uploads` dizinine bağlanması ve kalıcı hale getirilmesi.
+
+### Soru & Cevaplar
+
+1. **NFS Mount Komutu:**
+   * **Komut:**
+     ```bash
+     sudo mount -t nfs 10.0.5.20:/data/shared_pool /var/www/uploads
+     ```
+
+2. **Kalıcı Bağlantı Dosyası:**
+   * **Dosya Yolu:** `/etc/fstab`
+
+3. **`_netdev` Parametresinin Önemi:**
+   * **İşlevi:** Sunucu boot edilirken ağ kartı aktifleşene kadar ilgili disk bağlantısını bekletir. Ağ bağlantısı oluşmadan mount denenmesini engelleyerek sunucunun açılışta kilitlenmesini (`boot hang`) önler.
+   * **Örnek fstab Satırı:**
+     ```text
+     10.0.5.20:/data/shared_pool  /var/www/uploads  nfs  defaults,_netdev  0  0
+     ```
+
+---
+
+## 18. Gün: Temel Güvenlik Duvarı Yönetimi (UFW & Iptables)
+
+### Senaryo: "Sadece Belirli Bir IP'ye İzin Ver!"
+Ubuntu üzerinde UFW firewall kullanılarak SSH (22) portunun herkese kapatılması, sadece `10.50.60.70` IP adresine izin verilmesi.
+
+### Soru & Cevaplar
+
+1. **UFW Durum Kontrolü:**
+   * **Komut:** `sudo ufw status` veya `sudo ufw status numbered`
+
+2. **Belirli IP'ye Port İzni Verme:**
+   * **Komut:**
+     ```bash
+     sudo ufw allow from 10.50.60.70 to any port 22
+     ```
+
+3. **Geri Kalan Tüm Bağlantıları Engelleme:**
+   * **Komut:**
+     ```bash
+     sudo ufw deny 22
+     ```
+   *(Alternatif olarak `/etc/hosts.allow` ve `/etc/hosts.deny` dosyalarından da yapılabilir).*
+
+---
+
+## 19. Gün: Dosya ve Dizin Arama Teknikleri (Find ve Locate İleri Seviye)
+
+### Senaryo: "Şüpheli Dosyaları Yakalayın!"
+`/var/www` altında son 48 saatte değişen `.php` dosyalarının ve diskte 1 GB'tan büyük dosyaların tespiti.
+
+### Soru & Cevaplar
+
+1. **Son 48 Saatte Değişen PHP Dosyalarını Bulma:**
+   * **Komut:**
+     ```bash
+     find /var/www -type f -name "*.php" -mtime -2
+     ```
+
+2. **1 GB'tan Büyük Dosyaları Arama:**
+   * **Komut:**
+     ```bash
+     sudo find / -type f -size +1G
+     ```
+
+3. **Veritabanı Tabanlı Hızlı Arama (`locate`):**
+   * **Komut:**
+     ```bash
+     sudo updatedb
+     locate dosya_adi
+     ```
+
+---
+
+## 20. Gün: Temel Performans İzleme ve Bellek Sorunları (RAM Management & Swap)
+
+### Senaryo: "Sunucu RAM Yetersizliğinden Kilitleniyor!"
+Sunucunun bellek kullanım durumunun ve takas alanının (Swap) analizi.
+
+### Soru & Cevaplar
+
+1. **Okunabilir Format Veren Bellek Durum Komutu:**
+   * **Komut:** `free -h` veya `free -m`
+
+2. **Fiziksel RAM Dolduğunda Kullanılan Disk Alanı:**
+   * **Terim:** **Swap** (Takas Alanı).
+
+3. **Swap Detaylarını ve Konumunu Görüntüleme:**
+   * **Komutlar:**
+     ```bash
+     swapon --show
+     # veya
+     cat /proc/swaps
+     ```
+
+---
+
+## 21. Gün: Bellek Canavarlarını Yakalamak (OOM Killer - Out of Memory)
+
+### Senaryo: "PostgreSQL Kendi Kendine Kapandı!"
+RAM ve Swap tamamen tükendiğinde PostgreSQL servisinin işletim sistemi tarafından sonlandırılması ve analizi.
+
+### Soru & Cevaplar
+
+1. **Süreçleri Öldüren Çekirdek Mekanizması:**
+   * **Mekanizma:** **OOM Killer** (Out of Memory Killer). Sistem kilitlenmesini önlemek için yüksek RAM tüketen süreçleri sonlandırır.
+
+2. **OOM Killer Loglarını Filtreleme:**
+   * **Komutlar:**
+     ```bash
+     sudo dmesg | grep -i -E 'oom|killed process'
+     # veya
+     sudo grep -i 'killed process' /var/log/syslog
+     ```
+
+3. **`swappiness` Değeri Yapılandırması:**
+   * **Varsayılan Değer:** Genellikle `60`.
+   * **Veri Tabanı Sunucuları İçin Önerilen:** `10` veya `1`.
+   * **Kalıcı Ayar (`/etc/sysctl.conf`):** `vm.swappiness = 10`
+   * **Uygulama:** `sudo sysctl -p`
+
 
 
 
@@ -1139,10 +1409,29 @@ killall nginx
 Bu komut, sistemde ne kadar ``nginx`` süreci varsa hepsini otomatik olarak bulur ve varsayılan olarak ``SIGTERM (15)`` sinyaliyle güvenle kapatır. Eğer zorla kapatmak istersen yine ``pkill -9`` nginx şeklinde kullanabilirsin.
 
 
+## 30. Gün (BÜYÜK FİNAL): Linux Kaynak Yönetimi ve Servis Sağlığı (Systemd, Journald ve İnce Ayar)
+
+Geldik 30 günlük SysAdmin maratonumuzun tam olarak son gününe! Bugüne kadar disklerden network'e, kullanıcılardan performansa kadar harika bir temel inşa ettik. Bugün, tüm bu öğrendiklerini kurumsal bir otomasyon ve servis mimarisinde birleştirme zamanı.
+
+30. Gün Senaryosu: "Kendi Servisini Yaz ve Yönet"
+
+Yazılım ekibinin yazdığı o meşhur veri işleme script'ini (``/opt/data_processor.sh``) sunucuya kurdun. Ancak bu script'in sadece terminal açıkken çalışmasını istemiyorsun. Tıpkı Nginx veya SSH gibi, sunucu açıldığında arka planda otomatik başlayan, çöktüğünde kendi kendini yeniden başlatan gerçek bir Linux servisi (daemon) haline getirmek istiyorsun.
+Senden İstenen Adımlar:
+
+* 1. Modern Linux dağıtımlarında (Ubuntu, RedHat vb.) yeni bir servis oluşturmak için ``/etc/systemd/system/`` dizini altına yazmamız gereken o servis tanımlama dosyasının uzantısı ne olmalıdır? (Örn: ``dataprocessor.xxxx``)
+
+* 2. Bu servisi yazdın ve kaydettin. Servisin sunucu her reboot olduğunda (yeniden başladığında) arka planda otomatik olarak tetiklenip başlaması için hangi ``systemctl`` komutunu çalıştırmalısın? (İpucu: Servisi o an çalıştırmak için ``start`` kullanıyoruz, otomatik başlatmak için ne kullanırız?)
+
+* 3. Servisin çalışırken ürettiği tüm canlı çıktıları ve logları, Systemd'nin yerleşik log yönetim aracı olan ``journalctl`` ile canlı olarak (akan ekran modunda - tail mantığıyla) izlemek için hangi parametreyi kullanırsın?
 
 
+* 1. Adım
+Uzantı: ``/etc/systemd/system/dataprocessor.service`` (Servis tanımlama dosyaları her zaman ``.service`` uzantılıdır).
 
-
+* 2. Adım
+Otomatik Başlatma: ``sudo systemctl enable dataprocessor`` (Servisi o an başlatmak için `start`, açılışa kaydetmek için `enable` kullanılır).
+* 3. Adım
+Canlı Log Takibi: ``sudo journalctl -u dataprocessor -f`` (`-u` servisi belirtir, `-f` tıpkı tail `-f` gibi akan ekran modunda izletir).
 
 
 
