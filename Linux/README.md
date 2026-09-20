@@ -1453,8 +1453,63 @@ Ancak sunucu içinde çalışan bir Docker container'ının içine girdiğinde (
 * ** 3. Container'ın DNS sunucusu olarak sunucunun kendi ``127.0.0.53`` (``systemd-resolved``) adresini görmesini engelleyip, Docker engine seviyesinde tüm container'lara varsayılan olarak Google (``8.8.8.8``) veya Cloudflare (``1.1.1.1``) DNS'i tanımlamak için hangi Docker yapılandırma dosyasını (``/etc/docker/...``) düzenlersin?
 
 
+#### 1. Adım: Kernel Seviyesinde IP Forwarding Kontrolü
 
+Linux sunucularda container veya sanal makinelerin kendi ağ arayüzlerinden dış dünyaya paket gönderebilmesi için Kernel seviyesinde IP Yönlendirme (IP Forwarding) özelliğinin açık olması gerekir.
 
+* Anlık Kontrol ve Etkinleştirme:
+```Bash
+
+    # Durumu kontrol etmek için (1 açık, 0 kapalı demektir):
+    cat /proc/sys/net/ipv4/ip_forward
+
+    # Canlı sistemde anlık olarak açmak için:
+    sudo sysctl -w net.ipv4.ip_forward=1
+```
+* Kalıcı Hale Getirmek:
+Reboot sonrasında ayarın sıfırlanmaması için ```/etc/sysctl.conf``` dosyasının en altına şu satır eklenir ve yüklenir:
+```Plaintext
+    net.ipv4.ip_forward = 1
+```
+```Bash
+
+    sudo sysctl -p
+```
+#### 2. Adım: UFW Güvenlik Duvarı Yönlendirme Politikası
+
+Ubuntu sunucularda UFW varsayılan olarak gelen paket yönlendirmelerini (Forwarding) engeller (``DROP``). Docker arka planda kendi ``iptables`` kurallarını oluştursa da UFW'nin varsayılan politikası paketlerin geçişini engelleyebilir.
+
+* Düzenlenecek Dosya: ```/etc/default/ufw```
+
+* Yapılacak Değişiklik: Dosya içerisindeki ``DEFAULT_FORWARD_POLICY`` parametresi bulunup varsayılan değer ``ACCEPT`` olarak güncellenir:
+```Plaintext
+
+    DEFAULT_FORWARD_POLICY="ACCEPT"
+```
+* Değişikliği aktif etmek için UFW servisi yeniden başlatılır:
+```Bash
+
+    sudo ufw reload
+```
+#### 3. Adım: Docker Engine Seviyesinde Global DNS Tanımlama
+
+Ubuntu sistemlerde varsayılan DNS servisi olarak ``systemd-resolved`` (``127.0.0.53``) çalışır. Ancak container'lar yerel ``127.0.0.0/8`` IP aralığına erişemediği için varsayılan haliyle DNS çözümlemesi yapamazlar ve ``Could not resolve host`` hatası verirler.
+
+Tüm container'lara varsayılan olarak dış DNS adresi atamak için Docker'ın ana konfigürasyon dosyası düzenlenir:
+
+* Yapılandırma Dosyası: ```/etc/docker/daemon.json``
+* Eklenecek JSON İçeriği:
+```JSON
+
+    {
+      "dns": ["8.8.8.8", "1.1.1.1"]
+    }
+```
+* Servisi Yeniden Başlatma:
+```Bash
+
+    sudo systemctl restart docker
+````
 
 
 
