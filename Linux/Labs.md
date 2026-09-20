@@ -1425,12 +1425,11 @@ Senden İstenen Adımlar:
 * 3. Servisin çalışırken ürettiği tüm canlı çıktıları ve logları, Systemd'nin yerleşik log yönetim aracı olan ``journalctl`` ile canlı olarak (akan ekran modunda - tail mantığıyla) izlemek için hangi parametreyi kullanırsın?
 
 
-* 1. Adım
+#### 1. Adım
 Uzantı: ``/etc/systemd/system/dataprocessor.service`` (Servis tanımlama dosyaları her zaman ``.service`` uzantılıdır).
-
-* 2. Adım
+#### 2. Adım
 Otomatik Başlatma: ``sudo systemctl enable dataprocessor`` (Servisi o an başlatmak için `start`, açılışa kaydetmek için `enable` kullanılır).
-* 3. Adım
+#### 3. Adım
 Canlı Log Takibi: ``sudo journalctl -u dataprocessor -f`` (`-u` servisi belirtir, `-f` tıpkı tail `-f` gibi akan ekran modunda izletir).
 
 
