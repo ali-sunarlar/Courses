@@ -1509,29 +1509,63 @@ Tüm container'lara varsayılan olarak dış DNS adresi atamak için Docker'ın 
 ```Bash
 
     sudo systemctl restart docker
-````
+```
 
 
+## Özel Saha Senaryosu #2: "Logrotate Çalıştı Ama Disk Dolmaya Devam Ediyor!"
+Senaryo Context
+Nginx web sunucusunda yoğun trafik nedeniyle `/var/log/nginx/access.log` dosyası devasa boyutlara ulaştı. Sistemde günlük log rotasyonu yapan logrotate mekanizması kurulu.
+Gece yarısı logrotate servisi tetiklendi, `/var/log/nginx/access.log` dosyasının adını `access.log.1` olarak değiştirdi ve sıfır baytlık yeni bir `access.log` dosyası oluşturdu.
+Ancak `df -h` yaptığında disk alanının hiç boşalmadığını ve `access.log.1` (eski log) silinmesine rağmen disk doluluğunun hâlâ %98 olduğunu gördün.
+Senden İstenen Adımlar:
+* ** 1.	Fiziksel dosya diskten silinmesine veya adı değiştirilmesine rağmen, diskin boşalmamasının ve alanın hâlâ dolu görünmesinin Linux Kernel/Process seviyesindeki temel sebebi nedir?
+* ** 2.	Sistemde bir proses tarafından hâlâ açık tutulan ve arka planda disk alanını işgal etmeye devam eden bu "hayalet/silinmiş" dosyaları bulmak için `lsof` komutunu hangi parametre veya kelime ile (deleted mantığıyla) çalıştırırsın?
+* ** 3.	Bu durumu çözmek için ilgili servise (Nginx) log dosya göstericilerini (file descriptor) tazelemesi için hangi hafif sinyal (`SIGHUP` veya `USR1`) gönderilir veya `logrotate` konfigürasyonuna (postrotate) hangi komut eklenir?
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### 1. Adım: Diskin Boşalmamasının Temel Sebebi
+Linux işletim sisteminde bir dosyanın silinmesi (`rm` verilmesi veya `logrotate` ile adının değiştirilmesi), dosyanın diskteki bloklarının anında serbest kalacağı anlamına gelmez.
+* ** ·	Açık Dosya Tanımlayıcısı (`File Descriptor`): Nginx servisi çalışmaya devam ederken log dosyasını RAM üzerinde açık tutar (File Descriptor üzerinden erişir).
+* ** ·	Sen dosyayı silsen bile, Nginx o dosyaya hâlâ yazmaya devam ettiği sürece Kernel diskteki o veri bloklarını serbest bırakmaz.
+* ** ·	Bu nedenle `df -h` komutu diski hâlâ dolu gösterirken, `du -sh` komutu dosyayı dizinde göremediği için disk alanını boşmuş gibi hesaplar.
+#### 2. Adım: Hayalet (Silinmiş) Dosyaları Bulma: lsof
+Sistemde silindiği halde bir proses tarafından açık tutulduğu için diski işgal etmeye devam eden dosyaları tespit etmek için `lsof` (List Open Files) komutu kullanılır.
+```Bash
+sudo lsof | grep -i deleted
+```
+Bu komutun çıktısında tam olarak şu satırı yakalarsın:
+```Plaintext
+nginx  1234  www-data   3u   REG  8,1  52428800000  123456 /var/log/nginx/access.log (deleted)
+```
+Çıktı sana mesajı net bir şekilde verir: 1234 PID numaralı Nginx prosesi, silinmiş olan ``access.log`` dosyasını hâlâ elinde tutuyor ve bırakmıyor.
+#### 3. Adım: Çözüm ve Logrotate ``postrotate`` Yapılandırılması
+Bu durumu çözmek için Nginx servisini tamamen durdurup açmak (restart) gerekmez. Servise "Log dosyası göstericilerini (file descriptor) tazele" talimatı vermek yeterlidir.
+* ** a) Anlık Çözüm (Yeniden Yükleme Sinyali):
+Nginx'e `USR1` sinyali gönderilerek veya servis reload edilerek açık kalan dosya tutucuları serbest bırakılır:
+```Bash
+sudo systemctl reload nginx 
+# veya doğrudan sinyal göndererek: 
+sudo nginx -s reopen 
+```
+Bu komut çalıştırıldığı anda Kernel silinmiş dosyanın disk bloklarını boşaltır ve `df -h` üzerindeki alan anında serbest kalır.
+* ** b) Kalıcı Çözüm (`logrotate` İçinde Önlem):
+Bu krizin her gece yaşanmasını önlemek için Nginx'in logrotate konfigürasyon dosyasına (``/etc/logrotate.d/nginx``) rotasyon bittikten sonra çalışacak bir postrotate bloğu eklenir:
+```Plaintext
+/var/log/nginx/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        if [ -f /var/run/nginx.pid ]; then
+            kill -USR1 $(cat /var/run/nginx.pid)
+        fi
+    endscript
+}
+```
+Bu sayede ``logrotate`` logun adını değiştirdikten hemen sonra Nginx'e ``USR1`` sinyali atar, Nginx yeni sıfır baytlık dosyaya yazmaya başlar ve eski logun diskteki yeri anında boşalır.
 
